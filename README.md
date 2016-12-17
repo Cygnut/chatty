@@ -2,7 +2,7 @@
 Plugin-based system of bots used with the chat web site. Plugins interface with multiple web APIs in response to commands from chat users.
 
 # Subbots
-chat-bot monitors the current messages in the connected chatroom and passes each message to all subbot plugins. 
+chat-bot monitors the current messages in the connected chatroom and passes each message to subbot plugins. 
 
 ### Invokation
 Subbots are either: 
@@ -24,7 +24,7 @@ Subbots are either:
 ### Interface
 All subbots should extend the Subbot class (in Subbot.js), and should implement the following interface:
 
-```
+```js
 const s = require('./Subbot');
 
 function MySubbot() {
