@@ -1,28 +1,3 @@
-
-/*
-	Subbot interface:
-	
-	send = function(content, to)
-		Callback to send a response. Leave to unset to issue it to no specific user.
-	name
-		Should provide the subbot's name. This name should begin with '~'.
-	description
-		Should describe the subbot.
-	function onEnabled(on) - optional [function enable(on)]
-		If on = true, then starts the subbot, else stops the subbot.
-		Should be used by subbots that work in the background.
-	function getTests()
-		Get tests as an array of strings.
-	function onNewMessage(msg)
-		Called whenever a new non-subbot message is added.
-		msg = 
-		{
-			content - the content of the message.
-			from - originator of the message.
-			directed - boolean: true if directed at that particular subbot, else not directed at a subbot.
-		}
-*/
-
 function Subbot(settings)
 {
 	this.name = '~' + settings.name;
