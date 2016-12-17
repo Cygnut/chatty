@@ -2,7 +2,7 @@ const s = require('../Subbot');
 
 function SwearSubbot()
 {
-	this.badWords = [ 'fuck', 'shit', 'crap', 'poop', 'bum', 'cunt' ];
+	this.badWords = [ 'fuck', 'shit', 'crap', 'poop', 'bum' ];
 	
 	s.Subbot.call(this, { name: 'swear', description: "Tells you off if you're a little bitch. Don't say any of these: " + this.badWords.join() + "." });
 }
