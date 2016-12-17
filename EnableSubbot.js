@@ -5,7 +5,7 @@ function EnableSubbot(setEnable)
 	s.Subbot.call(this, 
 	{ 
 		name: 'enable', 
-		description: "Enables/disables subbots. From ~enable [subbot name]", 
+		description: "Enables/disables subbots.", 
 		disableable: false,
 	});
 	
