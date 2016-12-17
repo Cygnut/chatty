@@ -95,12 +95,12 @@ The following subbots are for administration of other subbots and can not be uni
 | Name | Description |
 |------|-------------|
 | ~animal | Provides you with a random animal name. |
-| bully | Bullies a specific user. |
-| eval | Evaluates a javascript expression. |
-| goodreads | Finds the top related book for a given search term. |
-| host | Provides information on the host machine. |
-| oak | Ask Professor Oak about pokemon. |
-| swear | Tells you off if you're a little bitch. |
-| ttt | Play tic-tac-toe. |
-| udp | Dumps udp on receipt at a specified port. |
-| urban | Looks up shit from UrbanDictionary. |
+| ~bully | Bullies a specific user. |
+| ~eval | Evaluates a javascript expression. |
+| ~goodreads | Finds the top related book for a given search term using the Goodreads Web API. |
+| ~host | Provides information on the host machine. |
+| ~oak | Ask Professor Oak about pokemon using the Pokemon Web API. |
+| ~swear | Tells you off if you're a little bitch. |
+| ~ttt | Play tic-tac-toe. |
+| ~udp | Dumps udp on receipt at a specified port. |
+| ~urban | Looks up terms on the UrbanDictionary Web API. |
