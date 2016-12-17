@@ -2,7 +2,7 @@ const s = require('./Subbot');
 
 function SelfTestSubbot(getSubbotMetadata, respond)
 {
-	s.Subbot.call(this, { name: 'test', description: "Tests the subbot framework." });
+	s.Subbot.call(this, { name: 'test', description: "Tests the all installed subbots." });
 	this.getSubbotMetadata = getSubbotMetadata;
 	this.respond = respond;
 	this.from = 'Test-a-bot';
