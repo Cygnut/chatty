@@ -103,4 +103,4 @@ The following subbots are for administration of other subbots and can not be uni
 | ~swear | Tells you off if you're a little bitch. |
 | ~ttt | Play tic-tac-toe. |
 | ~udp | Dumps udp on receipt at a specified port. |
-| ~urban | Looks up terms on the UrbanDictionary Web API. |
+| ~urban | Tries hard to define words pleasantly.. using the UrbanDictionary Web API. |
