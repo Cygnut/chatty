@@ -3,14 +3,14 @@ const os = require('os');
 
 function HostSubbot()
 {
-	s.Subbot.call(this, { name: 'host', description: "Provides information on the host machine." });
+    s.Subbot.call(this, { name: 'host', description: "Provides information on the host machine." });
 }
 
 HostSubbot.prototype = Object.create(s.Subbot.prototype);
 
 HostSubbot.prototype.getTests = function()
 {
-	return [this.name];
+    return [this.name];
 }
 
 function formatBytes(bytes,decimals) {
@@ -38,14 +38,14 @@ function toHHMMSS(secs)
 
 HostSubbot.prototype.onNewMessage = function(msg) 
 {
-	if (!msg.directed) return;
-	
-	this.send(
-		'The OS is ' + os.platform() + ' with ' + os.cpus().length + ' CPU/s.\n' + 
-		'The amount of free memory is ' + formatBytes(os.freemem()) + '.\n' + 
-		'The amount of total memory is ' + formatBytes(os.totalmem()) + '.\n' + 
-		'The total system uptime is ' + toHHMMSS(os.uptime()) + '.\n'
-	);
+    if (!msg.directed) return;
+    
+    this.send(
+        'The OS is ' + os.platform() + ' with ' + os.cpus().length + ' CPU/s.\n' + 
+        'The amount of free memory is ' + formatBytes(os.freemem()) + '.\n' + 
+        'The amount of total memory is ' + formatBytes(os.totalmem()) + '.\n' + 
+        'The total system uptime is ' + toHHMMSS(os.uptime()) + '.\n'
+    );
 }
 
 module.exports = HostSubbot;

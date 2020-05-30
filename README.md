@@ -30,11 +30,11 @@ const s = require('./Subbot');
 function MySubbot() {
   // Should call Subbot constructor to set subbot metadata.
   s.Subbot.call(this, 
-	{ 
-		name: 'mysubbot', 
-		description: "my subbot description", 
-		disableable: false,
-	});
+    { 
+        name: 'mysubbot', 
+        description: "my subbot description", 
+        disableable: false,
+    });
   
   // send = function(content, to). Callback to send a response. Leave 'to' unset to issue it to no specific user.
   this.send = null;
@@ -66,16 +66,16 @@ All subbots plugins in the /subbots folder are loaded. Any subbot specific confi
 
 ```json
 {
-	"subbots":
-	[
-		{
-			"name": "subbot_name",
-			"settings":
-			{
-				"field_name": "field_value"
-			}
-		}
-	]
+    "subbots":
+    [
+        {
+            "name": "subbot_name",
+            "settings":
+            {
+                "field_name": "field_value"
+            }
+        }
+    ]
 }
 ```
 
