@@ -1,8 +1,8 @@
-# chat-bot
+# chatty
 Plugin-based system of bots used with the chat web site. Plugins interface with multiple web APIs in response to commands from chat users.
 
 # Subbots
-chat-bot monitors the current messages in the connected chatroom and passes each message to subbot plugins. 
+chatty monitors the current messages in the connected chatroom and passes each message to subbot plugins. 
 
 ### Invokation
 Subbots are either: 
