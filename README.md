@@ -72,7 +72,7 @@ All subbots plugins in the /subbots folder are loaded. Any subbot specific confi
             "name": "subbot_name",
             "settings":
             {
-                "field_name": "field_value"
+                "fieldName": "field_value"
             }
         }
     ]
