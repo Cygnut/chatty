@@ -69,17 +69,17 @@ All subbots plugins in the /subbots folder are loaded. Any subbot specific confi
     "subbots":
     [
         {
-            "name": "subbot_name",
+            "name": "subbotName",
             "settings":
             {
-                "fieldName": "field_value"
+                "fieldName": "fieldValue"
             }
         }
     ]
 }
 ```
 
-Now when the subbot with name 'subbot_name' is loaded, it is passed the contents of the settings element merged over the global configuration.
+Now when the subbot with name 'subbotName' is loaded, it is passed the contents of the settings element merged over the global configuration.
 
 ### Administration Subbots
 The following subbots are for administration of other subbots and can not be uninstalled.
