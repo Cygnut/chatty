@@ -79,11 +79,11 @@ Udp.prototype.onNewMessage = function(msg)
         }
         catch (err)
         {
-            console.log('UdpSubbot: Error while starting to listen on ' + port + ' ' + err);
+            console.log('Udp: Error while starting to listen on ' + port + ' ' + err);
         }
     }
     else if (msg.content.startsWith('stop'))
         this.stop();
 }
 
-module.exports = UdpSubbot;
+module.exports = Udp;
