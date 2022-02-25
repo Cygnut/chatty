@@ -31,6 +31,9 @@ botHost.addBots(bots);
 
 /*
     
+    get self-test working (albeit hackily)
+    rebuild on a separate branch
+
     Roadmap:
         Combine.
     
