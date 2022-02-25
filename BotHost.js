@@ -15,11 +15,11 @@ function BotHost()
     this.addBot(new st.SelfTest(this.getBotMetadata.bind(this), this.callRespond.bind(this)));
 }
 
-BotHost.prototype.execute = function(msg)
+BotHost.prototype.execute = function(msg, local)
 {
     try
     {
-        this.run(msg);
+        this.run(msg, local);
     }
     catch (e)
     {
@@ -29,12 +29,15 @@ BotHost.prototype.execute = function(msg)
 
 // Determine what the bot should do depending on the message.
 // If you want to reply, return a string. Else return null to not reply.
-BotHost.prototype.run = function(msg)
+BotHost.prototype.run = function(msg, local)
 {
+    var self = this;
+    this.bots.forEach(function(bot) {
+        bot.send = self.sendResponse.bind(self, bot, local);
+    });
+
     // If it's a message from a bot, then ignore it.
     if (msg.from.startsWith('~')) return;
-    
-    //console.log('Received new message: ' + msg.id + ': ' + msg.from + ': ' + msg.content);
     
     // First let's see if it's a general message, or if it's directed at a specific bot.
     var enabledBots = this.bots.filter(function(bot) {
@@ -90,7 +93,7 @@ BotHost.prototype.getBotMetadata = function()
     });
 }
 
-BotHost.prototype.sendResponse = function(bot, content, to)
+BotHost.prototype.sendResponse = function(bot, local, content, to)
 {
     if (content === null) return;
     
@@ -101,7 +104,10 @@ BotHost.prototype.sendResponse = function(bot, content, to)
     
     console.log(bot.name + ' responding to message with content: ' + responseMsg);
     
-    this.callRespond(bot.name, responseMsg);
+    if (local)
+        console.log(responseMsg);
+    else
+        this.callRespond(bot.name, responseMsg);
 }
 
 // Use the wrapper so we can bind to this function (which is invariant under 
@@ -115,7 +121,7 @@ BotHost.prototype.callRespond = function(from, content)
 BotHost.prototype.addBot = function(bot)
 {
     // Initialise
-    bot.send = this.sendResponse.bind(this, bot);
+    bot.send = function() {};
     // Start
     bot.enable(true);
     this.bots.push(bot);
