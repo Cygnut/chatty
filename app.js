@@ -23,6 +23,12 @@ botHost.addBots(bots);
 var poller = new mp.MessagePoller(url, botHost.execute.bind(botHost));
 poller.run();
 
+
+
+
+
+
+
 /*
     
     Roadmap:
@@ -65,4 +71,29 @@ poller.run();
     General:
         Create package.json: 
             https://docs.npmjs.com/getting-started/using-a-package.json
+
+
+const readline = require('readline');
+const rl = readline.createInterface({
+    input: process.stdin,
+    output: process.stdout,
+    prompt: 'Type "exit" to exit the app > '
+});
+
+rl.prompt();
+
+rl.on('line', (line) => {
+    if (line.toLowerCase() === "exit") {
+        console.log('\nBye!\n');
+        process.exit(0);        
+    } else if (line.trim() === "") {
+        console.log(`\n${Date.now().toString(36)}\n`)
+    } else {
+        console.log(`\n${new Date(parseInt(line, 36)).toString()}\n`)
+    }
+    rl.prompt();
+}).on('close', () => {
+    console.log('Exiting!');
+    process.exit(0);
+});            
 */
