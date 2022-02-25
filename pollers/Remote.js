@@ -7,14 +7,14 @@ const request = require('request');
     callback should handle all exceptions.
 */
 
-function MessagePoller(rootUrl, callback)
+function Remote(rootUrl, callback)
 {
     this.rootUrl = rootUrl;
     this.lastIdSeen = -1;
     this.callback = callback;
 }
 
-MessagePoller.prototype.poll = function()
+Remote.prototype.poll = function()
 {
     var self = this;    // Use closure to capture this as we pass it as a callback here.
     
@@ -44,11 +44,11 @@ MessagePoller.prototype.poll = function()
     });
 }
 
-MessagePoller.prototype.run = function()
+Remote.prototype.run = function()
 {
     // TODO: Ensure that this can only be run once.
     // Assume every 1/2 second is fast enough to catch every new message in poll.
     setInterval(this.poll.bind(this), 500);
 }
 
-module.exports.MessagePoller = MessagePoller;
+module.exports = Remote;

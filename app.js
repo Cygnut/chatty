@@ -1,6 +1,7 @@
 const request = require('request');
 
-const mp = require('./MessagePoller');
+const Remote = require('./pollers/Remote');
+const Console = require('./pollers/Console');
 
 const sh = require('./BotHost');
 const sl = require('./BotLoader');
@@ -20,37 +21,13 @@ botHost.respond = function(from, content)
 };
 botHost.addBots(bots);
 
-var poller = new mp.MessagePoller(url, botHost.execute.bind(botHost, false));
-poller.run();
-
-
-
-
-const readline = require('readline');
-const rl = readline.createInterface({
-    input: process.stdin,
-    output: process.stdout,
-    prompt: 'Type "exit" to exit the app > '
+[
+    new Remote(url, function(msg) { botHost.execute(msg, false); }),
+    new Console(function(msg) { botHost.execute(msg, true); })
+]
+.forEach(poller => {
+    poller.run();
 });
-
-rl.prompt();
-
-rl.on('line', (line) => {
-    if (line.toLowerCase() === "exit") {
-        console.log('\nBye!\n');
-        process.exit(0);        
-    } else {
-        botHost.execute({ from: 'console', content: line.trim() }, true)
-    }
-    rl.prompt();
-}).on('close', () => {
-    console.log('Exiting!');
-    process.exit(0);
-});  
-
-
-
-
 
 /*
     
