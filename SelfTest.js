@@ -1,21 +1,21 @@
-const s = require('./Subbot');
+const s = require('./Bot');
 
-function SelfTestSubbot(getSubbotMetadata, respond)
+function SelfTest(getBotMetadata, respond)
 {
-    s.Subbot.call(this, { name: 'test', description: "Tests the all installed subbots." });
-    this.getSubbotMetadata = getSubbotMetadata;
+    s.Bot.call(this, { name: 'test', description: "Tests the all installed bots." });
+    this.getBotMetadata = getBotMetadata;
     this.respond = respond;
     this.from = 'Test-a-bot';
 }
 
-function generateTests(getSubbotMetadata)
+function generateTests(getBotMetadata)
 {
-    // Get an array of tests for each subbot.
-    var subbotTests = getSubbotMetadata()
-        .map(function(subbot) { return subbot.tests; })
+    // Get an array of tests for each bot.
+    var botTests = getBotMetadata()
+        .map(function(bot) { return bot.tests; })
     
     // Merge them all into one array.
-    var allTests = [].concat.apply([], subbotTests);
+    var allTests = [].concat.apply([], botTests);
     
     // Generate the full test suite:
     var tests = allTests;
@@ -24,18 +24,18 @@ function generateTests(getSubbotMetadata)
     return tests;
 }
 
-SelfTestSubbot.prototype = Object.create(s.Subbot.prototype);
+SelfTest.prototype = Object.create(s.Bot.prototype);
 
-SelfTestSubbot.prototype.getTests = function()
+SelfTest.prototype.getTests = function()
 {
     return [];
 }
 
-SelfTestSubbot.prototype.onNewMessage = function(msg)
+SelfTest.prototype.onNewMessage = function(msg)
 {
     if (!msg.directed) return;
     
-    var tests = generateTests(this.getSubbotMetadata);
+    var tests = generateTests(this.getBotMetadata);
     console.log(tests);
     
     // Copy the array into a reversed queue.
@@ -58,4 +58,4 @@ SelfTestSubbot.prototype.onNewMessage = function(msg)
     var timerId = setInterval(sendNext.bind(this), 1000);
 }
 
-module.exports.SelfTestSubbot = SelfTestSubbot;
+module.exports.SelfTest = SelfTest;

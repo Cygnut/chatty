@@ -1,19 +1,19 @@
-const s = require('../Subbot');
+const s = require('../Bot');
 const request = require("request");
 const xml2js = require('xml2js');
 const fs = require('fs');
 
-function GoodreadsSubbot(goodreadsApiKey)
+function Goodreads(goodreadsApiKey)
 {
-    s.Subbot.call(this, { name: 'goodreads', description: "Finds the top related book for a given search term."});
+    s.Bot.call(this, { name: 'goodreads', description: "Finds the top related book for a given search term."});
     
     this.apiKey = goodreadsApiKey;
     this.rootUrl = 'https://www.goodreads.com/';
 }
 
-GoodreadsSubbot.prototype = Object.create(s.Subbot.prototype);
+Goodreads.prototype = Object.create(s.Bot.prototype);
 
-GoodreadsSubbot.prototype.getTests = function()
+Goodreads.prototype.getTests = function()
 {
     return [
         this.name + " mistborn"
@@ -32,7 +32,7 @@ function writeJsonObject(o, path)
     }); 
 }
 
-GoodreadsSubbot.prototype.onNewMessage = function(msg)
+Goodreads.prototype.onNewMessage = function(msg)
 {
     if (!msg.directed) return;
     
@@ -81,4 +81,4 @@ GoodreadsSubbot.prototype.onNewMessage = function(msg)
     }.bind(this));
 }
 
-module.exports = GoodreadsSubbot;
+module.exports = Goodreads;

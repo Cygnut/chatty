@@ -1,17 +1,17 @@
-const s = require('../Subbot');
+const s = require('../Bot');
 const request = require("request");
 
 // http://pokeapi.co/ !!! So good!
 // TODO: Use this to get pokemon descriptions: http://pokeapi.co/api/v2/pokemon-species/pikachu/
 
-function ProfessorOakSubbot()
+function ProfessorOak()
 {
-    s.Subbot.call(this, { name: 'oak', description: "Ask Professor Oak about pokemon." });
+    s.Bot.call(this, { name: 'oak', description: "Ask Professor Oak about pokemon." });
 }
 
-ProfessorOakSubbot.prototype = Object.create(s.Subbot.prototype);
+ProfessorOak.prototype = Object.create(s.Bot.prototype);
 
-ProfessorOakSubbot.prototype.getTests = function()
+ProfessorOak.prototype.getTests = function()
 {
     return [
         this.name + " mewtwo"
@@ -20,7 +20,7 @@ ProfessorOakSubbot.prototype.getTests = function()
 
 function getEnFlavourText(result)
 {
-    for (var i=0; i<result.flavor_text_entries.length; i++)
+    for (var i = 0; i < result.flavor_text_entries.length; i++)
     {
         var f = result.flavor_text_entries[i];
         
@@ -34,7 +34,7 @@ function getEnFlavourText(result)
     return '';
 }
 
-ProfessorOakSubbot.prototype.onNewMessage = function(msg)
+ProfessorOak.prototype.onNewMessage = function(msg)
 {
     if (!msg.directed) return;
     
@@ -70,4 +70,4 @@ ProfessorOakSubbot.prototype.onNewMessage = function(msg)
     }.bind(this));
 }
 
-module.exports = ProfessorOakSubbot;
+module.exports = ProfessorOak;

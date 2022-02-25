@@ -1,4 +1,4 @@
-function Subbot(settings)
+function Bot(settings)
 {
     this.name = '~' + settings.name;
     this.description = settings.description;
@@ -12,7 +12,7 @@ function Subbot(settings)
         //console.log(this.disableable)
         //console.log(!on && !this.disableable)
         
-        // If we're not allowed to disable this Subbot, then we're done.
+        // If we're not allowed to disable this bot, then we're done.
         if (!on && !this.disableable) return;
         
         console.log((on ? 'Enabling' : 'Disabling') + ' ' + this.name);
@@ -23,4 +23,4 @@ function Subbot(settings)
     }
 }
 
-module.exports.Subbot = Subbot;
+module.exports.Bot = Bot;

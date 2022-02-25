@@ -1,20 +1,20 @@
 # chatty
 Plugin-based system of bots used with the chat web site. Plugins interface with multiple web APIs in response to commands from chat users.
 
-# Subbots
-chatty monitors the current messages in the connected chatroom and passes each message to subbot plugins. 
+# Bots
+chatty monitors the current messages in the connected chatroom and passes each message to bot plugins. 
 
 ### Invokation
-Subbots are either: 
-* Directly invoked by starting a line in chat with ~{subbot name} (e.g. ~help), followed by arguments for the subbot.
+Bots are either: 
+* Directly invoked by starting a line in chat with ~{bot name} (e.g. ~help), followed by arguments for the bot.
 * Indirectly invoked by using specific trigger words in chat.
 
 #### Examples
 
-    Print help for all subbots:
+    Print help for all bots:
     ~help
   
-    Instruct the ~bully subbot to target the user with name 'user1':
+    Instruct the ~bully bot to target the user with name 'user1':
     ~bully user1
   
     Indirectly invoke ~swear. The following (unspeakable) word will lead to an admonishment by ~swear:  
@@ -22,17 +22,17 @@ Subbots are either:
     'Oy, you used a bad word! Get out.'
   
 ### Interface
-All subbots should extend the Subbot class (in Subbot.js), and should implement the following interface:
+All bots should extend the bot class (in bot.js), and should implement the following interface:
 
 ```js
-const s = require('./Subbot');
+const s = require('./Bot');
 
-function MySubbot() {
-  // Should call Subbot constructor to set subbot metadata.
-  s.Subbot.call(this, 
+function Somebot() {
+  // Should call Bot constructor to set bot metadata.
+  s.Bot.call(this, 
     { 
-        name: 'mysubbot', 
-        description: "my subbot description", 
+        name: 'myBot', 
+        description: "my bot description", 
         disableable: false,
     });
   
@@ -40,14 +40,14 @@ function MySubbot() {
   this.send = null;
 }
 
-MySubbot.prototype = Object.create(s.Subbot.prototype);
+Somebot.prototype = Object.create(s.Bot.prototype);
 
-// Optionally implement this event handler to handle the subbot enabled/disabled event. Returns nothing.
-MySubbot.prototype.onEnabled = function(on) {
+// Optionally implement this event handler to handle the bot enabled/disabled event. Returns nothing.
+Somebot.prototype.onEnabled = function(on) {
 }
 
-// Optionally implement this method to provide tests for this subbot which can be run. Returns an array of test strings.
-MySubbot.prototype.getTests = function() {
+// Optionally implement this method to provide tests for this bot which can be run. Returns an array of test strings.
+Somebot.prototype.getTests = function() {
 }
 
 // Required - handles a new message. Responses should be sent using this.send.
@@ -55,21 +55,21 @@ MySubbot.prototype.getTests = function() {
 // {
 //   content - [string] the content of the message.
 //   from - [string] originator of the message.
-//   directed - [bool] true if directed at this specific subbot, else not directed at any subbot.
+//   directed - [bool] true if directed at this specific bot, else not directed at any bot.
 // }
-MySubbot.prototype.onNewMessage = function(msg) {
+Somebot.prototype.onNewMessage = function(msg) {
 }
 ```
 
 ### Configuration
-All subbots plugins in the /subbots folder are loaded. Any subbot specific configuration should be placed in the top level subbots.config file, which takes the following form:
+All bots plugins in the /bots folder are loaded. Any bot specific configuration should be placed in the top level bots.config file, which takes the following form:
 
 ```json
 {
-    "subbots":
+    "bots":
     [
         {
-            "name": "subbotName",
+            "name": "somebot",
             "settings":
             {
                 "fieldName": "fieldValue"
@@ -79,18 +79,18 @@ All subbots plugins in the /subbots folder are loaded. Any subbot specific confi
 }
 ```
 
-Now when the subbot with name 'subbotName' is loaded, it is passed the contents of the settings element merged over the global configuration.
+Now when the bot with name 'botName' is loaded, it is passed the contents of the settings element merged over the global configuration.
 
-### Administration Subbots
-The following subbots are for administration of other subbots and can not be uninstalled.
+### Administration bots
+The following bots are for administration of other bots and can not be uninstalled.
 
 | Name | Description |
 |------|-------------|
-| ~help | Documents subbots. |
-| ~enable | Enables/disables subbots. |
-| ~test | Tests the all installed subbots. |
+| ~help | Documents bots. |
+| ~enable | Enables/disables bots. |
+| ~test | Tests the all installed bots. |
 
-### Existing Subbots
+### Existing bots
 
 | Name | Description |
 |------|-------------|

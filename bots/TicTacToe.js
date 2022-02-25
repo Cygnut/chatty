@@ -1,4 +1,4 @@
-const s = require('../Subbot');
+const s = require('../Bot');
 
 //-----------------------------------------------------------------------
 
@@ -130,23 +130,23 @@ TicTacToeGame.prototype.play = function(move)
 
 //-----------------------------------------------------------------------
 
-function TicTacToeSubbot()
+function TicTacToe()
 {
-    s.Subbot.call(this, { name: 'ttt', description: "Play tic-tac-toe. Inputs must be of format e.g. 0,2 x, or blank, or start x to configure a new game of size x." });
+    s.Bot.call(this, { name: 'ttt', description: "Play tic-tac-toe. Inputs must be of format e.g. 0,2 x, or blank, or start x to configure a new game of size x." });
     
     this.game = new TicTacToeGame(3);
     
     this.inputRegex = /[\s,]+/;    // Cache this for performance.
 }
 
-TicTacToeSubbot.prototype = Object.create(s.Subbot.prototype);
+TicTacToe.prototype = Object.create(s.Bot.prototype);
 
-TicTacToeSubbot.prototype.getTests = function()
+TicTacToe.prototype.getTests = function()
 {
     return [];
 }
 
-TicTacToeSubbot.prototype.parseInput = function(msg)
+TicTacToe.prototype.parseInput = function(msg)
 {
     // Message syntax: x,y [x or o]
     // x,y are 0 based {0,1,2}
@@ -183,7 +183,7 @@ TicTacToeSubbot.prototype.parseInput = function(msg)
     return move;
 }
 
-TicTacToeSubbot.prototype.onNewMessage = function(msg) 
+TicTacToe.prototype.onNewMessage = function(msg) 
 {
     try
     {
@@ -223,4 +223,4 @@ TicTacToeSubbot.prototype.onNewMessage = function(msg)
     }
 }
 
-module.exports = TicTacToeSubbot;
+module.exports = TicTacToe;

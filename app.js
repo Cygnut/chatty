@@ -2,25 +2,25 @@ const request = require('request');
 
 const mp = require('./MessagePoller');
 
-const sh = require('./SubbotHost');
-const sl = require('./SubbotLoader');
+const sh = require('./BotHost');
+const sl = require('./BotLoader');
 
 const url = 'http://localhost:81/';
 
-var subbotLoader = new sl.SubbotLoader('./subbots.config', './Subbots');
-var subbots = subbotLoader.fromConfigFile({});
+var botLoader = new sl.BotLoader('./bots.config', './bots');
+var bots = botLoader.fromConfigFile({});
 
-var subbotHost = new sh.SubbotHost();
-subbotHost.respond = function(from, content) 
+var botHost = new sh.BotHost();
+botHost.respond = function(from, content) 
 {
     request.post({
         url:    url + 'send',
         json:    { from: from, content: content }
     }, function(error, response, msg) { });
 };
-subbotHost.addSubbots(subbots);
+botHost.addBots(bots);
 
-var poller = new mp.MessagePoller(url, subbotHost.execute.bind(subbotHost));
+var poller = new mp.MessagePoller(url, botHost.execute.bind(botHost));
 poller.run();
 
 /*
@@ -30,28 +30,28 @@ poller.run();
     
     ChatBot:
         
-        Store enabled state of each subbot persistently.
+        Store enabled state of each bot persistently.
         
-        Fix/finish TicTacToeSubbot & test it!
-        Finish UdpSubbot, and test it. It currently is not sending to the Chat.
+        Fix/finish TicTacToeBot & test it!
+        Finish UdpBot, and test it. It currently is not sending to the Chat.
         
-        WIP: Support for subbots which can send not only on received data, but also on a timer?
+        WIP: Support for bots which can send not only on received data, but also on a timer?
         http://pokeapi.co/api/v2/pokemon-species/pikachu/
         
         Combine Chat & ChatBot?
         
-        Subbots:
+        Bots:
             tic-tac-toe
             client stats - requires code merge of ChatBot & Chat
             chat stats
             dump src code (i.e. file browser)
-            todos subbot
+            todos bot
         
     Chat:
         Backup & Restore maybe the last 100 messages.
             WIP - need to test read & write to file first! Currently disabled.
         
-        Integrate self testing into app. I.e. have a subbot that sends all test messages into the chat.
+        Integrate self testing into app. I.e. have a bot that sends all test messages into the chat.
         
         Better msg ids
     

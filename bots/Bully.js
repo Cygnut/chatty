@@ -1,22 +1,22 @@
-const s = require('../Subbot');
+const s = require('../Bot');
 
-function BullySubbot()
+function Bully()
 {
-    s.Subbot.call(this, { name: 'bully', description: "Bullies a specific user."});
+    s.Bot.call(this, { name: 'bully', description: "Bullies a specific user."});
     
     this.targets = [];
 }
 
-BullySubbot.prototype = Object.create(s.Subbot.prototype);
+Bully.prototype = Object.create(s.Bot.prototype);
 
-BullySubbot.prototype.getTests = function()
+Bully.prototype.getTests = function()
 {
     return [
         this.name + " me"
     ];
 }
 
-BullySubbot.prototype.onNewMessage = function(msg) 
+Bully.prototype.onNewMessage = function(msg) 
 {
     if (msg.directed)
     {
@@ -43,4 +43,4 @@ BullySubbot.prototype.onNewMessage = function(msg)
     }
 }
 
-module.exports = BullySubbot;
+module.exports = Bully;

@@ -1,13 +1,13 @@
 const fs = require('fs');
 
 // TODO: Pass url in here.
-//TODO: describe subbots.config syntax here.
-function SubbotLoader(configFilepath, subbotsDir)
+// TODO: describe bots.config syntax here.
+function BotLoader(configFilepath, botsDir)
 {
     this.configFilepath = configFilepath;
-    this.subbotsDir = subbotsDir;
-    // Only pick up files which have at least one character before Subbot.js.
-    this.SUBBOT_REGEX = /.+Subbot.js/;
+    this.botsDir = botsDir;
+    // Only pick up files which have at least one character before bot.js.
+    this.BOT_REGEX = /.+.js/;
 }
 
 // TODO: Error handling
@@ -44,32 +44,32 @@ function combineSettings(common, specific)
     return combined;
 }
 
-SubbotLoader.prototype.fromConfigFile = function(commonSettings)
+BotLoader.prototype.fromConfigFile = function(commonSettings)
 {
     // Load the config file
     var config = JSON.parse(
         fs.readFileSync(this.configFilepath, 'utf8')
     );
     
-    var filenames = fs.readdirSync(this.subbotsDir);
+    var filenames = fs.readdirSync(this.botsDir);
     
-    var subbots = [];
+    var bots = [];
     
     filenames.forEach(function(filename) {
         
         // Only  load files which have match the filename pattern.
-        if (!filename.match(this.SUBBOT_REGEX))
+        if (!filename.match(this.BOT_REGEX))
             return;
         
         var r = null;
         
         try
         {
-            r = require(this.subbotsDir + '/' + filename);
+            r = require(this.botsDir + '/' + filename);
         }
         catch (err)
         {
-            console.log('Failed to load subbot source at ' + filename + '.' + err);
+            console.log('Failed to load bot source at ' + filename + '. ' + err);
             return;
         }
         
@@ -78,36 +78,36 @@ SubbotLoader.prototype.fromConfigFile = function(commonSettings)
         // Strip '.js' to get the name of the class to index with into the config file.
         var className = filename.slice(0, -3);
         
-        // Get the subbot specific settings for this subbot.
-        var subbotConfig = config.subbots.find(function(subbot) {
-            return subbot.name === className;
+        // Get the bot specific settings for this bot.
+        var botConfig = config.bots.find(function(bot) {
+            return bot.name === className;
         }.bind(this));
         
-        var subbotSettings = subbotConfig ? subbotConfig.settings : {};
+        var botSettings = botConfig ? botConfig.settings : {};
         
-        var settings = combineSettings(commonSettings, subbotSettings);
+        var settings = combineSettings(commonSettings, botSettings);
         
-        // Instantiate the subbot.
+        // Instantiate the bot.
         var s = null;
         
         try
         {
             s = new r(settings);
-            console.log('Loaded subbot ' + className);
+            console.log('Loaded bot ' + className);
         }
         catch (err)
         {
-            console.log('Failed to load subbot ' + className + '.' + err);
+            console.log('Failed to load bot ' + className + '. ' + err);
             return;
         }
         
         if (!s) return;
         
-        subbots.push(s);
+        bots.push(s);
         
     }.bind(this));
     
-    return subbots;
+    return bots;
 }
 
-module.exports.SubbotLoader = SubbotLoader;
+module.exports.BotLoader = BotLoader;

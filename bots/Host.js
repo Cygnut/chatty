@@ -1,14 +1,14 @@
-const s = require('../Subbot');
+const s = require('../Bot');
 const os = require('os');
 
-function HostSubbot()
+function Host()
 {
-    s.Subbot.call(this, { name: 'host', description: "Provides information on the host machine." });
+    s.Bot.call(this, { name: 'host', description: "Provides information on the host machine." });
 }
 
-HostSubbot.prototype = Object.create(s.Subbot.prototype);
+Host.prototype = Object.create(s.Bot.prototype);
 
-HostSubbot.prototype.getTests = function()
+Host.prototype.getTests = function()
 {
     return [this.name];
 }
@@ -24,10 +24,10 @@ function formatBytes(bytes,decimals) {
 
 function toHHMMSS(secs)
 {
-    var sec_num = parseInt(secs, 10); // don't forget the second param
-    var hours   = Math.floor(sec_num / 3600);
-    var minutes = Math.floor((sec_num - (hours * 3600)) / 60);
-    var seconds = sec_num - (hours * 3600) - (minutes * 60);
+    var secNum = parseInt(secs, 10); // don't forget the second param
+    var hours   = Math.floor(secNum / 3600);
+    var minutes = Math.floor((secNum - (hours * 3600)) / 60);
+    var seconds = secNum - (hours * 3600) - (minutes * 60);
 
     if (hours   < 10) {hours   = "0"+hours;}
     if (minutes < 10) {minutes = "0"+minutes;}
@@ -36,7 +36,7 @@ function toHHMMSS(secs)
     return time;
 }
 
-HostSubbot.prototype.onNewMessage = function(msg) 
+Host.prototype.onNewMessage = function(msg) 
 {
     if (!msg.directed) return;
     
@@ -48,4 +48,4 @@ HostSubbot.prototype.onNewMessage = function(msg)
     );
 }
 
-module.exports = HostSubbot;
+module.exports = Host;

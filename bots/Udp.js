@@ -1,36 +1,36 @@
-const s = require('../Subbot');
+const s = require('../Bot');
 const dgram = require('dgram');
 
-function UdpSubbot()
+function Udp()
 {
-    s.Subbot.call(this, { name: 'udp', description: "Dumps udp on receipt at a specified port." });
+    s.Bot.call(this, { name: 'udp', description: "Dumps udp on receipt at a specified port." });
     
     this.listener = null;
 }
 
-UdpSubbot.prototype = Object.create(s.Subbot.prototype);
+Udp.prototype = Object.create(s.Bot.prototype);
 
-UdpSubbot.prototype.getTests = function()
+Udp.prototype.getTests = function()
 {
     return [];
 }
 
-UdpSubbot.prototype.createListener = function(port)
+Udp.prototype.createListener = function(port)
 {
     var listener = dgram.createSocket('udp4');
     
     listener.on('error', function(err) {
-        console.log('UdpSubbot: Error: ' + err.stack);
+        console.log('Udp: Error: ' + err.stack);
         listener.close();
     }.bind(this));
     
     listener.on('message', function(msg, rinfo) {
-        console.log('UdpSubbot: Got: ' + msg + ' from ' + rinfo.address + ':' + rinfo.port);
+        console.log('Udp: Got: ' + msg + ' from ' + rinfo.address + ':' + rinfo.port);
     }.bind(this));
     
     listener.on('listening', function() {
         var address = listener.address();
-        console.log('UdpSubbot: Listening at ' + address.address + ':' + address.port);
+        console.log('Udp: Listening at ' + address.address + ':' + address.port);
     }.bind(this));
     
     listener.unref();        // Prevent this object from stopping the entire application from shutting down.
@@ -40,7 +40,7 @@ UdpSubbot.prototype.createListener = function(port)
     return listener;
 }
 
-UdpSubbot.prototype.stop = function()
+Udp.prototype.stop = function()
 {
     try
     {
@@ -52,12 +52,12 @@ UdpSubbot.prototype.stop = function()
     }
     catch (err)
     {
-        console.log('UdpSubbot: Error while stopping ' + err);
+        console.log('Udp: Error while stopping ' + err);
         this.server = null;
     }
 }
 
-UdpSubbot.prototype.onNewMessage = function(msg) 
+Udp.prototype.onNewMessage = function(msg) 
 {
     if (!msg.directed) return;
     

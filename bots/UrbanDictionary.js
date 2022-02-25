@@ -1,21 +1,21 @@
-const s = require('../Subbot');
+const s = require('../Bot');
 const request = require("request");
 
-function UrbanDictionarySubbot()
+function UrbanDictionary()
 {
-    s.Subbot.call(this, { name: 'urban', description: "Looks up shit from UrbanDictionary." });
+    s.Bot.call(this, { name: 'urban', description: "Looks up shit from UrbanDictionary." });
 }
 
-UrbanDictionarySubbot.prototype = Object.create(s.Subbot.prototype);
+UrbanDictionary.prototype = Object.create(s.Bot.prototype);
 
-UrbanDictionarySubbot.prototype.getTests = function()
+UrbanDictionary.prototype.getTests = function()
 {
     return [
         this.name + " poop"
     ];
 }
 
-UrbanDictionarySubbot.prototype.onNewMessage = function(msg)
+UrbanDictionary.prototype.onNewMessage = function(msg)
 {
     if (!msg.directed) return;
     
@@ -46,4 +46,4 @@ UrbanDictionarySubbot.prototype.onNewMessage = function(msg)
     }.bind(this));
 }
 
-module.exports = UrbanDictionarySubbot;
+module.exports = UrbanDictionary;
