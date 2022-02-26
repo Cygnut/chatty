@@ -1,4 +1,4 @@
-const fs = require('fs');
+import { readFileSync, readdirSync } from 'fs';
 
 // TODO: Pass url in here.
 // TODO: describe bots.config syntax here.
@@ -48,10 +48,10 @@ BotLoader.prototype.fromConfigFile = function(commonSettings)
 {
     // Load the config file
     var config = JSON.parse(
-        fs.readFileSync(this.configFilepath, 'utf8')
+        readFileSync(this.configFilepath, 'utf8')
     );
     
-    var filenames = fs.readdirSync(this.botsDir);
+    var filenames = readdirSync(this.botsDir);
     
     var bots = [];
     
@@ -65,7 +65,8 @@ BotLoader.prototype.fromConfigFile = function(commonSettings)
         
         try
         {
-            r = require(this.botsDir + '/' + filename);
+            r =require(`${this.botsDir}/${filename}`);
+            //import r from `${this.botsDir}/${filename}`;
         }
         catch (err)
         {

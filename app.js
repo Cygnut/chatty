@@ -1,10 +1,9 @@
-const request = require('request');
+import request from 'request';
 
-const Remote = require('./pollers/Remote');
-const Console = require('./pollers/Console');
-
-const sh = require('./BotHost');
-const sl = require('./BotLoader');
+import Remote from './pollers/Remote.js';
+import Console from './pollers/Console.js';
+import sh from './BotHost.js';
+import sl from './BotLoader.js';
 
 const url = 'http://localhost:81/';
 

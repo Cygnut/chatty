@@ -1,5 +1,6 @@
-const s = require('../Bot');
-const request = require("request");
+import request from 'request';
+
+import s from '../Bot.js';
 
 function UrbanDictionary()
 {

@@ -1,34 +1,38 @@
-const readline = require('readline');
+import readline from 'readline';
 
-function Console(callback)
-{
-    this.callback = callback;
-}
+import Poller from '../Poller.js';
 
-Console.prototype.run = function()
-{
-    const self = this;
+class Console extends Poller {
+    #callback;
 
-    const rl = readline.createInterface({
-        input: process.stdin,
-        output: process.stdout,
-        prompt: 'Type "exit" to exit the app > '
-    });
-    
-    rl.prompt();
-    
-    rl.on('line', (line) => {
-        if (line.toLowerCase() === "exit") {
-            console.log('\nBye!\n');
-            process.exit(0);        
-        } else {
-            self.callback({ from: 'console', content: line.trim() })
-        }
+    constructor(callback) {
+        this.#callback = callback;
+    }
+
+    run() {
+        const self = this;
+
+        const rl = readline.createInterface({
+            input: process.stdin,
+            output: process.stdout,
+            prompt: 'Type "exit" to exit the app > '
+        });
+        
         rl.prompt();
-    }).on('close', () => {
-        console.log('Exiting!');
-        process.exit(0);
-    }); 
+        
+        rl.on('line', (line) => {
+            if (line.toLowerCase() === "exit") {
+                console.log('\nBye!\n');
+                process.exit(0);        
+            } else {
+                self.#callback({ from: 'console', content: line.trim() })
+            }
+            rl.prompt();
+        }).on('close', () => {
+            console.log('Exiting!');
+            process.exit(0);
+        }); 
+    }
 }
 
-module.exports = Console;
+export default Console;

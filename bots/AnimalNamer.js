@@ -1,5 +1,5 @@
-const s = require('../Bot');
-const animalNamer = require('animal-namer');
+import s from './Bot.js';
+import animalNamer from 'animal-namer';
 
 function AnimalNamer()
 {

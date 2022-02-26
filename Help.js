@@ -1,30 +1,32 @@
-const s = require('./Bot');
+import bot from './Bot.js';
 
-function Help(getBotMetadata)
-{
-    s.Bot.call(this, { name: 'help', description: "Documents bots." });
+class Help extends Bot {
+    getBotMetadata;
+
+    constructor(getBotMetadata) {
+        super({ 
+            name: 'help', 
+            description: "Documents bots." 
+        });
     
-    this.getBotMetadata = getBotMetadata;
-}
+        this.getBotMetadata = getBotMetadata;
+    }
 
-Help.prototype = Object.create(s.Bot.prototype);
-
-Help.prototype.getTests = function()
-{
-    return [
-        this.name,
-        this.name + " " + this.name
+    getTests() {
+        return [
+            this.name,
+            this.name + " " + this.name
         ];
-}
+    }
 
-Help.prototype.onNewMessage = function(msg) 
-{
-    if (!msg.directed) return;
+    onNewMessage({ content, from, directed }) {
+        if (!directed) 
+            return;
     
-    this.send(this.getBotMetadata().map(function(i) 
-    {
-        return i.name + ' - ' + i.description + ' ' + (i.enabled ? '(on)' : '(off)');
-    }).join('\n'));
+        this.send(this.getBotMetadata().map(i => {
+            return i.name + ' - ' + i.description + ' ' + (i.enabled ? '(on)' : '(off)');
+        }).join('\n'));
+    }
 }
 
-module.exports.Help = Help;
+export default Help;

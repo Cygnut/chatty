@@ -1,7 +1,6 @@
-// Internal bots.
-const hs = require('./Help');
-const e = require('./Enable');
-const st = require('./SelfTest');
+import hs from './Help.js';
+import e from './Enable.js';
+import st from './SelfTest.js';
 
 function BotHost()
 {

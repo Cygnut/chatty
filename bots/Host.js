@@ -1,5 +1,6 @@
-const s = require('../Bot');
-const os = require('os');
+import os from 'os';
+
+import s from '../Bot.js';
 
 function Host()
 {

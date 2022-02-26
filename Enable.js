@@ -1,34 +1,33 @@
-const s = require('./Bot');
+import Bot from './Bot.js';
 
-function Enable(setEnable)
-{
-    s.Bot.call(this, 
-    { 
-        name: 'enable', 
-        description: "Enables/disables bots.", 
-        disableable: false,
-    });
+class Enable extends Bot {
+    setEnable;
+
+    constructor(setEnable) {
+        super({ 
+            name: 'enable', 
+            description: "Enables/disables bots.", 
+            disableable: false,
+        });
+
+        this.setEnable = setEnable;
+    }
     
-    this.setEnable = setEnable;
+    getTests = function() {
+        return [];
+    }
+
+    onNewMessage({ content, from, directed }) {
+        if (!directed) 
+            return;
+        
+        var result = this.setEnable(content);
+        
+        if (result === null)
+            this.send('Did not enable/disable a bot.');
+        else
+            this.send((result ? 'Enabled' : 'Disabled') + ' ' + content);
+    }
 }
 
-Enable.prototype = Object.create(s.Bot.prototype);
-
-Enable.prototype.getTests = function()
-{
-    return [];
-}
-
-Enable.prototype.onNewMessage = function(msg) 
-{
-    if (!msg.directed) return;
-    
-    var result = this.setEnable(msg.content);
-    
-    if (result === null)
-        this.send('Did not enable/disable a bot.');
-    else
-        this.send((result ? 'Enabled' : 'Disabled') + ' ' + msg.content);
-}
-
-module.exports.Enable = Enable;
+export default Enable;

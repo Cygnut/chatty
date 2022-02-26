@@ -1,7 +1,9 @@
-const s = require('../Bot');
-const request = require("request");
-const xml2js = require('xml2js');
-const fs = require('fs');
+import fs from 'fs';
+
+import request from 'request';
+import xml2js from 'xml2js';
+
+import s from './Bot.js';
 
 function Goodreads(goodreadsApiKey)
 {

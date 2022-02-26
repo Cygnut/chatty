@@ -1,5 +1,6 @@
-const s = require('../Bot');
-const dgram = require('dgram');
+import dgram from 'dgram';
+
+import s from '../Bot.js';
 
 function Udp()
 {

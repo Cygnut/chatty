@@ -1,8 +1,6 @@
-const s = require('../Bot');
-const request = require("request");
+import request from 'request';
 
-// http://pokeapi.co/ !!! So good!
-// TODO: Use this to get pokemon descriptions: http://pokeapi.co/api/v2/pokemon-species/pikachu/
+import s from '../Bot.js';
 
 function ProfessorOak()
 {
