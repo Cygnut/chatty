@@ -119,7 +119,7 @@ class BotHost {
     }
 
     enableBot(botName, on) {
-        var bot = this.#bots.find(bot => bot.name === botName);
+        const bot = this.#bots.find(bot => bot.name === botName);
         
         if (!bot) 
             return null;

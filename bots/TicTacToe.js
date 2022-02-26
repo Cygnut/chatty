@@ -22,10 +22,10 @@ class TicTacToeGame {
     {
         this.#grid = [];
         
-        for (var i = 0; i < this.gridLength; ++i) {
+        for (let i = 0; i < this.gridLength; ++i) {
             this.#grid[i] = [];
         
-            for (var j = 0; j < this.gridLength; ++j)
+            for (let j = 0; j < this.gridLength; ++j)
                 this.#grid[i][j] = this.#unsetChar;
         }
     }
@@ -56,7 +56,7 @@ class TicTacToeGame {
         
         // Check if there's been a winner. 
         // Check for each player.
-        for (var p = 0; p < this.validPlayers.length; ++p) {
+        for (let p = 0; p < this.validPlayers.length; ++p) {
             const validPlayer = this.validPlayers[p];
             
             // Check horizontals:
@@ -124,13 +124,13 @@ class TicTacToe extends Bot {
         return [];
     }
 
-    parseInput({ content }) {
+    parseInput(content) {
         // Message syntax: x,y [x or o]
         // x,y are 0 based {0,1,2}
         
         // Split by , and whitespace
         
-        var tokens = msg.content.split(this.#inputRegex);
+        const tokens = content.split(this.#inputRegex);
         if (tokens.length !== 3)
             throw new InputError(`${content} is badly formed input.`);
         
@@ -176,7 +176,7 @@ class TicTacToe extends Bot {
                 this.send(`Starting new game of size ${size}`);    // Don't include @ info as it's to everyone.
             } else {
                 // Parse the input to a move object
-                const move = this.parseInput(msg);
+                const move = this.parseInput(content);
                 
                 // Play the move to update the grid.
                 const info = this.#game.play(move);
@@ -188,7 +188,7 @@ class TicTacToe extends Bot {
                 this.send(response);    // Don't include @ info as it's to everyone.
             }
         } catch (err) {
-            this.send(err.message, msg.from);
+            this.send(err.message, from);
         }
     }
 }

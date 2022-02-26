@@ -43,7 +43,7 @@ class Goodreads extends Bot {
         request(url, (error, response, body) => {
             try {
                 if (!error && response.statusCode == 200) {
-                    var parser = new xml2js.Parser();
+                    const parser = new xml2js.Parser();
                     parser.parseString(body, (err, result) => {
                         try {
                             if (err) {

@@ -21,7 +21,7 @@ class Enable extends Bot {
         if (!directed) 
             return;
         
-        var result = this.setEnable(content);
+        const result = this.setEnable(content);
         
         if (result === null)
             this.send('Did not enable/disable a bot.');

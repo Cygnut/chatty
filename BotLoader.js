@@ -21,7 +21,7 @@ class BotLoader {
         const combined = {};
         
         // Copy common into combined to start with.
-        for (var prop in common)
+        for (const prop in common)
             if (common.hasOwnProperty(prop))
                 // Iterate over all of common's own properties.
                 combined[prop] = common[prop];
@@ -30,7 +30,7 @@ class BotLoader {
         if (specific === null || specific === undefined)
             return combined;
         
-        for (var property in specific) {
+        for (const property in specific) {
             if (specific.hasOwnProperty(property)) {
                 // Iterate over all of specific's own properties.
                 

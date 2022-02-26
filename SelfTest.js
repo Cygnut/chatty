@@ -17,14 +17,14 @@ class SelfTest extends Bot {
 
     generateTests(getBotMetadata) {
         // Get an array of tests for each bot.
-        var botTests = getBotMetadata()
+        const botTests = getBotMetadata()
             .map(bot => { return bot.tests; })
     
         // Merge them all into one array.
-        var allTests = [].concat.apply([], botTests);
+        const allTests = [].concat.apply([], botTests);
     
         // Generate the full test suite:
-        var tests = allTests;
+        const tests = allTests;
         tests.unshift('STARTING TESTS NOW');
         tests.push('ENDING TESTS NOW');
         return tests;
@@ -38,15 +38,15 @@ class SelfTest extends Bot {
         if (!directed) 
             return;
     
-        var tests = generateTests(this.#getBotMetadata);
+        const tests = generateTests(this.#getBotMetadata);
         console.log(tests);
     
         // Copy the array into a reversed queue.
-        var queue = tests.slice().reverse();
+        const queue = tests.slice().reverse();
     
         const sendNext = () => 
         {
-            var message = queue.pop();
+            const message = queue.pop();
         
             if (message === undefined)
             {

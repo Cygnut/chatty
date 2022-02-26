@@ -28,11 +28,11 @@ class Remote extends Poller {
             
             if (!error && response.statusCode == 200) {
                 
-                var bodyJson = JSON.parse(body);
+                const bodyJson = JSON.parse(body);
                 
                 if (bodyJson.length === 0) return;
                 
-                var msg = bodyJson[0];
+                const msg = bodyJson[0];
                                 
                 if (this.#lastIdSeen < msg.id)
                 {

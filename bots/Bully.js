@@ -20,9 +20,9 @@ class Bully extends Bot {
     {
         if (directed)
         {
-            var idx = this.#targets.indexOf(content);
+            const idx = this.#targets.indexOf(content);
             
-            var m = '';
+            let m = '';
             if (idx > -1)    // Then they're a target - remove them.
             {
                 this.#targets.splice(idx, 1);
