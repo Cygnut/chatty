@@ -15,6 +15,7 @@ class Remote extends Poller {
     #callback;
 
     constructor(rootUrl, callback) {
+        super();
         this.#rootUrl = rootUrl;
         this.#callback = callback;
     }

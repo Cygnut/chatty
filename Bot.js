@@ -8,7 +8,7 @@ class Bot {
         this.name = '~' + name;
         this.description = description;
         // Indicates ability to be disabled. Defaults to true.
-        this.disableable = settings.hasOwnProperty("disableable") ? disableable : true;
+        this.disableable = disableable === undefined ? true : disableable;
         this.enabled = false;
     }
 

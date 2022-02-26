@@ -1,4 +1,4 @@
-import bot from './Bot.js';
+import Bot from './Bot.js';
 
 class Help extends Bot {
     getBotMetadata;

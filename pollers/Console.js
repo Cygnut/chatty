@@ -6,6 +6,7 @@ class Console extends Poller {
     #callback;
 
     constructor(callback) {
+        super();
         this.#callback = callback;
     }
 

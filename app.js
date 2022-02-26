@@ -2,34 +2,35 @@ import request from 'request';
 
 import Remote from './pollers/Remote.js';
 import Console from './pollers/Console.js';
-import sh from './BotHost.js';
-import sl from './BotLoader.js';
+import BotHost from './BotHost.js';
+import BotLoader from './BotLoader.js';
 
 const url = 'http://localhost:81/';
 
-var botLoader = new sl.BotLoader('./bots.config', './bots');
+var botLoader = new BotLoader('./bots.config', './bots');
 var bots = botLoader.fromConfigFile({});
 
-var botHost = new sh.BotHost();
-botHost.respond = function(from, content) 
+var botHost = new BotHost();
+botHost.respond = (from, content) =>
 {
     request.post({
         url:    url + 'send',
         json:    { from: from, content: content }
-    }, function(error, response, msg) { });
+    }, () => {});
 };
 botHost.addBots(bots);
 
 [
-    new Remote(url, function(msg) { botHost.execute(msg, false); }),
-    new Console(function(msg) { botHost.execute(msg, true); })
+    new Remote(url, msg => botHost.execute(msg, false)),
+    new Console(msg => botHost.execute(msg, true))
 ]
 .forEach(poller => {
     poller.run();
 });
 
 /*
-    
+    all todos    
+
     get self-test working (albeit hackily)
     rebuild on a separate branch
 
