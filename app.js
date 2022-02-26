@@ -29,7 +29,9 @@ botHost.addBots(bots);
 });
 
 /*
-    all todos    
+    all todos   
+    change tab size
+    remove all function() uses where possible 
 
     get self-test working (albeit hackily)
     rebuild on a separate branch
