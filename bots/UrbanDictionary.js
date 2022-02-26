@@ -1,50 +1,43 @@
 import request from 'request';
 
-import s from '../Bot.js';
+import Bot from '../Bot.js';
 
-function UrbanDictionary()
-{
-    s.Bot.call(this, { name: 'urban', description: "Looks up shit from UrbanDictionary." });
-}
+class UrbanDictionary extends Bot {
+    constructor() {
+        super({ 
+            name: 'urban', 
+            description: "Looks up shit from UrbanDictionary." 
+        });
+    }
 
-UrbanDictionary.prototype = Object.create(s.Bot.prototype);
+    getTests() {
+        return [
+            `${this.name} poop`
+        ];
+    }
 
-UrbanDictionary.prototype.getTests = function()
-{
-    return [
-        this.name + " poop"
-    ];
-}
-
-UrbanDictionary.prototype.onNewMessage = function(msg)
-{
-    if (!msg.directed) return;
-    
-    // Get the search result for this search term, specifically, the top related book.
-    
-    var url = 'http://api.urbandictionary.com/v0/define?term=' + msg.content;
-    
-    request(url, function (error, response, body) {
+    onNewMessage({ content, from, directed }) {
+        if (!directed) 
+            return;
         
-        try
-        {
-            if (!error && response.statusCode == 200) 
-            {
-                var result = JSON.parse(body);
-                this.send(result.list[0].definition, msg.from);
+        // Get the search result for this search term, specifically, the top related book.
+        const url = `http://api.urbandictionary.com/v0/define?term=${content}`;
+        
+        request(url, (error, response, body) => {
+            try {
+                if (!error && response.statusCode == 200) {
+                    const result = JSON.parse(body);
+                    this.send(result.list[0].definition, from);
+                } else {
+                    console.log(`HTTP request failed with error ${error} status code ${response.statusCode}`);
+                    this.send("Couldn't ask UrbanDictionary about it..", from);
+                }
+            } catch (e) {
+                console.log('Error handling response ' + e);
+                this.send("Couldn't ask UrbanDictionary about it..", from);
             }
-            else
-            {
-                console.log('HTTP request failed with error ' + error + ' status code ' + response.statusCode);
-                this.send("Couldn't ask UrbanDictionary about it..", msg.from);
-            }
-        }
-        catch (e)
-        {
-            console.log('Error handling response ' + e);
-            this.send("Couldn't ask UrbanDictionary about it..", msg.from);
-        }
-    }.bind(this));
+        });
+    }
 }
 
-module.exports = UrbanDictionary;
+export default UrbanDictionary;

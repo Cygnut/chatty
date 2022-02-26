@@ -1,28 +1,31 @@
-import s from '../Bot.js';
+import Bot from '../Bot.js';
 
-function Swear()
-{
-    this.badWords = [ 'fuck', 'shit', 'crap', 'poop', 'bum' ];
-    
-    s.Bot.call(this, { name: 'swear', description: "Tells you off if you're a little bitch. Don't say any of these: " + this.badWords.join() + "." });
+class Swear extends Bot {
+    #badWords = [];
+
+    constructor() {
+        const badWords = [ 'fuck', 'shit', 'crap', 'poop', 'bum' ];
+        super({
+            name: 'swear', 
+            description: `Tells you off if you're a little bitch. Don't say any of these: ${badWords.join()}.` 
+        });
+        this.#badWords = badWords;
+    }
+
+    getTests() {
+        return [
+            "Fuck you."
+        ];
+    }
+
+
+    onNewMessage({ content, from, directed }) {
+        if (directed) 
+            return;
+        
+        if (this.#badWords.some(v => content.toLowerCase().indexOf(v) > -1))
+            this.send('Oy, you used a bad word! Get out.', from);
+    }
 }
 
-Swear.prototype = Object.create(s.Bot.prototype);
-
-Swear.prototype.getTests = function()
-{
-    return [
-        "Fuck you."
-    ];
-}
-
-
-Swear.prototype.onNewMessage = function(msg)
-{
-    if (msg.directed) return;
-    
-    if (this.badWords.some(function(v) { return msg.content.toLowerCase().indexOf(v) > -1 }))
-        this.send('Oy, you used a bad word! Get out.', msg.from);
-}
-
-module.exports = Swear;
+export default Swear;

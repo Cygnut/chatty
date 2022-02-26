@@ -46,7 +46,7 @@ class BotLoader {
         return combined;
     }
 
-    fromConfigFile(commonSettings) {
+    async fromConfigFile(commonSettings) {
         // Load the config file
         const config = JSON.parse(
             readFileSync(this.#configFilepath, 'utf8')
@@ -56,27 +56,26 @@ class BotLoader {
         
         const bots = [];
         
-        filenames.forEach(filename => {            
-            // Only  load files which have match the filename pattern.
+        for (const filename of filenames) {        
+            // Only load files which have match the filename pattern.
             if (!filename.match(this.#BOT_REGEX))
-                return;
+                continue;
             
-            let r = null;
-            
-            try
-            {
-                r = require(`${this.#botsDir}/${filename}`);
+            let r = null;            
+            try {
+                console.log('awaiting');
+                r = await import(`${this.#botsDir}/${filename}`);
+                //r = require(`${this.#botsDir}/${filename}`);
                 // TODO: use import() here
                 //import r from `${this.#botsDir}/${filename}`;
-            }
-            catch (err)
-            {
+                console.log(typeof(new r.default()));
+            } catch (err) {
                 console.log('Failed to load bot source at ' + filename + '. ' + err);
-                return;
+                continue;
             }
             
             if (!r) 
-                return;
+                continue;;
             
             // Strip '.js' to get the name of the class to index with into the config file.
             const className = filename.slice(0, -3);
@@ -88,28 +87,19 @@ class BotLoader {
             
             const botSettings = botConfig ? botConfig.settings : {};
             
-            const settings = combineSettings(commonSettings, botSettings);
+            const settings = this.combineSettings(commonSettings, botSettings);
             
             // Instantiate the bot.
             let s = null;
             
-            try
-            {
-                s = new r(settings);
-                console.log('Loaded bot ' + className);
+            try {
+                s = new r.default(settings);
+                console.log(`Loaded bot ${className}`);
+                bots.push(s); 
+            } catch (err) {
+                console.log('Failed to load bot ' + className + '. ' + err + err.stack);
             }
-            catch (err)
-            {
-                console.log('Failed to load bot ' + className + '. ' + err);
-                return;
-            }
-            
-            if (!s) 
-                return;
-            
-            bots.push(s);
-            
-        });
+        };
         
         return bots;
     }

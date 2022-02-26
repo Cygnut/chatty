@@ -5,28 +5,31 @@ import Console from './pollers/Console.js';
 import BotHost from './BotHost.js';
 import BotLoader from './BotLoader.js';
 
-const url = 'http://localhost:81/';
+(async () => {
+    const url = 'http://localhost:81/';
 
-var botLoader = new BotLoader('./bots.config', './bots');
-var bots = botLoader.fromConfigFile({});
+    const botLoader = new BotLoader('./bots.config', './bots');
+    const bots = await botLoader.fromConfigFile({});
 
-var botHost = new BotHost();
-botHost.respond = (from, content) =>
-{
-    request.post({
-        url:    url + 'send',
-        json:    { from: from, content: content }
-    }, () => {});
-};
-botHost.addBots(bots);
+    const botHost = new BotHost();
+    botHost.respond = (from, content) =>
+    {
+        request.post({
+            url:    url + 'send',
+            json:    { from: from, content: content }
+        }, () => {});
+    };
+    botHost.addBots(bots);
 
-[
-    new Remote(url, msg => botHost.execute(msg, false)),
-    new Console(msg => botHost.execute(msg, true))
-]
-.forEach(poller => {
-    poller.run();
-});
+    [
+        new Remote(url, msg => botHost.execute(msg, false)),
+        new Console(msg => botHost.execute(msg, true))
+    ]
+    .forEach(poller => {
+        poller.run();
+    });
+})();
+
 
 /*
     all todos   
