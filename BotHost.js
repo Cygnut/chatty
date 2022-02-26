@@ -7,7 +7,7 @@ class BotHost {
 
     constructor() {
         // Hook up default event handler for bot generated response.
-        this.respond = function(from, content) {};
+        this.respond = () => {};
         
         // Add the documentation bots.
         this.addBot(new Help(this.getBotMetadata.bind(this)));
@@ -107,7 +107,7 @@ class BotHost {
 
     addBot(bot) {
         // Initialise
-        bot.send = function() {};
+        bot.send = () => {};
         
         // Start
         bot.enable(true);

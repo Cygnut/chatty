@@ -13,7 +13,7 @@ class Enable extends Bot {
         this.setEnable = setEnable;
     }
     
-    getTests = function() {
+    getTests() {
         return [];
     }
 
