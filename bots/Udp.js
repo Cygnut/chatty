@@ -48,7 +48,7 @@ class Udp extends Bot {
                 this.#listener = null;
             }
         } catch (e) {
-            console.log(`Udp: Error while stopping ${e}`);
+            console.error(`Udp: Error while stopping ${e}`);
             this.#listener = null;
         }
     }
