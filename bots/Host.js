@@ -16,7 +16,7 @@ class Host extends Bot {
         ];
     }
 
-    #formatBytes(bytes,decimals) {
+    formatBytes(bytes,decimals) {
         if (bytes == 0) 
             return '0 Bytes';
 
@@ -27,7 +27,7 @@ class Host extends Bot {
         return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
     }
 
-    #toHHMMSS(secs) {
+    toHHMMSS(secs) {
         const secNum = parseInt(secs, 10);
         const hours = Math.floor(secNum / 3600);
         const minutes = Math.floor((secNum - (hours * 3600)) / 60);
@@ -52,8 +52,8 @@ class Host extends Bot {
         this.send([
             `The OS is ${os.platform()} with ${os.cpus().length} CPU/s.`, 
             `The amount of free memory is ${formatBytes(os.freemem())}.`,
-            `The amount of total memory is ${this.#formatBytes(os.totalmem())}.`,
-            `The total system uptime is ${this.#toHHMMSS(os.uptime())}.`
+            `The amount of total memory is ${this.formatBytes(os.totalmem())}.`,
+            `The total system uptime is ${this.toHHMMSS(os.uptime())}.`
         ].join('\n'));
     }
 }
