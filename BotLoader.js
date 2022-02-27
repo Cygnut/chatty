@@ -70,7 +70,7 @@ class BotLoader {
                 //import r from `${this.#botsDir}/${filename}`;
                 console.log(typeof(new r.default()));
             } catch (err) {
-                console.log('Failed to load bot source at ' + filename + '. ' + err);
+                console.log(`Failed to load bot source at ${filename}. ${err}`);
                 continue;
             }
             
