@@ -19,8 +19,8 @@ class Udp extends Bot {
     createListener(port) {
         const listener = dgram.createSocket('udp4');
         
-        listener.on('error', err => {
-            console.log(`Udp: Error: ${err.stack}`);
+        listener.on('error', e => {
+            console.log(`Udp: Error: ${e.stack}`);
             listener.close();
         });
         
@@ -46,8 +46,8 @@ class Udp extends Bot {
                 this.#listener.close();
                 this.#listener = null;
             }
-        } catch (err) {
-            console.log(`Udp: Error while stopping ${err}`);
+        } catch (e) {
+            console.log(`Udp: Error while stopping ${e}`);
             this.#listener = null;
         }
     }
@@ -68,8 +68,8 @@ class Udp extends Bot {
                 this.stop();
                 this.#listener = this.createListener(port);
                 this.send(`Now listening on ${port}`, from);
-            } catch (err) {
-                console.log(`Udp: Error while starting to listen on ${port} ${err}`);
+            } catch (e) {
+                console.error(`Udp: Error while starting to listen on ${port} ${e}`);
             }
         }
         else if (content.startsWith('stop')) {

@@ -186,8 +186,8 @@ class TicTacToe extends Bot {
                 
                 this.send(response);    // Don't include @ info as it's to everyone.
             }
-        } catch (err) {
-            this.send(err.message, from);
+        } catch (e) {
+            this.send(e.message, from);
         }
     }
 }

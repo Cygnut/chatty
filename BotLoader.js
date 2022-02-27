@@ -53,8 +53,8 @@ class BotLoader {
         let importee = null;            
         try {
             importee = await import(`${this.#botsDir}/${filename}`);
-        } catch (err) {
-            throw new Error(`Failed to load bot source at ${filename}. ${err} ${err.stack}`);
+        } catch (e) {
+            throw new Error(`Failed to load bot source at ${filename}. ${e} ${e.stack}`);
         }
 
         if (!('default' in importee)) {
