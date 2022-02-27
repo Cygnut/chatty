@@ -23,8 +23,9 @@ class Swear extends Bot {
         if (directed) 
             return;
         
-        if (this.#badWords.some(v => content.toLowerCase().indexOf(v) > -1))
+        if (this.#badWords.some(v => content.toLowerCase().indexOf(v) > -1)) {
             this.send('Oy, you used a bad word! Get out.', from);
+        }
     }
 }
 

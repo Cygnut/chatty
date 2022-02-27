@@ -56,8 +56,7 @@ class Udp extends Bot {
         if (!directed) 
             return;
         
-        if (content.startsWith('listen'))
-        {
+        if (content.startsWith('listen')) {
             const portStr = content.substring(7);
             const port = parseInt(portStr);
             if (isNaN(port)) {

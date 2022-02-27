@@ -21,10 +21,11 @@ class Enable extends Bot {
         
         const result = this.host.enableBot(content);
         
-        if (result === null)
+        if (result === null) {
             this.send('Did not enable/disable a bot.');
-        else
-            this.send((result ? 'Enabled' : 'Disabled') + ' ' + content);
+        } else {
+            this.send(`${result ? 'Enabled' : 'Disabled'} ${content}`);
+        }
     }
 }
 
