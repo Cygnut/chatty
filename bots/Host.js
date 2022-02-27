@@ -27,7 +27,7 @@ class Host extends Bot {
         return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
     }
 
-    toHHMMSS(secs) {
+    formatTime(secs) {
         const secNum = parseInt(secs, 10);
         const hours = Math.floor(secNum / 3600);
         const minutes = Math.floor((secNum - (hours * 3600)) / 60);
@@ -46,7 +46,7 @@ class Host extends Bot {
             `The OS is ${os.platform()} with ${os.cpus().length} CPU/s.`, 
             `The amount of free memory is ${this.formatBytes(os.freemem())}.`,
             `The amount of total memory is ${this.formatBytes(os.totalmem())}.`,
-            `The total system uptime is ${this.toHHMMSS(os.uptime())}.`
+            `The total system uptime is ${this.formatTime(os.uptime())}.`
         ].join('\n'));
     }
 }
