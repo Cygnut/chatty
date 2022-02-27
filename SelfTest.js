@@ -44,8 +44,9 @@ class SelfTest extends Bot {
         // Copy the array into a reversed queue.
         const queue = tests.slice().reverse();
     
-        const sendNext = () => 
-        {
+        let timerId = null;
+
+        const sendNext = () => {
             const message = queue.pop();
         
             if (message === undefined)
@@ -58,7 +59,7 @@ class SelfTest extends Bot {
             this.#respond(this.#from, message);
         }
     
-        setInterval(sendNext.bind(this), 1000);
+        timerId = setInterval(sendNext.bind(this), 1000);
     }
 }
 
