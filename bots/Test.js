@@ -1,6 +1,6 @@
 import Bot from '../Bot.js';
 
-class Test extends Bot {
+export default class Test extends Bot {
     host;
     #from = 'Test-a-bot';
 
@@ -54,5 +54,3 @@ class Test extends Bot {
         }, 1000);
     }
 }
-
-export default Test;
