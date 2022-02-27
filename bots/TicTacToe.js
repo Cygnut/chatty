@@ -157,7 +157,7 @@ class TicTacToe extends Bot {
         return move;
     }
 
-    onNewMessage({ content, from, directed }) {
+    async onNewMessage({ content, from, directed }) {
         try {
             if (!directed) 
                 return;

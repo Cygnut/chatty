@@ -1,4 +1,4 @@
-import request from 'request';
+import fetch from "node-fetch";
 
 import Poller from '../Poller.js';
 
@@ -20,29 +20,23 @@ class Remote extends Poller {
         this.#callback = callback;
     }
 
-    poll() {
-        // Just get the last message
-        return request(this.#rootUrl + 'messages?begin=-1', (error, response, body) => {
-            
-            //console.log('Received response, with error code ' + error + ', status code ' + response.statusCode);
-            
-            if (!error && response.statusCode == 200) {
-                
-                const bodyJson = JSON.parse(body);
-                
-                if (bodyJson.length === 0) return;
-                
-                const msg = bodyJson[0];
-                                
-                if (this.#lastIdSeen < msg.id)
-                {
-                    // Then we're looking at a new message.
-                    try { this.#callback(msg); } catch (e) { }
-                    
-                    this.#lastIdSeen = msg.id;
-                }
+    async poll() {
+        try {
+            // Just get the last message
+            const response = await fetch(`${this.#rootUrl}messages?begin=-1`);
+            const body = await response.json();
+            const msg = body[0];
+                                    
+            if (this.#lastIdSeen < msg.id) {
+                // Then we're looking at a new message.
+                try { 
+                    this.#callback(msg); 
+                } catch (e) {}
+                this.#lastIdSeen = msg.id;
             }
-        });
+        } catch (e) {
+            //console.log(e);
+        }
     }
 
     run() {

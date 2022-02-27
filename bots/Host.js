@@ -38,7 +38,7 @@ class Host extends Bot {
             .join(':');
     }
 
-    onNewMessage({ content, from, directed }) {
+    async onNewMessage({ content, from, directed }) {
         if (!directed) 
             return;
         

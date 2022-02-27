@@ -30,7 +30,7 @@ class SelfTest extends Bot {
         return [];
     }
 
-    onNewMessage({ content, from, directed }) {
+    async onNewMessage({ content, from, directed }) {
         if (!directed) 
             return;
     

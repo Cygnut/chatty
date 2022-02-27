@@ -11,8 +11,6 @@ class Console extends Poller {
     }
 
     run() {
-        const self = this;
-
         const rl = readline.createInterface({
             input: process.stdin,
             output: process.stdout,
@@ -26,7 +24,7 @@ class Console extends Poller {
                 console.log('\nBye!\n');
                 process.exit(0);        
             } else {
-                self.#callback({ from: 'console', content: line.trim() })
+                this.#callback({ from: 'console', content: line.trim() })
             }
             rl.prompt();
         }).on('close', () => {

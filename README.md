@@ -89,7 +89,6 @@ The following bots are for administration of other bots and can not be uninstall
 
 | Name | Description |
 |------|-------------|
-| ~animal | Provides you with a random animal name. |
 | ~bully | Bullies a specific user. |
 | ~eval | Evaluates a javascript expression. |
 | ~goodreads | Finds the top related book for a given search term using the Goodreads Web API. |
