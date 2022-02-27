@@ -46,7 +46,7 @@ class Host extends Bot {
         
         this.send([
             `The OS is ${os.platform()} with ${os.cpus().length} CPU/s.`, 
-            `The amount of free memory is ${formatBytes(os.freemem())}.`,
+            `The amount of free memory is ${this.formatBytes(os.freemem())}.`,
             `The amount of total memory is ${this.formatBytes(os.totalmem())}.`,
             `The total system uptime is ${this.toHHMMSS(os.uptime())}.`
         ].join('\n'));
