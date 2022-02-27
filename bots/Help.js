@@ -1,6 +1,6 @@
 import Bot from '../Bot.js';
 
-class Help extends Bot {
+export default class Help extends Bot {
     host;
 
     constructor() {
@@ -26,5 +26,3 @@ class Help extends Bot {
         }).join('\n'));
     }
 }
-
-export default Help;

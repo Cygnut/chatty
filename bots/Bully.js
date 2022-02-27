@@ -1,6 +1,6 @@
 import Bot from '../Bot.js';
 
-class Bully extends Bot {
+export default class Bully extends Bot {
     #targets = [];
 
     constructor() {
@@ -40,5 +40,3 @@ class Bully extends Bot {
         }
     }
 }
-
-export default Bully;

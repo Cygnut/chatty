@@ -2,7 +2,7 @@ import os from 'os';
 
 import Bot from '../Bot.js';
 
-class Host extends Bot {
+export default class Host extends Bot {
     constructor() {
         super({ 
             name: 'host', 
@@ -50,5 +50,3 @@ class Host extends Bot {
         ].join('\n'));
     }
 }
-
-export default Host;

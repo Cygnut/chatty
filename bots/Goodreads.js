@@ -5,7 +5,7 @@ import xml2js from 'xml2js';
 
 import Bot from '../Bot.js';
 
-class Goodreads extends Bot {
+export default class Goodreads extends Bot {
     #rootUrl = 'https://www.goodreads.com/';
     #apiKey;
 
@@ -48,5 +48,3 @@ class Goodreads extends Bot {
         }
     }
 }
-
-export default Goodreads;

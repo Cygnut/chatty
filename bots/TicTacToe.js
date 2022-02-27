@@ -106,7 +106,7 @@ class TicTacToeGame {
     }
 }
 
-class TicTacToe extends Bot {
+export default class TicTacToe extends Bot {
     #game;
     #inputRegex = /[\s,]+/;    // Cache this for performance.
 
@@ -191,5 +191,3 @@ class TicTacToe extends Bot {
         }
     }
 }
-
-export default TicTacToe;

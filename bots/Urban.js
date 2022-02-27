@@ -2,7 +2,7 @@ import fetch from 'node-fetch';
 
 import Bot from '../Bot.js';
 
-class Urban extends Bot {
+export default class Urban extends Bot {
     constructor() {
         super({ 
             name: 'urban', 
@@ -32,5 +32,3 @@ class Urban extends Bot {
         }
     }
 }
-
-export default Urban;

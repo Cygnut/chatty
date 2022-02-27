@@ -9,7 +9,7 @@ import Poller from '../Poller.js';
     callback should handle all exceptions.
 */
 
-class Remote extends Poller {
+export default class Remote extends Poller {
     #rootUrl;
     #lastIdSeen = -1;
     #callback;
@@ -45,5 +45,3 @@ class Remote extends Poller {
         setInterval(this.poll.bind(this), 500);
     }
 }
-
-export default Remote;

@@ -2,7 +2,7 @@ import readline from 'readline';
 
 import Poller from '../Poller.js';
 
-class Console extends Poller {
+export default class Console extends Poller {
     #callback;
 
     constructor(callback) {
@@ -33,5 +33,3 @@ class Console extends Poller {
         }); 
     }
 }
-
-export default Console;

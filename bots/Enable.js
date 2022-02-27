@@ -1,6 +1,6 @@
 import Bot from '../Bot.js';
 
-class Enable extends Bot {
+export default class Enable extends Bot {
     host;
 
     constructor() {
@@ -28,5 +28,3 @@ class Enable extends Bot {
         }
     }
 }
-
-export default Enable;

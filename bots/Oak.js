@@ -2,7 +2,7 @@ import fetch from 'node-fetch';
 
 import Bot from '../Bot.js';
 
-class Oak extends Bot {
+export default class Oak extends Bot {
     constructor() {
         super({ 
             name: 'oak', 
@@ -45,5 +45,3 @@ class Oak extends Bot {
         }
     }
 }
-
-export default Oak;

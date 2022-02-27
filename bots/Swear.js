@@ -1,6 +1,6 @@
 import Bot from '../Bot.js';
 
-class Swear extends Bot {
+export default class Swear extends Bot {
     #badWords = [];
 
     constructor() {
@@ -28,5 +28,3 @@ class Swear extends Bot {
         }
     }
 }
-
-export default Swear;

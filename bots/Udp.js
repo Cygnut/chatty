@@ -2,7 +2,7 @@ import dgram from 'dgram';
 
 import Bot from '../Bot.js';
 
-class Udp extends Bot {
+export default class Udp extends Bot {
     #listener;
 
     constructor() {
@@ -78,5 +78,3 @@ class Udp extends Bot {
         }
     }
 }
-
-export default Udp;

@@ -1,6 +1,6 @@
 import Bot from '../Bot.js';
 
-class Eval extends Bot {
+export default class Eval extends Bot {
     constructor() {
         super({ 
             name: 'eval', 
@@ -30,5 +30,3 @@ class Eval extends Bot {
         this.send(result, from);
     }
 }
-
-export default Eval;
