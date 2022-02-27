@@ -54,12 +54,11 @@ class BotLoader {
         try {
             importee = await import(`${this.#botsDir}/${filename}`);
         } catch (err) {
-            console.log(`Failed to load bot source at ${filename}. ${err} ${err.stack}`);
-            return null;
+            throw new Error(`Failed to load bot source at ${filename}. ${err} ${err.stack}`);
         }
 
         if (!('default' in importee)) {
-            console.log(`Missing default export for ${filename}`);
+            throw new Error(`Missing default export for ${filename}`);
         }
 
         const klass = importee.default;
@@ -72,14 +71,12 @@ class BotLoader {
         const botSettings = botConfig ? botConfig.settings : {};
         const settings = this.combineSettings({}, botSettings);
         
-        // Instantiate the bot.
+        // Instantiate the bot with those settings.
         try {
             return new klass(settings);
         } catch (err) {
-            console.log(`Failed to load bot ${className}. ${err} ${err.stack}`);
+            throw new Error(`Failed to load bot ${className}. ${err} ${err.stack}`);
         }
-
-        return null;
     }
 
     async fromConfigFile() {
@@ -91,10 +88,12 @@ class BotLoader {
             if (!filename.match(this.#BOT_REGEX))
                 continue;
             
-            const bot = await this.tryCreateBot(filename);
-            if (bot) {
+            try {
+                const bot = await this.tryCreateBot(filename);
                 console.log(`Loaded bot ${bot.name}`);
                 bots.push(bot);
+            } catch (e) {
+                console.error(`Failed to load bot in ${filename}. ${err} ${err.stack}`);
             }
         };
         
