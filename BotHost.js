@@ -13,7 +13,7 @@ class BotHost {
         try {
             this.run(msg, local);
         } catch (e) {
-            console.log(`Error handling message ${e}, continuing.`);
+            console.error(`Error handling message ${e}, continuing.`);
         }
     }
 
@@ -76,14 +76,14 @@ class BotHost {
         if (!bot.enabled) 
             return;
         
-        const responseMsg = to ? ('@' + to + ': ' + content) : content;
+        const response = to ? ('@' + to + ': ' + content) : content;
         
-        console.log(bot.name + ' responding to message with content: ' + responseMsg);
+        console.log(`${bot.name} responding to message with content: ${response}`);
         
         if (local) {
-            console.log(responseMsg);
+            console.log(response);
         } else {
-            this.callRespond(bot.name, responseMsg);
+            this.callRespond(bot.name, response);
         }
     }
 

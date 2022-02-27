@@ -16,7 +16,7 @@ import BotLoader from './BotLoader.js';
         try {
             fetch.post(url + 'send', { from, content });
         } catch (e) {
-            console.log(e);
+            console.error(e);
         }
     };
     botHost.addBots(bots);
