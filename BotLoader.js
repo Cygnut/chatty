@@ -61,11 +61,11 @@ class BotLoader {
             throw new Error(`Missing default export for ${filename}`);
         }
 
-        const klass = importee.default;
+        const importedClass = importee.default;
         
         // Get the bot specific settings for this bot.
         const botConfig = config.bots.find(bot => {
-            return bot.name === klass.name;
+            return bot.name === importedClass.name;
         });
         
         const botSettings = botConfig ? botConfig.settings : {};
@@ -73,9 +73,9 @@ class BotLoader {
         
         // Instantiate the bot with those settings.
         try {
-            return new klass(settings);
+            return new importedClass(settings);
         } catch (e) {
-            throw new Error(`Failed to load bot ${className}. ${e} ${e.stack}`);
+            throw new Error(`Failed to load bot ${importedClass.name}. ${e} ${e.stack}`);
         }
     }
 
