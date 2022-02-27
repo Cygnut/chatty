@@ -20,7 +20,7 @@ class Udp extends Bot {
         const listener = dgram.createSocket('udp4');
         
         listener.on('error', e => {
-            console.log(`Udp: Error: ${e.stack}`);
+            console.error(`Udp: Error: ${e.stack}`);
             listener.close();
         });
         
@@ -33,7 +33,8 @@ class Udp extends Bot {
             console.log(`Udp: Listening at ${address.address}:${address.port}`);
         });
         
-        listener.unref();        // Prevent this object from stopping the entire application from shutting down.
+        // Prevent this object from stopping the entire application from shutting down.
+        listener.unref();
         
         listener.bind(port);
         
