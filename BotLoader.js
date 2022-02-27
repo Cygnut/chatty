@@ -46,10 +46,44 @@ class BotLoader {
         return combined;
     }
 
-    async fromConfigFile(commonSettings) {
+    async tryCreateBot(filename) {
         // Load the config file
         const config = JSON.parse(readFileSync(this.#configFilepath, 'utf8'));
+
+        let r = null;            
+        try {
+            r = await import(`${this.#botsDir}/${filename}`);
+        } catch (err) {
+            console.log(`Failed to load bot source at ${filename}. ${err} ${err.stack}`);
+            return null;
+        }
         
+        // Strip '.js' to get the name of the class to index with into the config file.
+        const className = filename.slice(0, -3);
+        
+        // Get the bot specific settings for this bot.
+        const botConfig = config.bots.find(bot => {
+            return bot.name === className;
+        });
+        
+        const botSettings = botConfig ? botConfig.settings : {};
+        const settings = this.combineSettings({}, botSettings);
+        
+        // Instantiate the bot.
+        let s = null;
+        
+        try {
+            s = new r.default(settings);
+            console.log(`Loaded bot ${className}`);
+            return s;
+        } catch (err) {
+            console.log(`Failed to load bot ${className}. ${err} ${err.stack}`);
+        }
+
+        return null;
+    }
+
+    async fromConfigFile() {
         const filenames = readdirSync(this.#botsDir);
         
         const bots = [];        
@@ -58,39 +92,9 @@ class BotLoader {
             if (!filename.match(this.#BOT_REGEX))
                 continue;
             
-            let r = null;            
-            try {
-                r = await import(`${this.#botsDir}/${filename}`);
-            } catch (err) {
-                console.log(`Failed to load bot source at ${filename}. ${err} ${err.stack}`);
-                continue;
-            }
-            
-            if (!r) 
-                continue;;
-            
-            // Strip '.js' to get the name of the class to index with into the config file.
-            const className = filename.slice(0, -3);
-            
-            // Get the bot specific settings for this bot.
-            const botConfig = config.bots.find(bot => {
-                return bot.name === className;
-            });
-            
-            const botSettings = botConfig ? botConfig.settings : {};
-            
-            const settings = this.combineSettings(commonSettings, botSettings);
-            
-            // Instantiate the bot.
-            let s = null;
-            
-            try {
-                s = new r.default(settings);
-                console.log(`Loaded bot ${className}`);
-                bots.push(s); 
-            } catch (err) {
-                console.log(`Failed to load bot ${className}. ${err} ${err.stack}`);
-            }
+            const bot = await this.tryCreateBot(filename);
+            if (bot)
+                bots.push(bot);
         };
         
         return bots;

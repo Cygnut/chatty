@@ -9,7 +9,7 @@ import BotLoader from './BotLoader.js';
     const url = 'http://localhost:81/';
 
     const botLoader = new BotLoader('./bots.config', './bots');
-    const bots = await botLoader.fromConfigFile({});
+    const bots = await botLoader.fromConfigFile();
 
     const botHost = new BotHost();
     botHost.respond = (from, content) =>
