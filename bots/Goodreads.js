@@ -25,7 +25,7 @@ class Goodreads extends Bot {
     }
 
     // For debugging purposes only
-    #writeJsonObject(o, path) {
+    writeJsonObject(o, path) {
         fs.writeFile(path, JSON.stringify(o, null, 2), err => {
             if (err) {
                 console.log(err);
