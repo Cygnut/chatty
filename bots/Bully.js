@@ -1,46 +1,47 @@
-const s = require('../Bot');
+import Bot from '../Bot.js';
 
-function Bully()
-{
-    s.Bot.call(this, { name: 'bully', description: "Bullies a specific user."});
-    
-    this.targets = [];
-}
+class Bully extends Bot {
+    #targets = [];
 
-Bully.prototype = Object.create(s.Bot.prototype);
-
-Bully.prototype.getTests = function()
-{
-    return [
-        this.name + " me"
-    ];
-}
-
-Bully.prototype.onNewMessage = function(msg) 
-{
-    if (msg.directed)
-    {
-        var idx = this.targets.indexOf(msg.content);
-        
-        var m = '';
-        if (idx > -1)    // Then they're a target - remove them.
-        {
-            this.targets.splice(idx, 1);
-            m = 'Awwww man! Gotta stop bullying ' + msg.content + '.';
-        }
-        else    // Then they're not a target - add them.
-        {
-            this.targets.push(msg.content);
-            m = 'Ooooooh yeahhh! Gonna start bullying ' + msg.content + '.';
-        }
-        
-        this.send(m, msg.from);
+    constructor() {
+        super({ 
+            name: 'bully', 
+            description: "Bullies a specific user."
+        });
     }
-    else
+
+    getTests() {
+        return [
+            this.name + " me"
+        ];
+    }
+
+    onNewMessage({ content, from, directed }) 
     {
-        if (this.targets.some(function(target) { return target === msg.from; }))
-            this.send('I hate you, ' + msg.from, msg.from);
+        if (directed)
+        {
+            const index = this.#targets.indexOf(content);
+            
+            let m = '';
+            if (index > -1)    // Then they're a target - remove them.
+            {
+                this.#targets.splice(index, 1);
+                m = `Awwww man! Gotta stop bullying ${content}.`;
+            }
+            else    // Then they're not a target - add them.
+            {
+                this.#targets.push(content);
+                m = `Ooooooh yeahhh! Gonna start bullying ${content}.`;
+            }
+            
+            this.send(m, from);
+        }
+        else
+        {
+            if (this.#targets.some(target => target === from))
+                this.send(`I hate you, ${from}`, from);
+        }
     }
 }
 
-module.exports = Bully;
+export default Bully;

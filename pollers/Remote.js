@@ -1,4 +1,6 @@
-const request = require('request');
+import request from 'request';
+
+import Poller from '../Poller.js';
 
 /*
     This is a simple poller that scrapes the Chat app for the latest message and responds to it if it meets certain criteria.
@@ -7,48 +9,47 @@ const request = require('request');
     callback should handle all exceptions.
 */
 
-function Remote(rootUrl, callback)
-{
-    this.rootUrl = rootUrl;
-    this.lastIdSeen = -1;
-    this.callback = callback;
-}
+class Remote extends Poller {
+    #rootUrl;
+    #lastIdSeen = -1;
+    #callback;
 
-Remote.prototype.poll = function()
-{
-    var self = this;    // Use closure to capture this as we pass it as a callback here.
-    
-    // Just get the last message
-    return request(this.rootUrl + 'messages?begin=-1', function (error, response, body) {
-        
-        //console.log('Received response, with error code ' + error + ', status code ' + response.statusCode);
-        
-        if (!error && response.statusCode == 200) {
+    constructor(rootUrl, callback) {
+        super();
+        this.#rootUrl = rootUrl;
+        this.#callback = callback;
+    }
+
+    poll() {
+        // Just get the last message
+        return request(this.#rootUrl + 'messages?begin=-1', (error, response, body) => {
             
-            var bodyJson = JSON.parse(body);
+            //console.log('Received response, with error code ' + error + ', status code ' + response.statusCode);
             
-            if (bodyJson.length === 0) return;
-            
-            var msg = bodyJson[0];
-            
-            //console.log(msg);
-            
-            if (self.lastIdSeen < msg.id)
-            {
-                // Then we're looking at a new message.
-                try { self.callback(msg); } catch (e) { }
+            if (!error && response.statusCode == 200) {
                 
-                self.lastIdSeen = msg.id;
+                const bodyJson = JSON.parse(body);
+                
+                if (bodyJson.length === 0) return;
+                
+                const msg = bodyJson[0];
+                                
+                if (this.#lastIdSeen < msg.id)
+                {
+                    // Then we're looking at a new message.
+                    try { this.#callback(msg); } catch (e) { }
+                    
+                    this.#lastIdSeen = msg.id;
+                }
             }
-        }
-    });
+        });
+    }
+
+    run() {
+        // TODO: Ensure that this can only be run once.
+        // Assume every 1/2 second is fast enough to catch every new message in poll.
+        setInterval(this.poll.bind(this), 500);
+    }
 }
 
-Remote.prototype.run = function()
-{
-    // TODO: Ensure that this can only be run once.
-    // Assume every 1/2 second is fast enough to catch every new message in poll.
-    setInterval(this.poll.bind(this), 500);
-}
-
-module.exports = Remote;
+export default Remote;

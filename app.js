@@ -1,36 +1,44 @@
-const request = require('request');
+import request from 'request';
 
-const Remote = require('./pollers/Remote');
-const Console = require('./pollers/Console');
+import Remote from './pollers/Remote.js';
+import Console from './pollers/Console.js';
+import BotHost from './BotHost.js';
+import BotLoader from './BotLoader.js';
 
-const sh = require('./BotHost');
-const sl = require('./BotLoader');
+(async () => {
+    const url = 'http://localhost:81/';
 
-const url = 'http://localhost:81/';
+    const botLoader = new BotLoader('./bots.config', './bots');
+    const bots = await botLoader.fromConfigFile();
 
-var botLoader = new sl.BotLoader('./bots.config', './bots');
-var bots = botLoader.fromConfigFile({});
+    const botHost = new BotHost();
+    botHost.respond = (from, content) =>
+    {
+        request.post({
+            url: url + 'send',
+            json: { from, content }
+        }, () => {});
+    };
+    botHost.addBots(bots);
 
-var botHost = new sh.BotHost();
-botHost.respond = function(from, content) 
-{
-    request.post({
-        url:    url + 'send',
-        json:    { from: from, content: content }
-    }, function(error, response, msg) { });
-};
-botHost.addBots(bots);
+    [
+        new Remote(url, msg => botHost.execute(msg, false)),
+        new Console(msg => botHost.execute(msg, true))
+    ]
+    .forEach(poller => {
+        poller.run();
+    });
+})();
 
-[
-    new Remote(url, function(msg) { botHost.execute(msg, false); }),
-    new Console(function(msg) { botHost.execute(msg, true); })
-]
-.forEach(poller => {
-    poller.run();
-});
 
 /*
-    
+    use fetch and make required functions async; then get rid of requests from package.json
+
+    better access to host from bots that need it (enable, help, self test), rather than hackily setting bot.host, provide limited interface
+
+    all todos   
+    change tab size
+
     get self-test working (albeit hackily)
     rebuild on a separate branch
 

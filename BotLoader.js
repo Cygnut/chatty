@@ -1,113 +1,99 @@
-const fs = require('fs');
+import { readFileSync, readdirSync } from 'fs';
 
 // TODO: Pass url in here.
 // TODO: describe bots.config syntax here.
-function BotLoader(configFilepath, botsDir)
-{
-    this.configFilepath = configFilepath;
-    this.botsDir = botsDir;
+class BotLoader {
+    #configFilepath;
+    #botsDir;
     // Only pick up files which have at least one character before bot.js.
-    this.BOT_REGEX = /.+.js/;
-}
+    #BOT_REGEX = /.+.js/;
 
-// TODO: Error handling
-
-
-// Combine all settings in the pods provided.
-function combineSettings(common, specific)
-{
-    var combined = {};
-    
-    // Copy common into combined to start with.
-    for (var prop in common)
-        if (common.hasOwnProperty(prop))
-            // Iterate over all of common's own properties.
-            combined[prop] = common[prop];
-    
-    // If specific has nothing, then we're done.
-    if (specific === null || specific === undefined)
-        return combined;
-    
-    for (var property in specific) {
-        if (specific.hasOwnProperty(property)) {
-            // Iterate over all of specific's own properties.
-            
-            // If there's a clash between the properties that common and specific has, use common.
-            if (combined.hasOwnProperty(property)) 
-                continue;
-            
-            // Otherwise, add the properties from specific
-            combined[property] = specific[property];
-        }
+    constructor(configFilepath, botsDir) {
+        this.#configFilepath = configFilepath;
+        this.#botsDir = botsDir;
     }
-    
-    return combined;
-}
 
-BotLoader.prototype.fromConfigFile = function(commonSettings)
-{
-    // Load the config file
-    var config = JSON.parse(
-        fs.readFileSync(this.configFilepath, 'utf8')
-    );
-    
-    var filenames = fs.readdirSync(this.botsDir);
-    
-    var bots = [];
-    
-    filenames.forEach(function(filename) {
+    // TODO: Error handling
+
+    combineSettings(common, specific) {
+        const combined = {};
         
-        // Only  load files which have match the filename pattern.
-        if (!filename.match(this.BOT_REGEX))
-            return;
+        // Copy common into combined to start with.
+        for (const prop in common)
+            if (common.hasOwnProperty(prop))
+                // Iterate over all of common's own properties.
+                combined[prop] = common[prop];
         
-        var r = null;
+        // If specific has nothing, then we're done.
+        if (specific === null || specific === undefined)
+            return combined;
         
-        try
-        {
-            r = require(this.botsDir + '/' + filename);
+        for (const property in specific) {
+            if (specific.hasOwnProperty(property)) {
+                // Iterate over all of specific's own properties.
+                
+                // If there's a clash between the properties that common and specific has, use common.
+                if (combined.hasOwnProperty(property)) 
+                    continue;
+                
+                // Otherwise, add the properties from specific
+                combined[property] = specific[property];
+            }
         }
-        catch (err)
-        {
-            console.log('Failed to load bot source at ' + filename + '. ' + err);
-            return;
+        
+        return combined;
+    }
+
+    async tryCreateBot(filename) {
+        // Load the config file
+        const config = JSON.parse(readFileSync(this.#configFilepath, 'utf8'));
+
+        let importee = null;            
+        try {
+            importee = await import(`${this.#botsDir}/${filename}`);
+        } catch (err) {
+            throw new Error(`Failed to load bot source at ${filename}. ${err} ${err.stack}`);
         }
-        
-        if (!r) return;
-        
-        // Strip '.js' to get the name of the class to index with into the config file.
-        var className = filename.slice(0, -3);
+
+        if (!('default' in importee)) {
+            throw new Error(`Missing default export for ${filename}`);
+        }
+
+        const klass = importee.default;
         
         // Get the bot specific settings for this bot.
-        var botConfig = config.bots.find(function(bot) {
-            return bot.name === className;
-        }.bind(this));
+        const botConfig = config.bots.find(bot => {
+            return bot.name === klass.name;
+        });
         
-        var botSettings = botConfig ? botConfig.settings : {};
+        const botSettings = botConfig ? botConfig.settings : {};
+        const settings = this.combineSettings({}, botSettings);
         
-        var settings = combineSettings(commonSettings, botSettings);
-        
-        // Instantiate the bot.
-        var s = null;
-        
-        try
-        {
-            s = new r(settings);
-            console.log('Loaded bot ' + className);
+        // Instantiate the bot with those settings.
+        try {
+            return new klass(settings);
+        } catch (err) {
+            throw new Error(`Failed to load bot ${className}. ${err} ${err.stack}`);
         }
-        catch (err)
-        {
-            console.log('Failed to load bot ' + className + '. ' + err);
-            return;
-        }
+    }
+
+    async fromConfigFile() {
+        const filenames = readdirSync(this.#botsDir)
+            .filter(filename => filename.match(this.#BOT_REGEX));
         
-        if (!s) return;
+        const bots = [];        
+        for (const filename of filenames) {        
+            try {
+                const bot = await this.tryCreateBot(filename);
+                console.log(`Loaded bot ${bot.name}`);
+                bots.push(bot);
+            } catch (e) {
+                console.error(`Failed to load bot in ${filename}. ${err} ${err.stack}`);
+            }
+        };
         
-        bots.push(s);
-        
-    }.bind(this));
-    
-    return bots;
+        return bots;
+    }
 }
 
-module.exports.BotLoader = BotLoader;
+export default BotLoader;

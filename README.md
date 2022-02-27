@@ -25,39 +25,34 @@ Bots are either:
 All bots should extend the bot class (in bot.js), and should implement the following interface:
 
 ```js
-const s = require('./Bot');
+import Bot from './Bot.js';
 
-function Somebot() {
-  // Should call Bot constructor to set bot metadata.
-  s.Bot.call(this, 
-    { 
-        name: 'myBot', 
-        description: "my bot description", 
-        disableable: false,
-    });
-  
-  // send = function(content, to). Callback to send a response. Leave 'to' unset to issue it to no specific user.
-  this.send = null;
-}
+class Somebot extends Bot {
+    constructor() {
+        super({
+            name: 'myBot', 
+            description: "my bot description", 
+            disableable: false
+        });
+    }
 
-Somebot.prototype = Object.create(s.Bot.prototype);
+    // Optionally implement this event handler to handle the bot enabled/disabled event. Returns nothing.
+    onEnabled(on) {
+    }
 
-// Optionally implement this event handler to handle the bot enabled/disabled event. Returns nothing.
-Somebot.prototype.onEnabled = function(on) {
-}
+    // Optionally implement this method to provide tests for this bot which can be run. Returns an array of test strings.
+    getTests() {
+    }
 
-// Optionally implement this method to provide tests for this bot which can be run. Returns an array of test strings.
-Somebot.prototype.getTests = function() {
-}
-
-// Required - handles a new message. Responses should be sent using this.send.
-// msg =
-// {
-//   content - [string] the content of the message.
-//   from - [string] originator of the message.
-//   directed - [bool] true if directed at this specific bot, else not directed at any bot.
-// }
-Somebot.prototype.onNewMessage = function(msg) {
+    // Required - handles a new message. Responses should be sent using this.send.
+    // msg =
+    // {
+    //   content - [string] the content of the message.
+    //   from - [string] originator of the message.
+    //   directed - [bool] true if directed at this specific bot, else not directed at any bot.
+    // }
+    onNewMessage({ content, from, directed }) {
+    }
 }
 ```
 
