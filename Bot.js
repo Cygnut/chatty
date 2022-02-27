@@ -1,13 +1,12 @@
 class Bot {
     name;
     description;
-    disableable;
+    disableable;    // Indicates ability to be disabled. True by default
     enabled;
 
     constructor({ name, description, disableable }) {
         this.name = '~' + name;
         this.description = description;
-        // Indicates ability to be disabled. Defaults to true.
         this.disableable = disableable === undefined ? true : disableable;
         this.enabled = false;
     }
