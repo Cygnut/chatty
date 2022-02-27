@@ -20,12 +20,9 @@ class Eval extends Bot {
         
         let result = '';
         
-        try
-        {
+        try {
             result = eval(content);
-        }
-        catch (e)
-        {
+        } catch (e) {
             const error = `Error handling Eval message ${content} from ${from} with error ${e}`;
             console.log(error);
             this.send(error, from);

@@ -20,12 +20,12 @@ class Bully extends Bot {
     {
         if (directed)
         {
-            const idx = this.#targets.indexOf(content);
+            const index = this.#targets.indexOf(content);
             
             let m = '';
-            if (idx > -1)    // Then they're a target - remove them.
+            if (index > -1)    // Then they're a target - remove them.
             {
-                this.#targets.splice(idx, 1);
+                this.#targets.splice(index, 1);
                 m = `Awwww man! Gotta stop bullying ${content}.`;
             }
             else    // Then they're not a target - add them.

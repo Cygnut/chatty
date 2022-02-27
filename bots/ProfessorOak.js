@@ -17,11 +17,9 @@ class ProfessorOak extends Bot {
     }
 
     getEnFlavourText(result) {
-        for (let i = 0; i < result.flavor_text_entries.length; i++)
-        {
+        for (let i = 0; i < result.flavor_text_entries.length; i++) {
             const f = result.flavor_text_entries[i];
-            if (f.language.name === "en")
-            {
+            if (f.language.name === "en") {
                 // Could filter on f.version.name - the game name - for now though, just use the first one.
                 return `${f.flavor_text} (${f.version.name})`;
             }

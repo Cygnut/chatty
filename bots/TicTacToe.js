@@ -18,8 +18,7 @@ class TicTacToeGame {
         this.resetGrid();
     }
 
-    resetGrid()
-    {
+    resetGrid() {
         this.#grid = [];
         
         for (let i = 0; i < this.gridLength; ++i) {
@@ -93,14 +92,14 @@ class TicTacToeGame {
         const winner = this.getWinner();
         
         // Save the game state before possibly resetting.
-        const g = this.printGrid();
+        const grid = this.printGrid();
         
         // If there is one, report this and reset the game.
         if (winner.winner)
             this.resetGrid();
         
         return {
-            grid: g,
+            grid,
             winner: winner ? winner.winner : null,
             winningReason: winner ? winner.reason : null,
         };

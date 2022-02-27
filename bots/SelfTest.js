@@ -44,8 +44,7 @@ class SelfTest extends Bot {
         timerId = setInterval(() => {
             const message = queue.pop();
         
-            if (message === undefined)
-            {
+            if (message === undefined) {
                 console.log('No messages left to send - finished sending.');
                 clearInterval(timerId);
                 return;
