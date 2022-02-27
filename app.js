@@ -32,6 +32,8 @@ import BotLoader from './BotLoader.js';
 
 
 /*
+    use fetch and make required functions async; then get rid of requests from package.json
+
     better access to host from bots that need it (enable, help, self test), rather than hackily setting bot.host, provide limited interface
 
     all todos   
