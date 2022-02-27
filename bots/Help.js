@@ -1,15 +1,13 @@
 import Bot from '../Bot.js';
 
 class Help extends Bot {
-    getBotMetadata;
+    host;
 
-    constructor(getBotMetadata) {
+    constructor() {
         super({ 
             name: 'help', 
             description: "Documents bots." 
         });
-    
-        this.getBotMetadata = getBotMetadata;
     }
 
     getTests() {
@@ -23,7 +21,7 @@ class Help extends Bot {
         if (!directed) 
             return;
     
-        this.send(this.getBotMetadata().map(i => {
+        this.send(this.host.getBotMetadata().map(i => {
             return i.name + ' - ' + i.description + ' ' + (i.enabled ? '(on)' : '(off)');
         }).join('\n'));
     }

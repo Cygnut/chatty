@@ -102,6 +102,7 @@ class BotHost {
 
     addBot(bot) {
         // Initialise
+        bot.host = this;
         bot.send = () => {};
         
         // Start

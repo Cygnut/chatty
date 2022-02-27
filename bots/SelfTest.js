@@ -1,18 +1,14 @@
 import Bot from '../Bot.js';
 
 class SelfTest extends Bot {
-    #getBotMetadata;
-    #respond;
+    host;
     #from = 'Test-a-bot';
 
-    constructor(getBotMetadata, respond) {
+    constructor() {
         super({ 
             name: 'test', 
             description: "Tests the all installed bots." 
         });
-    
-        this.#getBotMetadata = getBotMetadata;
-        this.#respond = respond;
     }
 
     generateTests(getBotMetadata) {
@@ -38,7 +34,7 @@ class SelfTest extends Bot {
         if (!directed) 
             return;
     
-        const tests = this.generateTests(this.#getBotMetadata);
+        const tests = this.generateTests(this.host.getBotMetadata);
         console.log(tests);
     
         // Copy the array into a reversed queue.
@@ -55,7 +51,7 @@ class SelfTest extends Bot {
                 return;
             }
         
-            this.#respond(this.#from, message);
+            this.host.respond(this.#from, message);
         }, 1000);
     }
 }

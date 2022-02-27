@@ -1,16 +1,14 @@
 import Bot from '../Bot.js';
 
 class Enable extends Bot {
-    setEnable;
+    host;
 
-    constructor(setEnable) {
+    constructor() {
         super({ 
             name: 'enable', 
             description: "Enables/disables bots.", 
             disableable: false,
         });
-
-        this.setEnable = setEnable;
     }
     
     getTests() {
@@ -21,7 +19,7 @@ class Enable extends Bot {
         if (!directed) 
             return;
         
-        const result = this.setEnable(content);
+        const result = this.host.enableBot(content);
         
         if (result === null)
             this.send('Did not enable/disable a bot.');
