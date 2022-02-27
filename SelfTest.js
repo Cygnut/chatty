@@ -57,7 +57,7 @@ class SelfTest extends Bot {
             }
         
             this.#respond(this.#from, message);
-        }
+        };
     
         timerId = setInterval(sendNext.bind(this), 1000);
     }
