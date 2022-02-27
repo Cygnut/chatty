@@ -57,6 +57,12 @@ class BotLoader {
             console.log(`Failed to load bot source at ${filename}. ${err} ${err.stack}`);
             return null;
         }
+
+        if (!('default' in importee)) {
+            console.log(`Missing default export for ${filename}`);
+        }
+
+        const klass = importee.default;
         
         // Strip '.js' to get the name of the class to index with into the config file.
         const className = filename.slice(0, -3);
@@ -71,7 +77,7 @@ class BotLoader {
         
         // Instantiate the bot.
         try {
-            return new importee.default(settings);
+            return new klass(settings);
         } catch (err) {
             console.log(`Failed to load bot ${className}. ${err} ${err.stack}`);
         }
