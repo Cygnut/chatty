@@ -13,9 +13,6 @@ class Bot {
     }
 
     enable(on) {
-        //console.log(this.disableable)
-        //console.log(!on && !this.disableable)
-        
         // If we're not allowed to disable this bot, then we're done.
         if (!on && !this.disableable) 
             return;
@@ -28,6 +25,7 @@ class Bot {
     }
     
     onNewMessage({ content, from, directed }) {
+        throw Error("Not implemented");
     }
 }
 
