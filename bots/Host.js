@@ -33,11 +33,9 @@ class Host extends Bot {
         const minutes = Math.floor((secNum - (hours * 3600)) / 60);
         const seconds = secNum - (hours * 3600) - (minutes * 60);
 
-        hours = hours.padStart(2, '0');
-        minutes = minutes.padStart(2, '0');
-        seconds = seconds.padStart(2, '0');
-        
-        return `${hours}:${minutes}:${seconds}`;
+        return [ hours, minutes, seconds ]
+            .map(v => v.toString().padStart(2, '0'))
+            .join(':');
     }
 
     onNewMessage({ content, from, directed }) {
