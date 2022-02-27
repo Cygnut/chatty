@@ -15,8 +15,8 @@ import BotLoader from './BotLoader.js';
     botHost.respond = (from, content) =>
     {
         request.post({
-            url:    url + 'send',
-            json:    { from: from, content: content }
+            url: url + 'send',
+            json: { from, content }
         }, () => {});
     };
     botHost.addBots(bots);
