@@ -64,12 +64,9 @@ class BotLoader {
 
         const klass = importee.default;
         
-        // Strip '.js' to get the name of the class to index with into the config file.
-        const className = filename.slice(0, -3);
-        
         // Get the bot specific settings for this bot.
         const botConfig = config.bots.find(bot => {
-            return bot.name === className;
+            return bot.name === klass.name;
         });
         
         const botSettings = botConfig ? botConfig.settings : {};
