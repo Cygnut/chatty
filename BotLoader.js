@@ -48,14 +48,11 @@ class BotLoader {
 
     async fromConfigFile(commonSettings) {
         // Load the config file
-        const config = JSON.parse(
-            readFileSync(this.#configFilepath, 'utf8')
-        );
+        const config = JSON.parse(readFileSync(this.#configFilepath, 'utf8'));
         
         const filenames = readdirSync(this.#botsDir);
         
-        const bots = [];
-        
+        const bots = [];        
         for (const filename of filenames) {        
             // Only load files which have match the filename pattern.
             if (!filename.match(this.#BOT_REGEX))
@@ -63,12 +60,7 @@ class BotLoader {
             
             let r = null;            
             try {
-                console.log('awaiting');
                 r = await import(`${this.#botsDir}/${filename}`);
-                //r = require(`${this.#botsDir}/${filename}`);
-                // TODO: use import() here
-                //import r from `${this.#botsDir}/${filename}`;
-                console.log(typeof(new r.default()));
             } catch (err) {
                 console.log(`Failed to load bot source at ${filename}. ${err} ${err.stack}`);
                 continue;
