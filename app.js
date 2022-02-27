@@ -25,9 +25,7 @@ import BotLoader from './BotLoader.js';
         new Remote(url, msg => botHost.execute(msg, false)),
         new Console(msg => botHost.execute(msg, true))
     ]
-    .forEach(poller => {
-        poller.run();
-    });
+    .forEach(poller => poller.run());
 })();
 
 
