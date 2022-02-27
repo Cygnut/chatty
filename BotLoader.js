@@ -19,10 +19,12 @@ class BotLoader {
         const combined = {};
         
         // Copy common into combined to start with.
-        for (const prop in common)
-            if (common.hasOwnProperty(prop))
-                // Iterate over all of common's own properties.
+        for (const prop in common) {
+            // Iterate over all of common's own properties.
+            if (common.hasOwnProperty(prop)) {
                 combined[prop] = common[prop];
+            }
+        }
         
         // If specific has nothing, then we're done.
         if (specific === null || specific === undefined)
@@ -72,8 +74,8 @@ class BotLoader {
         // Instantiate the bot with those settings.
         try {
             return new klass(settings);
-        } catch (err) {
-            throw new Error(`Failed to load bot ${className}. ${err} ${err.stack}`);
+        } catch (e) {
+            throw new Error(`Failed to load bot ${className}. ${e} ${e.stack}`);
         }
     }
 
@@ -88,7 +90,7 @@ class BotLoader {
                 console.log(`Loaded bot ${bot.name}`);
                 bots.push(bot);
             } catch (e) {
-                console.error(`Failed to load bot in ${filename}. ${err} ${err.stack}`);
+                console.error(`Failed to load bot in ${filename}. ${e} ${e.stack}`);
             }
         };
         

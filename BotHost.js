@@ -4,20 +4,16 @@ import SelfTest from './bots/SelfTest.js';
 
 class BotHost {
     #bots = [];
+    respond = () => {};
 
     constructor() {
-        // Hook up default event handler for bot generated response.
-        this.respond = () => {};
     }
 
     execute(msg, local) {
-        try
-        {
+        try {
             this.run(msg, local);
-        }
-        catch (e)
-        {
-            console.log('Error handling message ' + e + ', continuing.');
+        } catch (e) {
+            console.log(`Error handling message ${e}, continuing.`);
         }
     }
 
@@ -37,8 +33,7 @@ class BotHost {
         
         const bot = enabledBots.find(bot => msg.content.startsWith(bot.name));
         
-        if (bot)
-        {
+        if (bot) {
             // Then it's directed at this specific bot and this one alone.
             const term = msg.content.substring(bot.name.length + 1);
             
@@ -49,9 +44,7 @@ class BotHost {
                 content: term,
                 directed: true
             });
-        }
-        else
-        {
+        } else {
             console.log('Calling all enabled bots with general message ' + msg.content);
             
             // Then it's directed at no specific bot, so it's general.
@@ -87,17 +80,19 @@ class BotHost {
         
         console.log(bot.name + ' responding to message with content: ' + responseMsg);
         
-        if (local)
+        if (local) {
             console.log(responseMsg);
-        else
+        } else {
             this.callRespond(bot.name, responseMsg);
+        }
     }
 
     // Use the wrapper so we can bind to this function (which is invariant under 
     // the event handler changing) instead of the event.
     callRespond(from, content) {
-        if (this.respond)
+        if (this.respond) {
             this.respond(from, content);
+        }
     }
 
     addBot(bot) {
@@ -122,10 +117,11 @@ class BotHost {
         
         // If on is not passed, then flip the state.
         // Else, set to the defined state in on.
-        if (on === undefined)
+        if (on === undefined) {
             bot.enable(!bot.enabled);
-        else
+        } else {
             bot.enable(on);
+        }
         
         return bot.enabled;
     }
