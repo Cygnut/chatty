@@ -33,15 +33,10 @@ class Host extends Bot {
         const minutes = Math.floor((secNum - (hours * 3600)) / 60);
         const seconds = secNum - (hours * 3600) - (minutes * 60);
 
-        if (hours < 10) { 
-            hours = `0${hours}`; 
-        }
-        if (minutes < 10) { 
-            minutes = `0${minutes}`; 
-        }
-        if (seconds < 10) { 
-            seconds = `0${seconds}`; 
-        }
+        hours = hours.padStart(2, '0');
+        minutes = minutes.padStart(2, '0');
+        seconds = seconds.padStart(2, '0');
+        
         return `${hours}:${minutes}:${seconds}`;
     }
 
