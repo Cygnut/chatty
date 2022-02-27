@@ -70,8 +70,6 @@ class BotLoader {
         const settings = this.combineSettings({}, botSettings);
         
         // Instantiate the bot.
-        let s = null;
-        
         try {
             return new importee.default(settings);
         } catch (err) {
