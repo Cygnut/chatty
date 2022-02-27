@@ -50,9 +50,9 @@ class BotLoader {
         // Load the config file
         const config = JSON.parse(readFileSync(this.#configFilepath, 'utf8'));
 
-        let r = null;            
+        let importee = null;            
         try {
-            r = await import(`${this.#botsDir}/${filename}`);
+            importee = await import(`${this.#botsDir}/${filename}`);
         } catch (err) {
             console.log(`Failed to load bot source at ${filename}. ${err} ${err.stack}`);
             return null;
@@ -73,9 +73,7 @@ class BotLoader {
         let s = null;
         
         try {
-            s = new r.default(settings);
-            console.log(`Loaded bot ${className}`);
-            return s;
+            return new importee.default(settings);
         } catch (err) {
             console.log(`Failed to load bot ${className}. ${err} ${err.stack}`);
         }
@@ -93,8 +91,10 @@ class BotLoader {
                 continue;
             
             const bot = await this.tryCreateBot(filename);
-            if (bot)
+            if (bot) {
+                console.log(`Loaded bot ${bot.name}`);
                 bots.push(bot);
+            }
         };
         
         return bots;
