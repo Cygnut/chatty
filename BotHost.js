@@ -1,6 +1,6 @@
-import Help from './Help.js';
-import Enable from './Enable.js';
-import SelfTest from './SelfTest.js';
+import Help from './bots/Help.js';
+import Enable from './bots/Enable.js';
+import SelfTest from './bots/SelfTest.js';
 
 class BotHost {
     #bots = [];
@@ -8,11 +8,6 @@ class BotHost {
     constructor() {
         // Hook up default event handler for bot generated response.
         this.respond = () => {};
-        
-        // Add the documentation bots.
-        this.addBot(new Help(this.getBotMetadata.bind(this)));
-        this.addBot(new Enable(this.enableBot.bind(this)));
-        this.addBot(new SelfTest(this.getBotMetadata.bind(this), this.callRespond.bind(this)));
     }
 
     execute(msg, local) {
