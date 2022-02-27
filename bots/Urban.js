@@ -2,7 +2,7 @@ import request from 'request';
 
 import Bot from '../Bot.js';
 
-class UrbanDictionary extends Bot {
+class Urban extends Bot {
     constructor() {
         super({ 
             name: 'urban', 
@@ -40,4 +40,4 @@ class UrbanDictionary extends Bot {
     }
 }
 
-export default UrbanDictionary;
+export default Urban;
