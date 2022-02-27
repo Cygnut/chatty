@@ -1,4 +1,4 @@
-import request from 'request';
+import fetch from 'node-fetch';
 
 import Remote from './pollers/Remote.js';
 import Console from './pollers/Console.js';
@@ -12,12 +12,12 @@ import BotLoader from './BotLoader.js';
     const bots = await botLoader.fromConfigFile();
 
     const botHost = new BotHost();
-    botHost.respond = (from, content) =>
-    {
-        request.post({
-            url: url + 'send',
-            json: { from, content }
-        }, () => {});
+    botHost.respond = (from, content) => {
+        try {
+            fetch.post(url + 'send', { from, content });
+        } catch (e) {
+            console.log(e);
+        }
     };
     botHost.addBots(bots);
 
