@@ -1,6 +1,6 @@
 import Bot from '../Bot.js';
 
-class SelfTest extends Bot {
+class Test extends Bot {
     host;
     #from = 'Test-a-bot';
 
@@ -55,4 +55,4 @@ class SelfTest extends Bot {
     }
 }
 
-export default SelfTest;
+export default Test;
