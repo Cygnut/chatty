@@ -1,7 +1,3 @@
-import Help from './bots/Help.js';
-import Enable from './bots/Enable.js';
-import SelfTest from './bots/SelfTest.js';
-
 class BotHost {
     #bots = [];
     respond = () => {};
