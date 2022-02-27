@@ -23,7 +23,7 @@ class Bot {
             this.onEnabled(on);
     }
     
-    onNewMessage({ content, from, directed }) {
+    async onNewMessage({ content, from, directed }) {
         throw Error("Not implemented");
     }
 }

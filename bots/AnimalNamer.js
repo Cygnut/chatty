@@ -21,7 +21,7 @@ class AnimalNamer extends Bot {
         this.send('Why not ' + name + '?', msg.from);
     }
 
-    onNewMessage({ content, from, directed })
+    async onNewMessage({ content, from, directed })
     {
         if (!directed) 
             return;

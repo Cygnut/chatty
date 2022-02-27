@@ -14,7 +14,7 @@ class Eval extends Bot {
         ];
     }
 
-    onNewMessage({ content, from, directed}) {
+    async onNewMessage({ content, from, directed}) {
         if (!directed) 
             return;
         
