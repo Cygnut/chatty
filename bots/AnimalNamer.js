@@ -1,5 +1,6 @@
+import _AnimalNamer from 'animal-namer';
+
 import Bot from '../Bot.js';
-import animalNamer from 'animal-namer';
 
 class AnimalNamer extends Bot {
     #namer;
@@ -10,23 +11,26 @@ class AnimalNamer extends Bot {
             description: "Provides you with a random animal name."
         });
         
-        this.#namer = new animalNamer();
+        this.#namer = new _AnimalNamer();
     }
 
     getTests() {
         return [ this.name ];
     }
 
-    sendResponse(msg, name) {
-        this.send('Why not ' + name + '?', msg.from);
-    }
-
     async onNewMessage({ content, from, directed })
     {
         if (!directed) 
             return;
-        
-        this.#namer.name().then(() => this.sendResponse(msg));
+
+        // new _AnimalNamer().name().then(console.log);
+
+        //this.#namer.name()
+            //.then(console.log);
+
+        // console.log('24');
+        //const self = this;
+        //this.#namer.name().then(function(name) { self.send(`Why not ${name}?`, from) });
     }
 }
 
