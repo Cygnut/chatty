@@ -97,7 +97,7 @@ class BotLoader {
                 console.log(`Loaded bot ${className}`);
                 bots.push(s); 
             } catch (err) {
-                console.log('Failed to load bot ' + className + '. ' + err + err.stack);
+                console.log(`Failed to load bot ${className}. ${err} ${err.stack}`);
             }
         };
         
