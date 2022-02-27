@@ -38,7 +38,7 @@ class SelfTest extends Bot {
         if (!directed) 
             return;
     
-        const tests = generateTests(this.#getBotMetadata);
+        const tests = this.generateTests(this.#getBotMetadata);
         console.log(tests);
     
         // Copy the array into a reversed queue.
