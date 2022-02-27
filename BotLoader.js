@@ -80,14 +80,11 @@ class BotLoader {
     }
 
     async fromConfigFile() {
-        const filenames = readdirSync(this.#botsDir);
+        const filenames = readdirSync(this.#botsDir)
+            .filter(filename => filename.match(this.#BOT_REGEX));
         
         const bots = [];        
         for (const filename of filenames) {        
-            // Only load files which have match the filename pattern.
-            if (!filename.match(this.#BOT_REGEX))
-                continue;
-            
             try {
                 const bot = await this.tryCreateBot(filename);
                 console.log(`Loaded bot ${bot.name}`);
