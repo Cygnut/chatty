@@ -1,4 +1,4 @@
-import request from 'request';
+import fetch from 'node-fetch';
 
 import Bot from '../Bot.js';
 
@@ -30,27 +30,19 @@ class ProfessorOak extends Bot {
 
     async onNewMessage({ content, from, directed }) {
         if (!directed) return;
-        
-        const url = `http://pokeapi.co/api/v2/pokemon-species/${content}`;
-        
-        request(url, (error, response, body) => {
-            try {
-                if (!error && response.statusCode == 200) {
-                    const result = JSON.parse(body);
-                    
-                    this.send(
-                        `${result.name} is a ${result.color.name} ${result.shape.name} ${result.generation.name} pokemon. ${getEnFlavourText(result)}`, 
-                        from
-                    );
-                } else {
-                    console.log(`HTTP request failed with error ${error} status code ${response.statusCode}`);
-                    this.send("Couldn't ask Professor Oak about it..", from);
-                }
-            } catch (e) {
-                console.log(`Error handling response ${e}`);
-                this.send("Couldn't ask Professor Oak about it..", from);
-            }
-        });
+     
+        try {
+            const url = `http://pokeapi.co/api/v2/pokemon-species/${content}`;
+            const response = await fetch(url);
+            const body = await response.json();
+            this.send(
+                `${body.name} is a ${body.color.name} ${body.shape.name} ${body.generation.name} pokemon. ${this.getEnFlavourText(body)}`, 
+                from
+            );
+        } catch (e) {
+            console.error(`Error handling response ${e}`);
+            this.send("Couldn't ask Professor Oak about it..", from);
+        }
     }
 }
 
