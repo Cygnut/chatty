@@ -15,8 +15,6 @@ class BotLoader {
 
     // TODO: Error handling
 
-
-    // Combine all settings in the pods provided.
     combineSettings(common, specific) {
         const combined = {};
         
