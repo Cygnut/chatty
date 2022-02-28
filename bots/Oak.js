@@ -29,7 +29,8 @@ export default class Oak extends Bot {
     }
 
     async onNewMessage({ content, from, directed }) {
-        if (!directed) return;
+        if (!directed) 
+            return;
      
         try {
             const url = `http://pokeapi.co/api/v2/pokemon-species/${content}`;
