@@ -10,7 +10,8 @@ import Loader from './bot/Loader.js';
 (async () => {
     const url = 'http://localhost:81/';
 
-    const loader = new Loader(process.cwd() + path.sep + 'bots.config', process.cwd() + path.sep + 'bots');
+    const cwd = `${process.cwd()}${path.sep}`;
+    const loader = new Loader(`${cwd}bots.config`, `${cwd}bots`);
     const bots = await loader.fromConfigFile();
 
     const host = new Host();
