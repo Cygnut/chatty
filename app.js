@@ -32,6 +32,8 @@ import Loader from './bot/Loader.js';
 
 
 /*
+    no prompt after '~urban poop'
+
     better logger
     better folder structure
 

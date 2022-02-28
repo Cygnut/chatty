@@ -68,7 +68,7 @@ export default class Host {
         if (!bot.enabled) 
             return;
         
-        const response = to ? ('@' + to + ': ' + content) : content;
+        const response = to ? `@${to}: ${content}` : content;
         
         console.log(`${bot.name} responding to message with content: ${response}`);
         
