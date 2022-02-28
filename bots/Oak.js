@@ -28,10 +28,7 @@ export default class Oak extends Bot {
         return '';
     }
 
-    async onNewMessage({ content, from, directed }) {
-        if (!directed) 
-            return;
-     
+    async onDirectMessage({ content, from }) {
         try {
             const url = `http://pokeapi.co/api/v2/pokemon-species/${content}`;
             const response = await fetch(url);

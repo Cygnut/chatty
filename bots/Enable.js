@@ -15,10 +15,7 @@ export default class Enable extends Bot {
         return [];
     }
 
-    async onNewMessage({ content, from, directed }) {
-        if (!directed) 
-            return;
-        
+    async onDirectMessage({ content }) {
         const result = this.host.enableBot(content);
         
         if (result === null) {

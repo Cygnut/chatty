@@ -31,24 +31,20 @@ export default class Host {
         
         if (bot) {
             // Then it's directed at this specific bot and this one alone.
-            const term = msg.content.substring(bot.name.length + 1);
+            const content = msg.content.substring(bot.name.length + 1);
+            console.log(`Calling bot ${bot.name} with directed message ${content}`);
             
-            console.log('Calling bot ' + bot.name + ' with directed message ' + term);
-            
-            bot.onNewMessage({
+            bot.onDirectMessage({
                 from: msg.from,
-                content: term,
-                directed: true
+                content
             });
         } else {
-            console.log('Calling all enabled bots with general message ' + msg.content);
+            console.log(`Calling all enabled bots with general message ${msg.content}`);
             
-            // Then it's directed at no specific bot, so it's general.
             enabledBots.forEach(bot => {
-                bot.onNewMessage({
+                bot.onPublicMessage({
                     from: msg.from,
-                    content: msg.content,
-                    directed: false
+                    content: msg.content
                 });
             });
         }

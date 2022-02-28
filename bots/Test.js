@@ -30,10 +30,7 @@ export default class Test extends Bot {
         return [];
     }
 
-    async onNewMessage({ content, from, directed }) {
-        if (!directed) 
-            return;
-    
+    async onDirectMessage() {
         const tests = this.generateTests(this.host.getBotMetadata);
         console.log(tests);
     

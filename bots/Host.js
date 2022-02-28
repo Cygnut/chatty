@@ -38,10 +38,7 @@ export default class Host extends Bot {
             .join(':');
     }
 
-    async onNewMessage({ content, from, directed }) {
-        if (!directed) 
-            return;
-        
+    async onDirectMessage() {
         this.send([
             `The OS is ${os.platform()} with ${os.cpus().length} CPU/s.`, 
             `The amount of free memory is ${this.formatBytes(os.freemem())}.`,

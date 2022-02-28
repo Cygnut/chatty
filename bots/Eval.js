@@ -14,12 +14,8 @@ export default class Eval extends Bot {
         ];
     }
 
-    async onNewMessage({ content, from, directed}) {
-        if (!directed) 
-            return;
-        
+    async onDirectMessage({ content, from }) {
         let result = '';
-        
         try {
             result = eval(content);
         } catch (e) {

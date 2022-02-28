@@ -16,10 +16,7 @@ export default class Urban extends Bot {
         ];
     }
 
-    async onNewMessage({ content, from, directed }) {
-        if (!directed) 
-            return;
-
+    async onDirectMessage({ content, from }) {
         try {
             // Get the search result for this search term, specifically, the top related book.
             const url = `http://api.urbandictionary.com/v0/define?term=${content}`;

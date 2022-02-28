@@ -157,11 +157,8 @@ export default class TicTacToe extends Bot {
         return move;
     }
 
-    async onNewMessage({ content, from, directed }) {
+    async onDirectMessage({ content, from }) {
         try {
-            if (!directed) 
-                return;
-            
             if (content === '') {
                 this.send(this.#game.printGrid());    // Don't include @ info as it's to everyone.
             } else if (content.startsWith('configure')) {

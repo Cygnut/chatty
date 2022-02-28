@@ -16,27 +16,28 @@ export default class Bully extends Bot {
         ];
     }
 
-    async onNewMessage({ content, from, directed }) 
+    async onDirectMessage({ content, from }) 
     {
-        if (directed) {
-            const index = this.#targets.indexOf(content);
-            
-            let message = '';
-            if (index > -1) {
-                // Then they're a target - remove them.
-                this.#targets.splice(index, 1);
-                message = `Awwww man! Gotta stop bullying ${content}.`;
-            } else {
-                // Then they're not a target - add them.
-                this.#targets.push(content);
-                message = `Ooooooh yeahhh! Gonna start bullying ${content}.`;
-            }
-            
-            this.send(message, from);
+        const index = this.#targets.indexOf(content);
+        
+        let message = '';
+        if (index > -1) {
+            // Then they're a target - remove them.
+            this.#targets.splice(index, 1);
+            message = `Awwww man! Gotta stop bullying ${content}.`;
         } else {
-            if (this.#targets.some(target => target === from)) {
-                this.send(`I hate you, ${from}`, from);
-            }
+            // Then they're not a target - add them.
+            this.#targets.push(content);
+            message = `Ooooooh yeahhh! Gonna start bullying ${content}.`;
         }
+        
+        this.send(message, from);
     }
+
+    async onPublicMessage({ from }) 
+    {
+        if (this.#targets.some(target => target === from)) {
+            this.send(`I hate you, ${from}`, from);
+        }
+    }    
 }

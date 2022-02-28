@@ -29,10 +29,7 @@ export default class Goodreads extends Bot {
         fs.writeFile(path, JSON.stringify(o, null, 2), console.error); 
     }
 
-    async onNewMessage({ content, from, directed }) {
-        if (!directed) 
-            return;
-        
+    async onDirectMessage({ content, from }) {
         try {
             // Get the search result for this search term, specifically, the top related book.
             const url = `${this.#rootUrl}search/index.xml?key=${this.#apiKey}&q=${content}`;

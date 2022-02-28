@@ -23,9 +23,9 @@ class Bot {
             this.onEnabled(on);
     }
     
-    async onNewMessage({ content, from, directed }) {
-        throw Error("Not implemented");
-    }
+    async onPublicMessage({ content, from }) {}
+
+    async onDirectMessage({ content, from }) {}
 }
 
 export default Bot;

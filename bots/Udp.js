@@ -53,10 +53,7 @@ export default class Udp extends Bot {
         }
     }
 
-    async onNewMessage({ content, from, directed }) {
-        if (!directed) 
-            return;
-        
+    async onDirectMessage({ content, from }) {
         if (content.startsWith('listen')) {
             const portStr = content.substring(7);
             const port = parseInt(portStr);
