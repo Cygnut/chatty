@@ -1,4 +1,4 @@
-class BotHost {
+export default class Host {
     #bots = [];
     respond = () => {};
 
@@ -122,5 +122,3 @@ class BotHost {
         return bot.enabled;
     }
 }
-
-export default BotHost;

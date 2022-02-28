@@ -1,4 +1,4 @@
-import Bot from '../Bot.js';
+import Bot from '../bot/Bot.js';
 
 class InputError extends Error {
     constructor(message) {

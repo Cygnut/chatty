@@ -1,4 +1,4 @@
-import Bot from '../Bot.js';
+import Bot from '../bot/Bot.js';
 
 export default class Test extends Bot {
     host;

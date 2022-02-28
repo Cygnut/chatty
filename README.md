@@ -22,10 +22,10 @@ Bots are either:
     'Oy, you used a bad word! Get out.'
   
 ### Interface
-All bots should extend the bot class (in bot.js), and should implement the following interface:
+All bots should extend the bot class (in Bot.js), and should implement the following interface:
 
 ```js
-import Bot from './Bot.js';
+import Bot from '../bot/Bot.js';
 
 class Somebot extends Bot {
     constructor() {

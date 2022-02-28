@@ -1,6 +1,6 @@
 import dgram from 'dgram';
 
-import Bot from '../Bot.js';
+import Bot from '../bot/Bot.js';
 
 export default class Udp extends Bot {
     #listener;

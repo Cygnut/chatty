@@ -1,29 +1,31 @@
+import path from 'path';
+
 import fetch from 'node-fetch';
 
 import Remote from './pollers/Remote.js';
 import Console from './pollers/Console.js';
-import BotHost from './BotHost.js';
-import BotLoader from './BotLoader.js';
+import Host from './bot/Host.js';
+import Loader from './bot/Loader.js';
 
 (async () => {
     const url = 'http://localhost:81/';
 
-    const botLoader = new BotLoader('./bots.config', './bots');
-    const bots = await botLoader.fromConfigFile();
+    const loader = new Loader(process.cwd() + path.sep + 'bots.config', process.cwd() + path.sep + 'bots');
+    const bots = await loader.fromConfigFile();
 
-    const botHost = new BotHost();
-    botHost.respond = (from, content) => {
+    const host = new Host();
+    host.respond = (from, content) => {
         try {
             fetch.post(url + 'send', { from, content });
         } catch (e) {
             console.error(e);
         }
     };
-    botHost.addBots(bots);
+    host.addBots(bots);
 
     [
-        new Remote(url, msg => botHost.execute(msg, false)),
-        new Console(msg => botHost.execute(msg, true))
+        new Remote(url, msg => host.execute(msg, false)),
+        new Console(msg => host.execute(msg, true))
     ]
     .forEach(poller => poller.run());
 })();

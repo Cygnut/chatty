@@ -1,11 +1,12 @@
+import path from 'path';
 import { readFileSync, readdirSync } from 'fs';
 
 // TODO: Pass url in here.
 // TODO: describe bots.config syntax here.
-class BotLoader {
+export default class Loader {
     #configFilepath;
     #botsDir;
-    // Only pick up files which have at least one character before bot.js.
+    // Only pick up files which have at least one character before Bot.js.
     #BOT_REGEX = /.+.js/;
 
     constructor(configFilepath, botsDir) {
@@ -46,19 +47,19 @@ class BotLoader {
         return combined;
     }
 
-    async tryCreateBot(filename) {
+    async tryCreateBot(filepath) {
         // Load the config file
         const config = JSON.parse(readFileSync(this.#configFilepath, 'utf8'));
 
         let importee = null;            
         try {
-            importee = await import(`${this.#botsDir}/${filename}`);
+            importee = await import(`file:///${filepath}`);
         } catch (e) {
-            throw new Error(`Failed to load bot source at ${filename}. ${e} ${e.stack}`);
+            throw new Error(`Failed to load bot source at ${filepath}. ${e} ${e.stack}`);
         }
 
         if (!('default' in importee)) {
-            throw new Error(`Missing default export for ${filename}`);
+            throw new Error(`Missing default export for ${filepath}`);
         }
 
         const importedClass = importee.default;
@@ -84,18 +85,17 @@ class BotLoader {
             .filter(filename => filename.match(this.#BOT_REGEX));
         
         const bots = [];        
-        for (const filename of filenames) {        
+        for (const filename of filenames) {
+            const filepath = this.#botsDir + path.sep + filename;
             try {
-                const bot = await this.tryCreateBot(filename);
+                const bot = await this.tryCreateBot(filepath);
                 console.log(`Loaded bot ${bot.name}`);
                 bots.push(bot);
             } catch (e) {
-                console.error(`Failed to load bot in ${filename}. ${e} ${e.stack}`);
+                console.error(`Failed to load bot in ${filepath}. ${e} ${e.stack}`);
             }
         };
         
         return bots;
     }
 }
-
-export default BotLoader;

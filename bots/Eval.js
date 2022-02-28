@@ -1,4 +1,4 @@
-import Bot from '../Bot.js';
+import Bot from '../bot/Bot.js';
 
 export default class Eval extends Bot {
     constructor() {
