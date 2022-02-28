@@ -18,7 +18,7 @@ export default class Help extends Bot {
     }
 
     async onDirectMessage() {
-        this.send(this.host.getBotMetadata().map(i => {
+        this.reply(this.host.getBotMetadata().map(i => {
             return i.name + ' - ' + i.description + ' ' + (i.enabled ? '(on)' : '(off)');
         }).join('\n'));
     }

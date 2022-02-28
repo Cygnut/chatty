@@ -21,7 +21,7 @@ export default class Swear extends Bot {
 
     async onPublicMessage({ content, from }) {
         if (this.#badWords.some(v => content.toLowerCase().indexOf(v) > -1)) {
-            this.send('Oy, you used a bad word! Get out.', from);
+            this.reply('Oy, you used a bad word! Get out.', from);
         }
     }
 }

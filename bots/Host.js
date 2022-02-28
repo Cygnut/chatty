@@ -39,7 +39,7 @@ export default class Host extends Bot {
     }
 
     async onDirectMessage() {
-        this.send([
+        this.reply([
             `The OS is ${os.platform()} with ${os.cpus().length} CPU/s.`, 
             `The amount of free memory is ${this.formatBytes(os.freemem())}.`,
             `The amount of total memory is ${this.formatBytes(os.totalmem())}.`,

@@ -58,14 +58,14 @@ export default class Udp extends Bot {
             const portStr = content.substring(7);
             const port = parseInt(portStr);
             if (isNaN(port)) {
-                this.send(`${portStr} is not a valid port number.`, from);
+                this.reply(`${portStr} is not a valid port number.`, from);
                 return;
             }
             
             try {
                 this.stop();
                 this.#listener = this.createListener(port);
-                this.send(`Now listening on ${port}`, from);
+                this.reply(`Now listening on ${port}`, from);
             } catch (e) {
                 console.error(`Udp: Error while starting to listen on ${port} ${e}`);
             }

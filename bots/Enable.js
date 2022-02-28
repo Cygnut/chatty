@@ -19,9 +19,9 @@ export default class Enable extends Bot {
         const result = this.host.enableBot(content);
         
         if (result === null) {
-            this.send('Did not enable/disable a bot.');
+            this.reply('Did not enable/disable a bot.');
         } else {
-            this.send(`${result ? 'Enabled' : 'Disabled'} ${content}`);
+            this.reply(`${result ? 'Enabled' : 'Disabled'} ${content}`);
         }
     }
 }

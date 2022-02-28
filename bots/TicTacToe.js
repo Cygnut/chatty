@@ -160,7 +160,7 @@ export default class TicTacToe extends Bot {
     async onDirectMessage({ content, from }) {
         try {
             if (content === '') {
-                this.send(this.#game.printGrid());    // Don't include @ info as it's to everyone.
+                this.reply(this.#game.printGrid());    // Don't include @ info as it's to everyone.
             } else if (content.startsWith('configure')) {
                 // Create a new game with 
                 const size = parseInt(content.substring('configure'.length + 1));
@@ -169,7 +169,7 @@ export default class TicTacToe extends Bot {
                 
                 this.#game = new TicTacToeGame(size);
                 
-                this.send(`Starting new game of size ${size}`);    // Don't include @ info as it's to everyone.
+                this.reply(`Starting new game of size ${size}`);    // Don't include @ info as it's to everyone.
             } else {
                 // Parse the input to a move object
                 const move = this.parseInput(content);
@@ -181,10 +181,11 @@ export default class TicTacToe extends Bot {
                 if (info.winner)
                     response += `${info.winner} won the game! ${info.winningReason}`;
                 
-                this.send(response);    // Don't include @ info as it's to everyone.
+                this.reply(response);    // Don't include @ info as it's to everyone.
             }
         } catch (e) {
-            this.send(e.message, from);
+            console.error(e);
+            this.reply(e.message, from);
         }
     }
 }

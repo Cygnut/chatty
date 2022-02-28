@@ -23,6 +23,6 @@ export default class Eval extends Bot {
             console.error(result);
         }
         
-        this.send(result, from);
+        this.reply(result, from);
     }
 }

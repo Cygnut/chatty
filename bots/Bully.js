@@ -31,13 +31,13 @@ export default class Bully extends Bot {
             message = `Ooooooh yeahhh! Gonna start bullying ${content}.`;
         }
         
-        this.send(message, from);
+        this.reply(message, from);
     }
 
     async onPublicMessage({ from }) 
     {
         if (this.#targets.some(target => target === from)) {
-            this.send(`I hate you, ${from}`, from);
+            this.reply(`I hate you, ${from}`, from);
         }
     }    
 }

@@ -41,10 +41,10 @@ class Somebot extends Bot {
     // Optionally implement this method to provide tests for this bot which can be run. Returns an array of test strings.
     getTests() {}
 
-    // Optional - called on a new public message. Responses should be sent using this.send.
+    // Optional - called on a new public message. Responses should be sent using this.reply.
     onPublicMessage({ content, from }) {}
 
-    // Optional - handles a new direct message. Responses should be sent using this.send.
+    // Optional - handles a new direct message. Responses should be sent using this.reply.
     onDirectMessage({ content, from }) {}    
 }
 ```

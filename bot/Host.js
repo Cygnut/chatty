@@ -17,7 +17,7 @@ export default class Host {
     // If you want to reply, return a string. Else return null to not reply.
     run(msg, local) {
         this.#bots.forEach(bot => {
-            bot.send = this.sendResponse.bind(this, bot, local);
+            bot.reply = this.sendResponse.bind(this, bot, local);
         });
 
         // If it's a message from a bot, then ignore it.
@@ -90,7 +90,7 @@ export default class Host {
     addBot(bot) {
         // Initialise
         bot.host = this;
-        bot.send = () => {};
+        bot.reply = () => {};
         
         // Start
         bot.enable(true);
