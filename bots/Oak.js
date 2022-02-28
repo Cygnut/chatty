@@ -12,7 +12,7 @@ export default class Oak extends Bot {
 
     getTests() {
         return [
-            this.name + " mewtwo"
+            `${this.name} mewtwo`
         ];
     }
 

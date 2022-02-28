@@ -20,7 +20,7 @@ export default class Goodreads extends Bot {
 
     getTests() {
         return [
-            this.name + " mistborn"
+            `${this.name} mistborn`
         ];
     }
 

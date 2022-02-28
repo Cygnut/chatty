@@ -10,7 +10,7 @@ export default class Eval extends Bot {
 
     getTests() {
         return [
-            this.name + " 1+1"
+            `${this.name} 1+1`
         ];
     }
 

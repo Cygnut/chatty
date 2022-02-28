@@ -16,7 +16,7 @@ import Loader from './bot/Loader.js';
     const host = new Host();
     host.respond = (from, content) => {
         try {
-            fetch.post(url + 'send', { from, content });
+            fetch.post(`${url}send`, { from, content });
         } catch (e) {
             console.error(e);
         }

@@ -12,7 +12,7 @@ export default class Bully extends Bot {
 
     getTests() {
         return [
-            this.name + " me"
+            `${this.name} me`
         ];
     }
 

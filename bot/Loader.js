@@ -86,7 +86,7 @@ export default class Loader {
         
         const bots = [];        
         for (const filename of filenames) {
-            const filepath = this.#botsDir + path.sep + filename;
+            const filepath = `${this.#botsDir}${path.sep}${filename}`;
             try {
                 const bot = await this.tryCreateBot(filepath);
                 console.log(`Loaded bot ${bot.name}`);

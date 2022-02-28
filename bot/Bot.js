@@ -5,7 +5,7 @@ class Bot {
     enabled;
 
     constructor({ name, description, disableable }) {
-        this.name = '~' + name;
+        this.name = `~${name}`;
         this.description = description;
         this.disableable = disableable === undefined ? true : disableable;
         this.enabled = false;
@@ -16,7 +16,7 @@ class Bot {
         if (!on && !this.disableable) 
             return;
         
-        console.log((on ? 'Enabling' : 'Disabling') + ' ' + this.name);
+        console.log(`${on ? 'Enabling' : 'Disabling'} ${this.name}`);
         
         this.enabled = on;
         if (this.onEnabled)
