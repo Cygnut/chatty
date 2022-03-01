@@ -7,7 +7,7 @@ const errorFormat = format(info => {
   return info;
 });
 
-const prefixFormat = format((info, opts) => {
+const prefixFormat = format(info => {
   info.message = [
     new Date().toISOString(),
     info.level.padEnd(5, ' '),
@@ -16,18 +16,23 @@ const prefixFormat = format((info, opts) => {
     .filter(v => v)
     .join(' | ');
 
-  // We need to define this formatter as a finalizer formatter - i.e. by setting
+  return info;
+});
+
+const finalizeFormat = format(info => {
+  // We need to define a formatter as a finalizer formatter - i.e. by setting
   // info[Symbol.for('message')] = info.message as info[Symbol.for('message')] is what's actually
   // printed, info.message is what's passed by the log call. If it isn't set, you'll just print
   // 'undefined'.
-  info[Symbol.for('message')] = `${info.message}`
+  info[Symbol.for('message')] = `${info.message}`;
   return info;
 });
 
 const logger = createLogger({
   format: format.combine(
     errorFormat(),
-    prefixFormat()
+    prefixFormat(),
+    finalizeFormat()    // This one *has* to come last!
   ),
   transports: [
     new transports.Console()
