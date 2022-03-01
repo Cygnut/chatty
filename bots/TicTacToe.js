@@ -161,7 +161,7 @@ export default class TicTacToe extends Bot {
     async onDirectMessage({ content, from }) {
         try {
             if (content === '') {
-                this.reply(this.#game.printGrid());    // Don't include @ info as it's to everyone.
+                this.reply('\n' + this.#game.printGrid());    // Don't include @ info as it's to everyone.
             } else if (content.startsWith('configure')) {
                 // Create a new game with
                 const size = parseInt(content.substring('configure'.length + 1));
