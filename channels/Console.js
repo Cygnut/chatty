@@ -33,4 +33,8 @@ export default class Console extends Channel {
             process.exit(0);
         });
     }
+
+    send({ content }) {
+        logger.info(content);
+    }
 }

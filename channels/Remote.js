@@ -45,4 +45,15 @@ export default class Remote extends Channel {
         // Assume every 1/2 second is fast enough to catch every new message in poll.
         setInterval(this.#poll.bind(this), 500);
     }
+
+    async send({ from, content }) {
+        try {
+            await fetch(`${this.#rootUrl}send`, {
+                method: 'POST',
+                body: JSON.stringify({ from, content })
+            });
+        } catch (e) {
+            logger.error(`Failed to send message from ${from} with error: ${e.stack}`);
+        }
+    }
 }

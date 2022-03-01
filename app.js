@@ -1,7 +1,5 @@
 import path from 'path';
 
-import fetch from 'node-fetch';
-
 import logger from './Logger.js';
 import Remote from './channels/Remote.js';
 import Console from './channels/Console.js';
@@ -16,27 +14,22 @@ import Loader from './bot/Loader.js';
     const bots = await loader.fromConfigFile();
 
     const host = new Host();
-    host.reply = async (from, content) => {
-        try {
-            await fetch(`${url}send`, {
-              method: 'POST',
-              body: JSON.stringify({ from, content })
-            });
-        } catch (e) {
-            logger.error(`Failed to send message from bot ${from} with error: ${e.stack}`);
-        }
-    };
-    host.addBots(bots);
 
     const channels = [
-        new Remote(url, msg => host.onMessage(msg, false)),
-        new Console(msg => host.onMessage(msg, true))
+        new Remote(url, msg => host.onMessage(msg)),
+        new Console(msg => host.onMessage(msg))
     ];
+
+    host.addChannels(channels);
+    host.addBots(bots);
+
     channels.forEach(channel => channel.receive());
 })();
 
 
 /*
+    clean up app.js
+
     no prompt after '~urban poop'
 
     better folder structure

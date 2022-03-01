@@ -3,12 +3,12 @@ import Bot from './Bot.js';
 
 export default class Host {
     #bots = [];
-    reply = () => {};
+    #channels = [];
 
-    onMessage(msg, local) {
+    onMessage(msg) {
         try {
             this.#bots.forEach(bot => {
-                bot.reply = this.reply.bind(this, bot.name, local);
+                bot.reply = this.reply.bind(this, bot);
             });
 
             // If it's a message from a bot, then ignore it.
@@ -54,7 +54,7 @@ export default class Host {
         }));
     }
 
-    reply(bot, local, content, to) {
+    reply(bot, content, to) {
         if (content === null)
             return;
 
@@ -64,13 +64,9 @@ export default class Host {
 
         const response = to ? `@${to}: ${content}` : content;
 
-        logger.info(`${bot.name} replying to message with content: ${response}`);
+        logger.info(`${bot.name} replying to message across all channels with content: ${response}`);
 
-        if (local) {
-            logger.info(response);
-        } else {
-            this.reply && this.reply(bot.name, response);
-        }
+        this.#channels.forEach(channel => channel.send(bot.name, response));
     }
 
     addBot(bot) {
@@ -85,6 +81,10 @@ export default class Host {
 
     addBots(bots) {
         bots.forEach(bot => this.addBot(bot));
+    }
+
+    addChannels(channels) {
+        this.#channels = channels;
     }
 
     enableBot(botName, on) {
