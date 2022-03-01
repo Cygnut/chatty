@@ -32,7 +32,6 @@ import Loader from './bot/Loader.js';
         new Remote(url, msg => host.onMessage(msg, false)),
         new Console(msg => host.onMessage(msg, true))
     ];
-
     channels.forEach(channel => channel.receive());
 })();
 

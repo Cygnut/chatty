@@ -21,7 +21,7 @@ export default class Remote extends Channel {
         this.#callback = callback;
     }
 
-    async receive() {
+    async #poll() {
         try {
             // Just get the last message
             const response = await fetch(`${this.#rootUrl}messages?begin=-1`);
@@ -40,9 +40,9 @@ export default class Remote extends Channel {
         }
     }
 
-    run() {
+    receive() {
         // TODO: Ensure that this can only be run once.
         // Assume every 1/2 second is fast enough to catch every new message in poll.
-        setInterval(this.poll.bind(this), 500);
+        setInterval(this.#poll.bind(this), 500);
     }
 }
