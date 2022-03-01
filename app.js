@@ -37,7 +37,6 @@ import Loader from './bot/Loader.js';
 
 
 /*
-    colorize logs
     no prompt after '~urban poop'
 
     better folder structure
