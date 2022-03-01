@@ -5,48 +5,42 @@ export default class Host {
     #bots = [];
     respond = () => {};
 
-    execute(msg, local) {
+    onMessage(msg, local) {
         try {
-            this.run(msg, local);
+            this.#bots.forEach(bot => {
+                bot.reply = this.sendResponse.bind(this, bot, local);
+            });
+
+            // If it's a message from a bot, then ignore it.
+            if (msg.from.startsWith(Bot.PREFIX))
+                return;
+
+            // First let's see if it's a general message, or if it's directed at a specific bot.
+            const enabledBots = this.#bots.filter(bot => bot.enabled);
+
+            const bot = enabledBots.find(bot => msg.content.startsWith(bot.name));
+
+            if (bot) {
+                // Then it's directed at this specific bot and this one alone.
+                const content = msg.content.substring(bot.name.length + Bot.PREFIX.length);
+                logger.info(`Calling bot ${bot.name} with directed message ${content}`);
+
+                bot.onDirectMessage({
+                    from: msg.from,
+                    content
+                });
+            } else {
+                logger.info(`Calling all enabled bots with general message ${msg.content}`);
+
+                enabledBots.forEach(bot => {
+                    bot.onPublicMessage({
+                        from: msg.from,
+                        content: msg.content
+                    });
+                });
+            }
         } catch (e) {
             logger.error(`Error handling message ${e}, continuing.`);
-        }
-    }
-
-    // Determine what the bot should do depending on the message.
-    // If you want to reply, return a string. Else return null to not reply.
-    run(msg, local) {
-        this.#bots.forEach(bot => {
-            bot.reply = this.sendResponse.bind(this, bot, local);
-        });
-
-        // If it's a message from a bot, then ignore it.
-        if (msg.from.startsWith(Bot.PREFIX))
-            return;
-
-        // First let's see if it's a general message, or if it's directed at a specific bot.
-        const enabledBots = this.#bots.filter(bot => bot.enabled);
-
-        const bot = enabledBots.find(bot => msg.content.startsWith(bot.name));
-
-        if (bot) {
-            // Then it's directed at this specific bot and this one alone.
-            const content = msg.content.substring(bot.name.length + Bot.PREFIX.length);
-            logger.info(`Calling bot ${bot.name} with directed message ${content}`);
-
-            bot.onDirectMessage({
-                from: msg.from,
-                content
-            });
-        } else {
-            logger.info(`Calling all enabled bots with general message ${msg.content}`);
-
-            enabledBots.forEach(bot => {
-                bot.onPublicMessage({
-                    from: msg.from,
-                    content: msg.content
-                });
-            });
         }
     }
 

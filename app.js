@@ -29,8 +29,8 @@ import Loader from './bot/Loader.js';
     host.addBots(bots);
 
     [
-        new Remote(url, msg => host.execute(msg, false)),
-        new Console(msg => host.execute(msg, true))
+        new Remote(url, msg => host.onMessage(msg, false)),
+        new Console(msg => host.onMessage(msg, true))
     ]
     .forEach(poller => poller.run());
 })();
