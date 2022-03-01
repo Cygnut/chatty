@@ -4,9 +4,6 @@ export default class Host {
     #bots = [];
     respond = () => {};
 
-    constructor() {
-    }
-
     execute(msg, local) {
         try {
             this.run(msg, local);
