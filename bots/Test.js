@@ -13,7 +13,7 @@ export default class Test extends Bot {
 
     generateTests(getBotMetadata) {
         // Get an array of tests for each bot.
-        const botTests = getBotMetadata()
+        const botTests = this.host.getBotMetadata()
             .map(bot => { return bot.tests; })
 
         // Merge them all into one array.
@@ -31,7 +31,7 @@ export default class Test extends Bot {
     }
 
     async onDirectMessage() {
-        const tests = this.generateTests(this.host.getBotMetadata.bind(this.host));
+        const tests = this.generateTests();
         console.log(tests);
 
         // Copy the array into a reversed queue.
