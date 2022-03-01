@@ -31,7 +31,7 @@ export default class Host {
 
         if (bot) {
             // Then it's directed at this specific bot and this one alone.
-            const content = msg.content.substring(bot.name.length + 1);
+            const content = msg.content.substring(bot.name.length + Bot.PREFIX.length);
             logger.info(`Calling bot ${bot.name} with directed message ${content}`);
 
             bot.onDirectMessage({
