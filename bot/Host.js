@@ -8,7 +8,7 @@ export default class Host {
     onMessage(msg, local) {
         try {
             this.#bots.forEach(bot => {
-                bot.reply = this.sendResponse.bind(this, bot, local);
+                bot.reply = this.reply.bind(this, bot, local);
             });
 
             // If it's a message from a bot, then ignore it.
@@ -54,7 +54,7 @@ export default class Host {
         }));
     }
 
-    sendResponse(bot, local, content, to) {
+    reply(bot, local, content, to) {
         if (content === null)
             return;
 
