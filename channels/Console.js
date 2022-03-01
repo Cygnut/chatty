@@ -1,9 +1,9 @@
 import readline from 'readline';
 
 import logger from '../Logger.js';
-import Poller from '../Poller.js';
+import Channel from '../Channel.js';
 
-export default class Console extends Poller {
+export default class Console extends Channel {
     #callback;
 
     constructor(callback) {
@@ -11,7 +11,7 @@ export default class Console extends Poller {
         this.#callback = callback;
     }
 
-    run() {
+    receive() {
         const rl = readline.createInterface({
             input: process.stdin,
             output: process.stdout,

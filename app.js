@@ -3,8 +3,8 @@ import path from 'path';
 import fetch from 'node-fetch';
 
 import logger from './Logger.js';
-import Remote from './pollers/Remote.js';
-import Console from './pollers/Console.js';
+import Remote from './channels/Remote.js';
+import Console from './channels/Console.js';
 import Host from './bot/Host.js';
 import Loader from './bot/Loader.js';
 
@@ -32,7 +32,7 @@ import Loader from './bot/Loader.js';
         new Remote(url, msg => host.onMessage(msg, false)),
         new Console(msg => host.onMessage(msg, true))
     ]
-    .forEach(poller => poller.run());
+    .forEach(channel => channel.receive());
 })();
 
 

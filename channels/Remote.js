@@ -1,16 +1,16 @@
 import fetch from "node-fetch";
 
 import logger from '../Logger.js';
-import Poller from '../Poller.js';
+import Channel from '../Channel.js';
 
 /*
-    This is a simple poller that scrapes the Chat app for the latest message and responds to it if it meets certain criteria.
+    This is a simple channel that scrapes the Chat app for the latest message and responds to it if it meets certain criteria.
     This could easily be extended to make these criteria and responses more pluggable.
 
     callback should handle all exceptions.
 */
 
-export default class Remote extends Poller {
+export default class Remote extends Channel {
     #rootUrl;
     #lastIdSeen = -1;
     #callback;
@@ -21,7 +21,7 @@ export default class Remote extends Poller {
         this.#callback = callback;
     }
 
-    async poll() {
+    async receive() {
         try {
             // Just get the last message
             const response = await fetch(`${this.#rootUrl}messages?begin=-1`);
