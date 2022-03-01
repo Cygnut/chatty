@@ -11,7 +11,7 @@ export default class Test extends Bot {
         });
     }
 
-    generateTests(getBotMetadata) {
+    generateTests() {
         // Get an array of tests for each bot.
         const botTests = this.host.getBotMetadata()
             .map(bot => { return bot.tests; })
