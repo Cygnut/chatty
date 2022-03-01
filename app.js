@@ -28,6 +28,7 @@ import Loader from './bot/Loader.js';
 
 
 /*
+    fix weird load order (of where channels depend on host being defined)
     clean up app.js
 
     no prompt after '~urban poop'
