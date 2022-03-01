@@ -3,7 +3,7 @@ import Bot from './Bot.js';
 
 export default class Host {
     #bots = [];
-    respond = () => {};
+    reply = () => {};
 
     onMessage(msg, local) {
         try {
@@ -64,20 +64,12 @@ export default class Host {
 
         const response = to ? `@${to}: ${content}` : content;
 
-        logger.info(`${bot.name} responding to message with content: ${response}`);
+        logger.info(`${bot.name} replying to message with content: ${response}`);
 
         if (local) {
             logger.info(response);
         } else {
-            this.callRespond(bot.name, response);
-        }
-    }
-
-    // Use the wrapper so we can bind to this function (which is invariant under
-    // the event handler changing) instead of the event.
-    callRespond(from, content) {
-        if (this.respond) {
-            this.respond(from, content);
+            this.reply && this.reply(bot.name, response);
         }
     }
 

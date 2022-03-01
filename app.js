@@ -16,7 +16,7 @@ import Loader from './bot/Loader.js';
     const bots = await loader.fromConfigFile();
 
     const host = new Host();
-    host.respond = async (from, content) => {
+    host.reply = async (from, content) => {
         try {
             await fetch(`${url}send`, {
               method: 'POST',
