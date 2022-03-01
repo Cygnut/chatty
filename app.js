@@ -37,9 +37,9 @@ import Loader from './bot/Loader.js';
 
 
 /*
+    colorize logs
     no prompt after '~urban poop'
 
-    better logger
     better folder structure
 
     better access to host from bots that need it (enable, help, self test), rather than hackily setting bot.host, provide limited interface

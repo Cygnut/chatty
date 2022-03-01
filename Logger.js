@@ -2,7 +2,7 @@ import { createLogger, format, transports } from 'winston';
 
 const formatter = format((info, opts) => {
   info.message = [
-    info.level,
+    info.level.padEnd(5, ' '),
     new Date().toISOString(),
     info.message || ''
   ].filter(v => v).join(' | ');
