@@ -12,22 +12,22 @@ export default class Console extends Channel {
     }
 
     receive() {
-        const rl = readline.createInterface({
+        const io = readline.createInterface({
             input: process.stdin,
             output: process.stdout,
             prompt: 'Type "exit" to exit the app > '
         });
 
-        rl.prompt();
+        io.prompt();
 
-        rl.on('line', (line) => {
+        io.on('line', (line) => {
             if (line.toLowerCase() === "exit") {
                 logger.info('Bye!');
                 process.exit(0);
             } else {
                 this.#callback({ from: 'console', content: line.trim() })
             }
-            rl.prompt();
+            io.prompt();
         }).on('close', () => {
             logger.info('Exiting!');
             process.exit(0);
