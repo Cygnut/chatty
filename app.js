@@ -2,6 +2,7 @@ import path from 'path';
 
 import fetch from 'node-fetch';
 
+import logger from './Logger.js';
 import Remote from './pollers/Remote.js';
 import Console from './pollers/Console.js';
 import Host from './bot/Host.js';
@@ -22,7 +23,7 @@ import Loader from './bot/Loader.js';
               body: JSON.stringify({ from, content })
             });
         } catch (e) {
-            console.error(e);
+            logger.error(e.message);
         }
     };
     host.addBots(bots);
