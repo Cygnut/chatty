@@ -25,7 +25,7 @@ export default class Urban extends Bot {
             const body = await response.json();
             this.reply(body.list[0].definition, from);
         } catch (e) {
-            logger.error(`Error handling response: ${e}`);
+            logger.error(e);
             this.reply("Couldn't ask UrbanDictionary about it..", from);
         }
     }

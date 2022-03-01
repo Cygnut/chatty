@@ -41,7 +41,7 @@ export default class Goodreads extends Bot {
             const title = result.GoodreadsResponse.search[0].results[0].work[0].best_book[0].title[0];
             this.reply(`So.. were you looking for ${title}?`, from);
         } catch (e) {
-            logger.error(`Error handling response ${e}`);
+            logger.error(e);
             this.reply("Couldn't ask Goodreads about it..", from);
         }
     }

@@ -40,7 +40,7 @@ export default class Host {
                 });
             }
         } catch (e) {
-            logger.error(`Error handling message ${e}, continuing.`);
+            logger.error(`Error handling message ${e.stack}, continuing.`);
         }
     }
 

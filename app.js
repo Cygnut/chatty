@@ -23,7 +23,7 @@ import Loader from './bot/Loader.js';
               body: JSON.stringify({ from, content })
             });
         } catch (e) {
-            logger.error(`Failed to send message from bot ${from} with error: ${e.message}`);
+            logger.error(`Failed to send message from bot ${from} with error: ${e.stack}`);
         }
     };
     host.addBots(bots);

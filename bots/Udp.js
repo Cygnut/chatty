@@ -49,7 +49,7 @@ export default class Udp extends Bot {
                 this.#listener = null;
             }
         } catch (e) {
-            logger.error(`Udp: Error while stopping ${e}`);
+            logger.error(`Udp: Error while stopping ${e.stack}`);
             this.#listener = null;
         }
     }
@@ -68,7 +68,7 @@ export default class Udp extends Bot {
                 this.#listener = this.createListener(port);
                 this.reply(`Now listening on ${port}`, from);
             } catch (e) {
-                logger.error(`Udp: Error while starting to listen on ${port} ${e}`);
+                logger.error(`Udp: Error while starting to listen on ${port} ${e.stack}`);
             }
         }
         else if (content.startsWith('stop')) {
