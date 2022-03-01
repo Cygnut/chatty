@@ -1,42 +1,50 @@
+import path from 'path';
+
 import fetch from 'node-fetch';
 
+import logger from './Logger.js';
 import Remote from './pollers/Remote.js';
 import Console from './pollers/Console.js';
-import BotHost from './BotHost.js';
-import BotLoader from './BotLoader.js';
+import Host from './bot/Host.js';
+import Loader from './bot/Loader.js';
 
 (async () => {
     const url = 'http://localhost:81/';
 
-    const botLoader = new BotLoader('./bots.config', './bots');
-    const bots = await botLoader.fromConfigFile();
+    const cwd = `${process.cwd()}${path.sep}`;
+    const loader = new Loader(`${cwd}bots.config`, `${cwd}bots`);
+    const bots = await loader.fromConfigFile();
 
-    const botHost = new BotHost();
-    botHost.respond = (from, content) => {
+    const host = new Host();
+    host.respond = (from, content) => {
         try {
-            fetch.post(url + 'send', { from, content });
+            fetch(`${url}send`, {
+              method: 'POST',
+              body: JSON.stringify({ from, content })
+            });
         } catch (e) {
-            console.log(e);
+            logger.error(e.message);
         }
     };
-    botHost.addBots(bots);
+    host.addBots(bots);
 
     [
-        new Remote(url, msg => botHost.execute(msg, false)),
-        new Console(msg => botHost.execute(msg, true))
+        new Remote(url, msg => host.execute(msg, false)),
+        new Console(msg => host.execute(msg, true))
     ]
-    .forEach(poller => {
-        poller.run();
-    });
+    .forEach(poller => poller.run());
 })();
 
 
 /*
-    use fetch and make required functions async; then get rid of requests from package.json
+    colorize logs
+    no prompt after '~urban poop'
+
+    better folder structure
 
     better access to host from bots that need it (enable, help, self test), rather than hackily setting bot.host, provide limited interface
 
-    all todos   
+    all todos
     change tab size
 
     get self-test working (albeit hackily)
@@ -44,44 +52,44 @@ import BotLoader from './BotLoader.js';
 
     Roadmap:
         Combine.
-    
+
     ChatBot:
-        
+
         Store enabled state of each bot persistently.
-        
+
         Fix/finish TicTacToeBot & test it!
         Finish UdpBot, and test it. It currently is not sending to the Chat.
-        
+
         WIP: Support for bots which can send not only on received data, but also on a timer?
         http://pokeapi.co/api/v2/pokemon-species/pikachu/
-        
+
         Combine Chat & ChatBot?
-        
+
         Bots:
             tic-tac-toe
             client stats - requires code merge of ChatBot & Chat
             chat stats
             dump src code (i.e. file browser)
             todos bot
-        
+
     Chat:
         Backup & Restore maybe the last 100 messages.
             WIP - need to test read & write to file first! Currently disabled.
-        
+
         Integrate self testing into app. I.e. have a bot that sends all test messages into the chat.
-        
+
         Better msg ids
-    
+
     Chat & ChatBot:
         Allow them to be hosted forever silently.
-    
-        
+
+
     Client:
         Make more efficient
-        
+
     General:
-        Create package.json: 
+        Create package.json:
             https://docs.npmjs.com/getting-started/using-a-package.json
 
-        
+
 */

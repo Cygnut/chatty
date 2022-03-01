@@ -1,6 +1,6 @@
-import Bot from '../Bot.js';
+import Bot from '../bot/Bot.js';
 
-class Bully extends Bot {
+export default class Bully extends Bot {
     #targets = [];
 
     constructor() {
@@ -12,36 +12,32 @@ class Bully extends Bot {
 
     getTests() {
         return [
-            this.name + " me"
+            `${this.name} me`
         ];
     }
 
-    async onNewMessage({ content, from, directed }) 
+    async onDirectMessage({ content, from }) 
     {
-        if (directed)
-        {
-            const index = this.#targets.indexOf(content);
-            
-            let m = '';
-            if (index > -1)    // Then they're a target - remove them.
-            {
-                this.#targets.splice(index, 1);
-                m = `Awwww man! Gotta stop bullying ${content}.`;
-            }
-            else    // Then they're not a target - add them.
-            {
-                this.#targets.push(content);
-                m = `Ooooooh yeahhh! Gonna start bullying ${content}.`;
-            }
-            
-            this.send(m, from);
+        const index = this.#targets.indexOf(content);
+        
+        let message = '';
+        if (index > -1) {
+            // Then they're a target - remove them.
+            this.#targets.splice(index, 1);
+            message = `Awwww man! Gotta stop bullying ${content}.`;
+        } else {
+            // Then they're not a target - add them.
+            this.#targets.push(content);
+            message = `Ooooooh yeahhh! Gonna start bullying ${content}.`;
         }
-        else
-        {
-            if (this.#targets.some(target => target === from))
-                this.send(`I hate you, ${from}`, from);
-        }
+        
+        this.reply(message, from);
     }
-}
 
-export default Bully;
+    async onPublicMessage({ from }) 
+    {
+        if (this.#targets.some(target => target === from)) {
+            this.reply(`I hate you, ${from}`, from);
+        }
+    }    
+}

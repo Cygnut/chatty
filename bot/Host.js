@@ -1,23 +1,17 @@
-import Help from './bots/Help.js';
-import Enable from './bots/Enable.js';
-import SelfTest from './bots/SelfTest.js';
+import logger from '../Logger.js';
 
-class BotHost {
+export default class Host {
     #bots = [];
+    respond = () => {};
 
     constructor() {
-        // Hook up default event handler for bot generated response.
-        this.respond = () => {};
     }
 
     execute(msg, local) {
-        try
-        {
+        try {
             this.run(msg, local);
-        }
-        catch (e)
-        {
-            console.log('Error handling message ' + e + ', continuing.');
+        } catch (e) {
+            logger.error(`Error handling message ${e}, continuing.`);
         }
     }
 
@@ -25,41 +19,34 @@ class BotHost {
     // If you want to reply, return a string. Else return null to not reply.
     run(msg, local) {
         this.#bots.forEach(bot => {
-            bot.send = this.sendResponse.bind(this, bot, local);
+            bot.reply = this.sendResponse.bind(this, bot, local);
         });
 
         // If it's a message from a bot, then ignore it.
-        if (msg.from.startsWith('~')) 
+        if (msg.from.startsWith('~'))
             return;
-        
+
         // First let's see if it's a general message, or if it's directed at a specific bot.
         const enabledBots = this.#bots.filter(bot => bot.enabled);
-        
+
         const bot = enabledBots.find(bot => msg.content.startsWith(bot.name));
-        
-        if (bot)
-        {
+
+        if (bot) {
             // Then it's directed at this specific bot and this one alone.
-            const term = msg.content.substring(bot.name.length + 1);
-            
-            console.log('Calling bot ' + bot.name + ' with directed message ' + term);
-            
-            bot.onNewMessage({
+            const content = msg.content.substring(bot.name.length + 1);
+            logger.info(`Calling bot ${bot.name} with directed message ${content}`);
+
+            bot.onDirectMessage({
                 from: msg.from,
-                content: term,
-                directed: true
+                content
             });
-        }
-        else
-        {
-            console.log('Calling all enabled bots with general message ' + msg.content);
-            
-            // Then it's directed at no specific bot, so it's general.
+        } else {
+            logger.info(`Calling all enabled bots with general message ${msg.content}`);
+
             enabledBots.forEach(bot => {
-                bot.onNewMessage({
+                bot.onPublicMessage({
                     from: msg.from,
-                    content: msg.content,
-                    directed: false
+                    content: msg.content
                 });
             });
         }
@@ -76,35 +63,37 @@ class BotHost {
     }
 
     sendResponse(bot, local, content, to) {
-        if (content === null) 
+        if (content === null)
             return;
-        
+
         // Also check here for asynchronously generated messages from disabled bots, just in case.
-        if (!bot.enabled) 
+        if (!bot.enabled)
             return;
-        
-        const responseMsg = to ? ('@' + to + ': ' + content) : content;
-        
-        console.log(bot.name + ' responding to message with content: ' + responseMsg);
-        
-        if (local)
-            console.log(responseMsg);
-        else
-            this.callRespond(bot.name, responseMsg);
+
+        const response = to ? `@${to}: ${content}` : content;
+
+        logger.info(`${bot.name} responding to message with content: ${response}`);
+
+        if (local) {
+            logger.info(response);
+        } else {
+            this.callRespond(bot.name, response);
+        }
     }
 
-    // Use the wrapper so we can bind to this function (which is invariant under 
+    // Use the wrapper so we can bind to this function (which is invariant under
     // the event handler changing) instead of the event.
     callRespond(from, content) {
-        if (this.respond)
+        if (this.respond) {
             this.respond(from, content);
+        }
     }
 
     addBot(bot) {
         // Initialise
         bot.host = this;
-        bot.send = () => {};
-        
+        bot.reply = () => {};
+
         // Start
         bot.enable(true);
         this.#bots.push(bot);
@@ -116,19 +105,18 @@ class BotHost {
 
     enableBot(botName, on) {
         const bot = this.#bots.find(bot => bot.name === botName);
-        
-        if (!bot) 
+
+        if (!bot)
             return null;
-        
+
         // If on is not passed, then flip the state.
         // Else, set to the defined state in on.
-        if (on === undefined)
+        if (on === undefined) {
             bot.enable(!bot.enabled);
-        else
+        } else {
             bot.enable(on);
-        
+        }
+
         return bot.enabled;
     }
 }
-
-export default BotHost;

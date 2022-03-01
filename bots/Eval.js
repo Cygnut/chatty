@@ -1,36 +1,29 @@
-import Bot from '../Bot.js';
+import logger from '../Logger.js';
+import Bot from '../bot/Bot.js';
 
-class Eval extends Bot {
+export default class Eval extends Bot {
     constructor() {
-        super({ 
-            name: 'eval', 
+        super({
+            name: 'eval',
             description: "Evaluates a javascript expression."
         });
     }
 
     getTests() {
         return [
-            this.name + " 1+1"
+            `${this.name} 1+1`
         ];
     }
 
-    async onNewMessage({ content, from, directed}) {
-        if (!directed) 
-            return;
-        
+    async onDirectMessage({ content, from }) {
         let result = '';
-        
         try {
             result = eval(content);
         } catch (e) {
-            const error = `Error handling Eval message ${content} from ${from} with error ${e}`;
-            console.log(error);
-            this.send(error, from);
-            return;
+            result = `Error handling Eval message ${content} from ${from} with error ${e}`;
+            logger.error(result);
         }
-        
-        this.send(result, from);
+
+        this.reply(result, from);
     }
 }
-
-export default Eval;

@@ -1,6 +1,6 @@
-import Bot from '../Bot.js';
+import Bot from '../bot/Bot.js';
 
-class Swear extends Bot {
+export default class Swear extends Bot {
     #badWords = [];
 
     constructor() {
@@ -19,13 +19,9 @@ class Swear extends Bot {
     }
 
 
-    async onNewMessage({ content, from, directed }) {
-        if (directed) 
-            return;
-        
-        if (this.#badWords.some(v => content.toLowerCase().indexOf(v) > -1))
-            this.send('Oy, you used a bad word! Get out.', from);
+    async onPublicMessage({ content, from }) {
+        if (this.#badWords.some(v => content.toLowerCase().indexOf(v) > -1)) {
+            this.reply('Oy, you used a bad word! Get out.', from);
+        }
     }
 }
-
-export default Swear;

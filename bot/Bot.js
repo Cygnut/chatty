@@ -1,3 +1,5 @@
+import logger from '../Logger.js';
+
 class Bot {
     name;
     description;
@@ -5,7 +7,7 @@ class Bot {
     enabled;
 
     constructor({ name, description, disableable }) {
-        this.name = '~' + name;
+        this.name = `~${name}`;
         this.description = description;
         this.disableable = disableable === undefined ? true : disableable;
         this.enabled = false;
@@ -13,19 +15,19 @@ class Bot {
 
     enable(on) {
         // If we're not allowed to disable this bot, then we're done.
-        if (!on && !this.disableable) 
+        if (!on && !this.disableable)
             return;
-        
-        console.log((on ? 'Enabling' : 'Disabling') + ' ' + this.name);
-        
+
+        logger.info(`${on ? 'Enabling' : 'Disabling'} ${this.name}`);
+
         this.enabled = on;
         if (this.onEnabled)
             this.onEnabled(on);
     }
-    
-    async onNewMessage({ content, from, directed }) {
-        throw Error("Not implemented");
-    }
+
+    async onPublicMessage({ content, from }) {}
+
+    async onDirectMessage({ content, from }) {}
 }
 
 export default Bot;

@@ -22,37 +22,30 @@ Bots are either:
     'Oy, you used a bad word! Get out.'
   
 ### Interface
-All bots should extend the bot class (in bot.js), and should implement the following interface:
+All bots should extend the bot class (in Bot.js), and should implement the following interface:
 
 ```js
-import Bot from './Bot.js';
+import Bot from '../bot/Bot.js';
 
 class Somebot extends Bot {
     constructor() {
         super({
             name: 'myBot', 
-            description: "my bot description", 
-            disableable: false
+            description: "my bot description"
         });
     }
 
     // Optionally implement this event handler to handle the bot enabled/disabled event. Returns nothing.
-    onEnabled(on) {
-    }
+    onEnabled(on) {}
 
     // Optionally implement this method to provide tests for this bot which can be run. Returns an array of test strings.
-    getTests() {
-    }
+    getTests() {}
 
-    // Required - handles a new message. Responses should be sent using this.send.
-    // msg =
-    // {
-    //   content - [string] the content of the message.
-    //   from - [string] originator of the message.
-    //   directed - [bool] true if directed at this specific bot, else not directed at any bot.
-    // }
-    onNewMessage({ content, from, directed }) {
-    }
+    // Optional - called on a new public message. Responses should be sent using this.reply.
+    onPublicMessage({ content, from }) {}
+
+    // Optional - handles a new direct message. Responses should be sent using this.reply.
+    onDirectMessage({ content, from }) {}    
 }
 ```
 

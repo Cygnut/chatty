@@ -1,14 +1,15 @@
 import dgram from 'dgram';
 
-import Bot from '../Bot.js';
+import logger from '../Logger.js';
+import Bot from '../bot/Bot.js';
 
-class Udp extends Bot {
+export default class Udp extends Bot {
     #listener;
 
     constructor() {
-        super({ 
-            name: 'udp', 
-            description: "Dumps udp on receipt at a specified port." 
+        super({
+            name: 'udp',
+            description: "Dumps udp on receipt at a specified port."
         });
     }
 
@@ -18,25 +19,26 @@ class Udp extends Bot {
 
     createListener(port) {
         const listener = dgram.createSocket('udp4');
-        
-        listener.on('error', err => {
-            console.log(`Udp: Error: ${err.stack}`);
+
+        listener.on('error', e => {
+            logger.error(`Udp: Error: ${e.stack}`);
             listener.close();
         });
-        
+
         listener.on('message', (msg, rinfo) => {
-            console.log(`Udp: Got: ${msg} from ${rinfo.address}:${rinfo.port}`);
+            logger.info(`Udp: Got: ${msg} from ${rinfo.address}:${rinfo.port}`);
         });
-        
+
         listener.on('listening', () => {
             const address = listener.address();
-            console.log(`Udp: Listening at ${address.address}:${address.port}`);
+            logger.info(`Udp: Listening at ${address.address}:${address.port}`);
         });
-        
-        listener.unref();        // Prevent this object from stopping the entire application from shutting down.
-        
+
+        // Prevent this object from stopping the entire application from shutting down.
+        listener.unref();
+
         listener.bind(port);
-        
+
         return listener;
     }
 
@@ -46,31 +48,27 @@ class Udp extends Bot {
                 this.#listener.close();
                 this.#listener = null;
             }
-        } catch (err) {
-            console.log(`Udp: Error while stopping ${err}`);
+        } catch (e) {
+            logger.error(`Udp: Error while stopping ${e}`);
             this.#listener = null;
         }
     }
 
-    async onNewMessage({ content, from, directed }) {
-        if (!directed) 
-            return;
-        
-        if (content.startsWith('listen'))
-        {
+    async onDirectMessage({ content, from }) {
+        if (content.startsWith('listen')) {
             const portStr = content.substring(7);
             const port = parseInt(portStr);
             if (isNaN(port)) {
-                this.send(`${portStr} is not a valid port number.`, from);
+                this.reply(`${portStr} is not a valid port number.`, from);
                 return;
             }
-            
+
             try {
                 this.stop();
                 this.#listener = this.createListener(port);
-                this.send(`Now listening on ${port}`, from);
-            } catch (err) {
-                console.log(`Udp: Error while starting to listen on ${port} ${err}`);
+                this.reply(`Now listening on ${port}`, from);
+            } catch (e) {
+                logger.error(`Udp: Error while starting to listen on ${port} ${e}`);
             }
         }
         else if (content.startsWith('stop')) {
@@ -78,5 +76,3 @@ class Udp extends Bot {
         }
     }
 }
-
-export default Udp;

@@ -1,8 +1,8 @@
 import os from 'os';
 
-import Bot from '../Bot.js';
+import Bot from '../bot/Bot.js';
 
-class Host extends Bot {
+export default class Host extends Bot {
     constructor() {
         super({ 
             name: 'host', 
@@ -38,11 +38,8 @@ class Host extends Bot {
             .join(':');
     }
 
-    async onNewMessage({ content, from, directed }) {
-        if (!directed) 
-            return;
-        
-        this.send([
+    async onDirectMessage() {
+        this.reply([
             `The OS is ${os.platform()} with ${os.cpus().length} CPU/s.`, 
             `The amount of free memory is ${this.formatBytes(os.freemem())}.`,
             `The amount of total memory is ${this.formatBytes(os.totalmem())}.`,
@@ -50,5 +47,3 @@ class Host extends Bot {
         ].join('\n'));
     }
 }
-
-export default Host;

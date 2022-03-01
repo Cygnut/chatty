@@ -1,6 +1,6 @@
-import Bot from '../Bot.js';
+import Bot from '../bot/Bot.js';
 
-class Enable extends Bot {
+export default class Enable extends Bot {
     host;
 
     constructor() {
@@ -15,17 +15,13 @@ class Enable extends Bot {
         return [];
     }
 
-    async onNewMessage({ content, from, directed }) {
-        if (!directed) 
-            return;
-        
+    async onDirectMessage({ content }) {
         const result = this.host.enableBot(content);
         
-        if (result === null)
-            this.send('Did not enable/disable a bot.');
-        else
-            this.send((result ? 'Enabled' : 'Disabled') + ' ' + content);
+        if (result === null) {
+            this.reply('Did not enable/disable a bot.');
+        } else {
+            this.reply(`${result ? 'Enabled' : 'Disabled'} ${content}`);
+        }
     }
 }
-
-export default Enable;

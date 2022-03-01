@@ -1,6 +1,6 @@
-import Bot from '../Bot.js';
+import Bot from '../bot/Bot.js';
 
-class Help extends Bot {
+export default class Help extends Bot {
     host;
 
     constructor() {
@@ -13,18 +13,13 @@ class Help extends Bot {
     getTests() {
         return [
             this.name,
-            this.name + " " + this.name
+            `${this.name} ${this.name}`
         ];
     }
 
-    async onNewMessage({ content, from, directed }) {
-        if (!directed) 
-            return;
-    
-        this.send(this.host.getBotMetadata().map(i => {
-            return i.name + ' - ' + i.description + ' ' + (i.enabled ? '(on)' : '(off)');
+    async onDirectMessage() {
+        this.reply(this.host.getBotMetadata().map(i => {
+            return `${i.name} - ${i.description} ${i.enabled ? '(on)' : '(off)'}`;
         }).join('\n'));
     }
 }
-
-export default Help;
