@@ -16,14 +16,14 @@ import Loader from './bot/Loader.js';
     const bots = await loader.fromConfigFile();
 
     const host = new Host();
-    host.respond = (from, content) => {
+    host.respond = async (from, content) => {
         try {
-            fetch(`${url}send`, {
+            await fetch(`${url}send`, {
               method: 'POST',
               body: JSON.stringify({ from, content })
             });
         } catch (e) {
-            logger.error(e.message);
+            logger.error(`Failed to send message from bot ${from} with error: ${e.message}`);
         }
     };
     host.addBots(bots);
