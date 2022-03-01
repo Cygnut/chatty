@@ -32,6 +32,7 @@ const logger = createLogger({
   format: format.combine(
     errorFormat(),
     prefixFormat(),
+    format.colorize({ all: true }),
     finalizeFormat()    // This one *has* to come last!
   ),
   transports: [
