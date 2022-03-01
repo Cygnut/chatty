@@ -1,3 +1,5 @@
+import logger from '../Logger.js';
+
 export default class Host {
     #bots = [];
     respond = () => {};
@@ -9,7 +11,7 @@ export default class Host {
         try {
             this.run(msg, local);
         } catch (e) {
-            console.error(`Error handling message ${e}, continuing.`);
+            logger.error(`Error handling message ${e}, continuing.`);
         }
     }
 
@@ -21,26 +23,26 @@ export default class Host {
         });
 
         // If it's a message from a bot, then ignore it.
-        if (msg.from.startsWith('~')) 
+        if (msg.from.startsWith('~'))
             return;
-        
+
         // First let's see if it's a general message, or if it's directed at a specific bot.
         const enabledBots = this.#bots.filter(bot => bot.enabled);
-        
+
         const bot = enabledBots.find(bot => msg.content.startsWith(bot.name));
-        
+
         if (bot) {
             // Then it's directed at this specific bot and this one alone.
             const content = msg.content.substring(bot.name.length + 1);
-            console.log(`Calling bot ${bot.name} with directed message ${content}`);
-            
+            logger.info(`Calling bot ${bot.name} with directed message ${content}`);
+
             bot.onDirectMessage({
                 from: msg.from,
                 content
             });
         } else {
-            console.log(`Calling all enabled bots with general message ${msg.content}`);
-            
+            logger.info(`Calling all enabled bots with general message ${msg.content}`);
+
             enabledBots.forEach(bot => {
                 bot.onPublicMessage({
                     from: msg.from,
@@ -61,25 +63,25 @@ export default class Host {
     }
 
     sendResponse(bot, local, content, to) {
-        if (content === null) 
+        if (content === null)
             return;
-        
+
         // Also check here for asynchronously generated messages from disabled bots, just in case.
-        if (!bot.enabled) 
+        if (!bot.enabled)
             return;
-        
+
         const response = to ? `@${to}: ${content}` : content;
-        
-        console.log(`${bot.name} responding to message with content: ${response}`);
-        
+
+        logger.info(`${bot.name} responding to message with content: ${response}`);
+
         if (local) {
-            console.log(response);
+            logger.info(response);
         } else {
             this.callRespond(bot.name, response);
         }
     }
 
-    // Use the wrapper so we can bind to this function (which is invariant under 
+    // Use the wrapper so we can bind to this function (which is invariant under
     // the event handler changing) instead of the event.
     callRespond(from, content) {
         if (this.respond) {
@@ -91,7 +93,7 @@ export default class Host {
         // Initialise
         bot.host = this;
         bot.reply = () => {};
-        
+
         // Start
         bot.enable(true);
         this.#bots.push(bot);
@@ -103,10 +105,10 @@ export default class Host {
 
     enableBot(botName, on) {
         const bot = this.#bots.find(bot => bot.name === botName);
-        
-        if (!bot) 
+
+        if (!bot)
             return null;
-        
+
         // If on is not passed, then flip the state.
         // Else, set to the defined state in on.
         if (on === undefined) {
@@ -114,7 +116,7 @@ export default class Host {
         } else {
             bot.enable(on);
         }
-        
+
         return bot.enabled;
     }
 }

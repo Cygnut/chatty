@@ -1,3 +1,4 @@
+import logger from '../Logger.js';
 import Bot from '../bot/Bot.js';
 
 export default class Test extends Bot {
@@ -32,7 +33,7 @@ export default class Test extends Bot {
 
     async onDirectMessage() {
         const tests = this.generateTests();
-        console.log(tests);
+        logger.info(tests);
 
         // Copy the array into a reversed queue.
         const queue = tests.slice().reverse();
@@ -42,7 +43,7 @@ export default class Test extends Bot {
             const message = queue.pop();
 
             if (message === undefined) {
-                console.log('No messages left to send - finished sending.');
+                logger.info('No messages left to send - finished sending.');
                 clearInterval(timerId);
                 return;
             }

@@ -1,9 +1,10 @@
+import logger from '../Logger.js';
 import Bot from '../bot/Bot.js';
 
 export default class Eval extends Bot {
     constructor() {
-        super({ 
-            name: 'eval', 
+        super({
+            name: 'eval',
             description: "Evaluates a javascript expression."
         });
     }
@@ -20,9 +21,9 @@ export default class Eval extends Bot {
             result = eval(content);
         } catch (e) {
             result = `Error handling Eval message ${content} from ${from} with error ${e}`;
-            console.error(result);
+            logger.error(result);
         }
-        
+
         this.reply(result, from);
     }
 }

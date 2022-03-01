@@ -1,11 +1,12 @@
 import fetch from 'node-fetch';
 
+import logger from '../Logger.js';
 import Bot from '../bot/Bot.js';
 
 export default class Oak extends Bot {
     constructor() {
-        super({ 
-            name: 'oak', 
+        super({
+            name: 'oak',
             description: "Ask Professor Oak about pokemon." }
         );
     }
@@ -24,7 +25,7 @@ export default class Oak extends Bot {
                 return `${f.flavor_text} (${f.version.name})`;
             }
         }
-        
+
         return '';
     }
 
@@ -34,11 +35,11 @@ export default class Oak extends Bot {
             const response = await fetch(url);
             const body = await response.json();
             this.reply(
-                `${body.name} is a ${body.color.name} ${body.shape.name} ${body.generation.name} pokemon. ${this.getEnFlavourText(body)}`, 
+                `${body.name} is a ${body.color.name} ${body.shape.name} ${body.generation.name} pokemon. ${this.getEnFlavourText(body)}`,
                 from
             );
         } catch (e) {
-            console.error(`Error handling response ${e}`);
+            logger.error(`Error handling response ${e}`);
             this.reply("Couldn't ask Professor Oak about it..", from);
         }
     }

@@ -1,6 +1,8 @@
 import path from 'path';
 import { readFileSync, readdirSync } from 'fs';
 
+import logger from '../Logger.js';
+
 // TODO: Pass url in here.
 // TODO: describe bots.config syntax here.
 export default class Loader {
@@ -18,7 +20,7 @@ export default class Loader {
 
     combineSettings(common, specific) {
         const combined = {};
-        
+
         // Copy common into combined to start with.
         for (const prop in common) {
             // Iterate over all of common's own properties.
@@ -26,24 +28,24 @@ export default class Loader {
                 combined[prop] = common[prop];
             }
         }
-        
+
         // If specific has nothing, then we're done.
         if (specific === null || specific === undefined)
             return combined;
-        
+
         for (const property in specific) {
             if (specific.hasOwnProperty(property)) {
                 // Iterate over all of specific's own properties.
-                
+
                 // If there's a clash between the properties that common and specific has, use common.
-                if (combined.hasOwnProperty(property)) 
+                if (combined.hasOwnProperty(property))
                     continue;
-                
+
                 // Otherwise, add the properties from specific
                 combined[property] = specific[property];
             }
         }
-        
+
         return combined;
     }
 
@@ -51,7 +53,7 @@ export default class Loader {
         // Load the config file
         const config = JSON.parse(readFileSync(this.#configFilepath, 'utf8'));
 
-        let importee = null;            
+        let importee = null;
         try {
             importee = await import(`file:///${filepath}`);
         } catch (e) {
@@ -63,15 +65,15 @@ export default class Loader {
         }
 
         const importedClass = importee.default;
-        
+
         // Get the bot specific settings for this bot.
         const botConfig = config.bots.find(bot => {
             return bot.name === importedClass.name;
         });
-        
+
         const botSettings = botConfig ? botConfig.settings : {};
         const settings = this.combineSettings({}, botSettings);
-        
+
         // Instantiate the bot with those settings.
         try {
             return new importedClass(settings);
@@ -83,19 +85,19 @@ export default class Loader {
     async fromConfigFile() {
         const filenames = readdirSync(this.#botsDir)
             .filter(filename => filename.match(this.#BOT_REGEX));
-        
-        const bots = [];        
+
+        const bots = [];
         for (const filename of filenames) {
             const filepath = `${this.#botsDir}${path.sep}${filename}`;
             try {
                 const bot = await this.tryCreateBot(filepath);
-                console.log(`Loaded bot ${bot.name}`);
+                logger.info(`Loaded bot ${bot.name}`);
                 bots.push(bot);
             } catch (e) {
-                console.error(`Failed to load bot in ${filepath}. ${e} ${e.stack}`);
+                logger.error(`Failed to load bot in ${filepath}. ${e} ${e.stack}`);
             }
         };
-        
+
         return bots;
     }
 }

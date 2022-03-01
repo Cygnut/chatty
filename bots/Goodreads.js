@@ -3,6 +3,7 @@ import fs from 'fs';
 import fetch from 'node-fetch';
 import xml2js from 'xml2js';
 
+import logger from '../Logger.js';
 import Bot from '../bot/Bot.js';
 
 export default class Goodreads extends Bot {
@@ -10,11 +11,11 @@ export default class Goodreads extends Bot {
     #apiKey;
 
     constructor(goodreadsApiKey) {
-        super({ 
-            name: 'goodreads', 
+        super({
+            name: 'goodreads',
             description: "Finds the top related book for a given search term."
         });
-        
+
         this.#apiKey = goodreadsApiKey;
     }
 
@@ -26,7 +27,7 @@ export default class Goodreads extends Bot {
 
     // For debugging purposes only
     writeJsonObject(o, path) {
-        fs.writeFile(path, JSON.stringify(o, null, 2), console.error); 
+        fs.writeFile(path, JSON.stringify(o, null, 2), logger.error);
     }
 
     async onDirectMessage({ content, from }) {
@@ -40,7 +41,7 @@ export default class Goodreads extends Bot {
             const title = result.GoodreadsResponse.search[0].results[0].work[0].best_book[0].title[0];
             this.reply(`So.. were you looking for ${title}?`, from);
         } catch (e) {
-            console.error(`Error handling response ${e}`);
+            logger.error(`Error handling response ${e}`);
             this.reply("Couldn't ask Goodreads about it..", from);
         }
     }

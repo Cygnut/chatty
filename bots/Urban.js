@@ -1,12 +1,13 @@
 import fetch from 'node-fetch';
 
+import logger from '../Logger.js';
 import Bot from '../bot/Bot.js';
 
 export default class Urban extends Bot {
     constructor() {
-        super({ 
-            name: 'urban', 
-            description: "Looks up shit from UrbanDictionary." 
+        super({
+            name: 'urban',
+            description: "Looks up shit from UrbanDictionary."
         });
     }
 
@@ -24,7 +25,7 @@ export default class Urban extends Bot {
             const body = await response.json();
             this.reply(body.list[0].definition, from);
         } catch (e) {
-            console.error(`Error handling response: ${e}`);
+            logger.error(`Error handling response: ${e}`);
             this.reply("Couldn't ask UrbanDictionary about it..", from);
         }
     }
