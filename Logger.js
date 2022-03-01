@@ -2,8 +2,8 @@ import { createLogger, format, transports } from 'winston';
 
 const formatter = format((info, opts) => {
   info.message = [
-    info.level.padEnd(5, ' '),
     new Date().toISOString(),
+    info.level.padEnd(5, ' '),
     info.message || ''
   ].filter(v => v).join(' | ');
   // We need to define this formatter as a finalizer formatter - i.e. by setting
