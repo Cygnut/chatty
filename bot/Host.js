@@ -1,4 +1,5 @@
 import logger from '../Logger.js';
+import Bot from './Bot.js';
 
 export default class Host {
     #bots = [];
@@ -20,7 +21,7 @@ export default class Host {
         });
 
         // If it's a message from a bot, then ignore it.
-        if (msg.from.startsWith('~'))
+        if (msg.from.startsWith(Bot.PREFIX))
             return;
 
         // First let's see if it's a general message, or if it's directed at a specific bot.
