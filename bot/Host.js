@@ -5,38 +5,32 @@ export default class Host {
     #bots = [];
     #channels = [];
 
-    onMessage(msg) {
+    onMessage({ from, content }) {
         try {
             this.#bots.forEach(bot => {
                 bot.reply = this.reply.bind(this, bot);
             });
 
             // If it's a message from a bot, then ignore it.
-            if (msg.from.startsWith(Bot.PREFIX))
+            if (from.startsWith(Bot.PREFIX))
                 return;
 
             // First let's see if it's a general message, or if it's directed at a specific bot.
             const enabledBots = this.#bots.filter(bot => bot.enabled);
 
-            const bot = enabledBots.find(bot => msg.content.startsWith(bot.name));
+            const bot = enabledBots.find(bot => content.startsWith(bot.name));
 
             if (bot) {
                 // Then it's directed at this specific bot and this one alone.
-                const content = msg.content.substring(bot.name.length + Bot.PREFIX.length);
+                content = content.substring(bot.name.length + Bot.PREFIX.length);
                 logger.info(`Calling bot ${bot.name} with directed message ${content}`);
 
-                bot.onDirectMessage({
-                    from: msg.from,
-                    content
-                });
+                bot.onDirectMessage({ from, content });
             } else {
-                logger.info(`Calling all enabled bots with general message ${msg.content}`);
+                logger.info(`Calling all enabled bots with general message ${content}`);
 
                 enabledBots.forEach(bot => {
-                    bot.onPublicMessage({
-                        from: msg.from,
-                        content: msg.content
-                    });
+                    bot.onPublicMessage({ from, content });
                 });
             }
         } catch (e) {
