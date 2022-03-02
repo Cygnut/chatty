@@ -4,6 +4,7 @@ import logger from '../Logger.js';
 import Channel from '../Channel.js';
 
 export default class Console extends Channel {
+    #exit = 'exit';
     #callback;
 
     constructor(callback) {
@@ -12,16 +13,18 @@ export default class Console extends Channel {
     }
 
     receive() {
+        console.log(`Type "${this.#exit}" to exit > `)
+
         const io = readline.createInterface({
             input: process.stdin,
             output: process.stdout,
-            prompt: 'Type "exit" to exit the app > '
+            prompt: ''
         });
 
         io.prompt();
 
-        io.on('line', (line) => {
-            if (line.toLowerCase() === "exit") {
+        io.on('line', line => {
+            if (line.toLowerCase() === this.#exit) {
                 logger.info('Bye!');
                 process.exit(0);
             } else {
