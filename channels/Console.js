@@ -6,11 +6,11 @@ import Channel from '../Channel.js';
 export default class Console extends Channel {
     #from = 'console';
     #exit = 'exit';
-    #callback;
+    #onNewMessage;
 
-    constructor(callback) {
+    constructor(onNewMessage) {
         super();
-        this.#callback = callback;
+        this.#onNewMessage = onNewMessage;
     }
 
     #send(content) {
@@ -33,7 +33,7 @@ export default class Console extends Channel {
                 this.#send('Bye!');
                 process.exit(0);
             } else {
-                this.#callback({ from: this.#from, content: line.trim() })
+                this.#onNewMessage({ from: this.#from, content: line.trim() })
             }
             io.prompt();
         }).on('close', () => {

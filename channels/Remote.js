@@ -7,18 +7,18 @@ import Channel from '../Channel.js';
     This is a simple channel that scrapes the Chat app for the latest message and responds to it if it meets certain criteria.
     This could easily be extended to make these criteria and responses more pluggable.
 
-    callback should handle all exceptions.
+    onNewMessage should handle all exceptions.
 */
 
 export default class Remote extends Channel {
     #rootUrl;
     #lastIdSeen = -1;
-    #callback;
+    #onNewMessage;
 
-    constructor(rootUrl, callback) {
+    constructor(rootUrl, onNewMessage) {
         super();
         this.#rootUrl = rootUrl;
-        this.#callback = callback;
+        this.#onNewMessage = onNewMessage;
     }
 
     async #poll() {
@@ -31,7 +31,7 @@ export default class Remote extends Channel {
             if (this.#lastIdSeen < msg.id) {
                 // Then we're looking at a new message.
                 try {
-                    this.#callback(msg);
+                    this.#onNewMessage(msg);
                 } catch (e) {}
                 this.#lastIdSeen = msg.id;
             }
