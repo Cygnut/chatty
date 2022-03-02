@@ -28,6 +28,8 @@ import Loader from './bot/Loader.js';
 
 
 /*
+    still need a limited interface passed to bots instead of this.host, especially for ~test
+
     no prompt after '~urban poop'
 
     fix weird load order (of where channels depend on host being defined)
