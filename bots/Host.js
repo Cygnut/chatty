@@ -16,7 +16,7 @@ export default class Host extends Bot {
         ];
     }
 
-    formatBytes(bytes,decimals) {
+    #formatBytes(bytes,decimals) {
         if (bytes == 0) 
             return '0 Bytes';
 
@@ -27,7 +27,7 @@ export default class Host extends Bot {
         return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
     }
 
-    formatTime(secs) {
+    #formatTime(secs) {
         const secNum = parseInt(secs, 10);
         const hours = Math.floor(secNum / 3600);
         const minutes = Math.floor((secNum - (hours * 3600)) / 60);
@@ -41,9 +41,9 @@ export default class Host extends Bot {
     async onDirectMessage() {
         this.reply([
             `The OS is ${os.platform()} with ${os.cpus().length} CPU/s.`, 
-            `The amount of free memory is ${this.formatBytes(os.freemem())}.`,
-            `The amount of total memory is ${this.formatBytes(os.totalmem())}.`,
-            `The total system uptime is ${this.formatTime(os.uptime())}.`
+            `The amount of free memory is ${this.#formatBytes(os.freemem())}.`,
+            `The amount of total memory is ${this.#formatBytes(os.totalmem())}.`,
+            `The total system uptime is ${this.#formatTime(os.uptime())}.`
         ].join('\n'));
     }
 }

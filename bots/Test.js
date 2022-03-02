@@ -48,7 +48,7 @@ export default class Test extends Bot {
                 return;
             }
 
-            this.host.respond(this.#from, message);
+            this.host.reply(this.#from, message);
         }, 1000);
     }
 }

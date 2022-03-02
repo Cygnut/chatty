@@ -1,54 +1,46 @@
 import logger from '../Logger.js';
+import Bot from './Bot.js';
 
 export default class Host {
     #bots = [];
-    respond = () => {};
+    #channels = [];
 
-    constructor() {
-    }
-
-    execute(msg, local) {
+    onMessage(msg) {
         try {
-            this.run(msg, local);
-        } catch (e) {
-            logger.error(`Error handling message ${e}, continuing.`);
-        }
-    }
-
-    // Determine what the bot should do depending on the message.
-    // If you want to reply, return a string. Else return null to not reply.
-    run(msg, local) {
-        this.#bots.forEach(bot => {
-            bot.reply = this.sendResponse.bind(this, bot, local);
-        });
-
-        // If it's a message from a bot, then ignore it.
-        if (msg.from.startsWith('~'))
-            return;
-
-        // First let's see if it's a general message, or if it's directed at a specific bot.
-        const enabledBots = this.#bots.filter(bot => bot.enabled);
-
-        const bot = enabledBots.find(bot => msg.content.startsWith(bot.name));
-
-        if (bot) {
-            // Then it's directed at this specific bot and this one alone.
-            const content = msg.content.substring(bot.name.length + 1);
-            logger.info(`Calling bot ${bot.name} with directed message ${content}`);
-
-            bot.onDirectMessage({
-                from: msg.from,
-                content
+            this.#bots.forEach(bot => {
+                bot.reply = this.reply.bind(this, bot);
             });
-        } else {
-            logger.info(`Calling all enabled bots with general message ${msg.content}`);
 
-            enabledBots.forEach(bot => {
-                bot.onPublicMessage({
+            // If it's a message from a bot, then ignore it.
+            if (msg.from.startsWith(Bot.PREFIX))
+                return;
+
+            // First let's see if it's a general message, or if it's directed at a specific bot.
+            const enabledBots = this.#bots.filter(bot => bot.enabled);
+
+            const bot = enabledBots.find(bot => msg.content.startsWith(bot.name));
+
+            if (bot) {
+                // Then it's directed at this specific bot and this one alone.
+                const content = msg.content.substring(bot.name.length + Bot.PREFIX.length);
+                logger.info(`Calling bot ${bot.name} with directed message ${content}`);
+
+                bot.onDirectMessage({
                     from: msg.from,
-                    content: msg.content
+                    content
                 });
-            });
+            } else {
+                logger.info(`Calling all enabled bots with general message ${msg.content}`);
+
+                enabledBots.forEach(bot => {
+                    bot.onPublicMessage({
+                        from: msg.from,
+                        content: msg.content
+                    });
+                });
+            }
+        } catch (e) {
+            logger.error(`Error handling message ${e.stack}, continuing.`);
         }
     }
 
@@ -62,7 +54,7 @@ export default class Host {
         }));
     }
 
-    sendResponse(bot, local, content, to) {
+    reply(bot, content, to) {
         if (content === null)
             return;
 
@@ -72,21 +64,9 @@ export default class Host {
 
         const response = to ? `@${to}: ${content}` : content;
 
-        logger.info(`${bot.name} responding to message with content: ${response}`);
+        logger.info(`${bot.name} replying to message across all channels with content: ${response}`);
 
-        if (local) {
-            logger.info(response);
-        } else {
-            this.callRespond(bot.name, response);
-        }
-    }
-
-    // Use the wrapper so we can bind to this function (which is invariant under
-    // the event handler changing) instead of the event.
-    callRespond(from, content) {
-        if (this.respond) {
-            this.respond(from, content);
-        }
+        this.#channels.forEach(channel => channel.send(bot.name, response));
     }
 
     addBot(bot) {
@@ -101,6 +81,10 @@ export default class Host {
 
     addBots(bots) {
         bots.forEach(bot => this.addBot(bot));
+    }
+
+    addChannels(channels) {
+        this.#channels = channels;
     }
 
     enableBot(botName, on) {

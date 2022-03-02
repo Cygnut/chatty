@@ -1,9 +1,9 @@
 import readline from 'readline';
 
 import logger from '../Logger.js';
-import Poller from '../Poller.js';
+import Channel from '../Channel.js';
 
-export default class Console extends Poller {
+export default class Console extends Channel {
     #callback;
 
     constructor(callback) {
@@ -11,26 +11,30 @@ export default class Console extends Poller {
         this.#callback = callback;
     }
 
-    run() {
-        const rl = readline.createInterface({
+    receive() {
+        const io = readline.createInterface({
             input: process.stdin,
             output: process.stdout,
             prompt: 'Type "exit" to exit the app > '
         });
 
-        rl.prompt();
+        io.prompt();
 
-        rl.on('line', (line) => {
+        io.on('line', (line) => {
             if (line.toLowerCase() === "exit") {
                 logger.info('Bye!');
                 process.exit(0);
             } else {
                 this.#callback({ from: 'console', content: line.trim() })
             }
-            rl.prompt();
+            io.prompt();
         }).on('close', () => {
             logger.info('Exiting!');
             process.exit(0);
         });
+    }
+
+    send({ content }) {
+        logger.info(content);
     }
 }

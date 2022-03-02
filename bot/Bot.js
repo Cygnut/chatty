@@ -1,13 +1,15 @@
 import logger from '../Logger.js';
 
 class Bot {
+    static PREFIX = '~';
+
     name;
     description;
     disableable;    // Indicates ability to be disabled. True by default
     enabled;
 
     constructor({ name, description, disableable }) {
-        this.name = `~${name}`;
+        this.name = `${Bot.PREFIX}${name}`;
         this.description = description;
         this.disableable = disableable === undefined ? true : disableable;
         this.enabled = false;

@@ -39,7 +39,7 @@ export default class Oak extends Bot {
                 from
             );
         } catch (e) {
-            logger.error(`Error handling response ${e}`);
+            logger.error(e);
             this.reply("Couldn't ask Professor Oak about it..", from);
         }
     }

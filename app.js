@@ -1,10 +1,8 @@
 import path from 'path';
 
-import fetch from 'node-fetch';
-
 import logger from './Logger.js';
-import Remote from './pollers/Remote.js';
-import Console from './pollers/Console.js';
+import Remote from './channels/Remote.js';
+import Console from './channels/Console.js';
 import Host from './bot/Host.js';
 import Loader from './bot/Loader.js';
 
@@ -16,28 +14,23 @@ import Loader from './bot/Loader.js';
     const bots = await loader.fromConfigFile();
 
     const host = new Host();
-    host.respond = async (from, content) => {
-        try {
-            await fetch(`${url}send`, {
-              method: 'POST',
-              body: JSON.stringify({ from, content })
-            });
-        } catch (e) {
-            logger.error(`Failed to send message from bot ${from} with error: ${e.message}`);
-        }
-    };
+
+    const channels = [
+        new Remote(url, msg => host.onMessage(msg)),
+        new Console(msg => host.onMessage(msg))
+    ];
+
+    host.addChannels(channels);
     host.addBots(bots);
 
-    [
-        new Remote(url, msg => host.execute(msg, false)),
-        new Console(msg => host.execute(msg, true))
-    ]
-    .forEach(poller => poller.run());
+    channels.forEach(channel => channel.receive());
 })();
 
 
 /*
-    colorize logs
+    fix weird load order (of where channels depend on host being defined)
+    clean up app.js
+
     no prompt after '~urban poop'
 
     better folder structure
