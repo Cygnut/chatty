@@ -15,8 +15,9 @@ import Loader from './bot/Loader.js';
     const bots = await loader.fromConfigFile();
 
     const host = new Host();
-
-    const channels = new Channels(
+    const channels = new Channels();
+    
+    channels.set(
         new Remote(url, msg => host.onMessage(msg)),
         new Console(msg => host.onMessage(msg))
     );

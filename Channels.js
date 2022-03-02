@@ -3,8 +3,8 @@ import logger from "./Logger.js";
 class Channels {
     #channels = [];
 
-    constructor(...channels) {
-        this.#channels = this.#channels.concat(channels);
+    set(...channels) {
+        this.#channels = channels;
     }
 
     receive() {
