@@ -34,7 +34,7 @@ export default class Test extends Bot {
     async onDirectMessage() {
         for (const test of this.generateTests()) {
             logger.info(test);
-            this.host.reply(this.#from, test);
+            //this.host.reply(this.#from, test);
         }
     }
 }
