@@ -1,5 +1,5 @@
 import path from 'path';
-import { readFileSync, readdirSync } from 'fs';
+import { readFile, readdir } from 'fs/promises';
 
 import logger from '../Logger.js';
 
@@ -51,7 +51,7 @@ export default class Loader {
 
     async tryCreateBot(filepath) {
         // Load the config file
-        const config = JSON.parse(readFileSync(this.#configFilepath, 'utf8'));
+        const config = JSON.parse(await readFile(this.#configFilepath, 'utf8'));
 
         let importee = null;
         try {
@@ -83,7 +83,7 @@ export default class Loader {
     }
 
     async fromConfigFile() {
-        const filenames = readdirSync(this.#botsDir)
+        let filenames = (await readdir(this.#botsDir))
             .filter(filename => filename.match(this.#BOT_REGEX));
 
         const bots = [];

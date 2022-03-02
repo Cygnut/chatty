@@ -28,10 +28,10 @@ import Loader from './bot/Loader.js';
 
 
 /*
+    no prompt after '~urban poop'
+
     fix weird load order (of where channels depend on host being defined)
     clean up app.js
-
-    no prompt after '~urban poop'
 
     better folder structure
 
