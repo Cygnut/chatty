@@ -4,6 +4,7 @@ import logger from '../Logger.js';
 import Channel from '../Channel.js';
 
 export default class Console extends Channel {
+    #from = 'console';
     #exit = 'exit';
     #callback;
 
@@ -28,7 +29,7 @@ export default class Console extends Channel {
                 logger.info('Bye!');
                 process.exit(0);
             } else {
-                this.#callback({ from: 'console', content: line.trim() })
+                this.#callback({ from: this.#from, content: line.trim() })
             }
             io.prompt();
         }).on('close', () => {
