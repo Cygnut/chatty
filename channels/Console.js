@@ -38,6 +38,6 @@ export default class Console extends Channel {
     }
 
     send({ content }) {
-        logger.info(content);
+        console.log(content);
     }
 }

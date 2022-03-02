@@ -53,7 +53,7 @@ export default class Remote extends Channel {
                 body: JSON.stringify({ from, content })
             });
         } catch (e) {
-            logger.error(`Failed to send message from ${from} with error: ${e.stack}`);
+            //logger.error(`Failed to send message from ${from} with error: ${e.stack}`);
         }
     }
 }

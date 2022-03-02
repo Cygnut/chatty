@@ -56,11 +56,11 @@ export default class Host {
         if (!bot.enabled)
             return;
 
-        const response = to ? `@${to}: ${content}` : content;
+        const mappedContent = to ? `@${to}: ${content}` : content;
 
-        logger.info(`${bot.name} replying to message across all channels with content: ${response}`);
+        logger.info(`${bot.name} replying to message across all channels with content: ${mappedContent}`);
 
-        this.#channels.forEach(channel => channel.send(bot.name, response));
+        this.#channels.forEach(channel => channel.send({ from: bot.name, content: mappedContent }));
     }
 
     addBot(bot) {
