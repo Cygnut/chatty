@@ -1,0 +1,113 @@
+diff --git a/app.js b/app.js
+index eb56315..a1b541c 100644
+--- a/app.js
++++ b/app.js
+@@ -24,6 +24,8 @@ import Loader from './bot/Loader.js';
+     host.addBots(bots);
+ 
+     channels.forEach(channel => channel.receive());
++
++    host.awaitChannelMessages();
+ })();
+ 
+ 
+diff --git a/bot/Host.js b/bot/Host.js
+index 7754931..4c8d95a 100644
+--- a/bot/Host.js
++++ b/bot/Host.js
+@@ -5,6 +5,13 @@ export default class Host {
+     #bots = [];
+     #channels = [];
+ 
++    async awaitChannelMessages() {
++        while (true) {
++            const message = await Promise.race(this.#channels.receive);
++            this.onMessage(message);
++        }
++    }
++
+     onMessage(msg) {
+         try {
+             this.#bots.forEach(bot => {
+diff --git a/channels/Console.js b/channels/Console.js
+index 8f95982..e6868eb 100644
+--- a/channels/Console.js
++++ b/channels/Console.js
+@@ -11,7 +11,7 @@ export default class Console extends Channel {
+         this.#callback = callback;
+     }
+ 
+-    receive() {
++    async * receive() {
+         const io = readline.createInterface({
+             input: process.stdin,
+             output: process.stdout,
+@@ -25,7 +25,9 @@ export default class Console extends Channel {
+                 logger.info('Bye!');
+                 process.exit(0);
+             } else {
+-                this.#callback({ from: 'console', content: line.trim() })
++                const message = { from: 'console', content: line.trim() };
++                yield message;
++                //this.#callback({ from: 'console', content: line.trim() })
+             }
+             io.prompt();
+         }).on('close', () => {
+diff --git a/channels/Remote.js b/channels/Remote.js
+index cc2c7e2..70c7dcb 100644
+--- a/channels/Remote.js
++++ b/channels/Remote.js
+@@ -21,31 +21,31 @@ export default class Remote extends Channel {
+         this.#callback = callback;
+     }
+ 
+-    async #poll() {
+-        try {
+-            // Just get the last message
+-            const response = await fetch(`${this.#rootUrl}messages?begin=-1`);
+-            const body = await response.json();
+-            const msg = body[0];
+-
+-            if (this.#lastIdSeen < msg.id) {
+-                // Then we're looking at a new message.
+-                try {
+-                    this.#callback(msg);
+-                } catch (e) {}
+-                this.#lastIdSeen = msg.id;
+-            }
+-        } catch (e) {
+-            //logger.error(e);
++    async * receive() {
++        while (true) {
++            // Assume every 1/2 second is fast enough to catch every new message in poll.
++            await new Promise(_ => setTimeout(_, 500));
++
++            try {
++                // Just get the last message
++                const response = await fetch(`${this.#rootUrl}messages?begin=-1`);
++                const body = await response.json();
++                const msg = body[0];
++    
++                if (this.#lastIdSeen < msg.id) {
++                    // Then we're looking at a new message.
++                    try {
++                        this.#callback(msg);
++                        yield msg;
++                    } catch (e) {}
++                    this.#lastIdSeen = msg.id;
++                }
++            } catch (e) {
++                //logger.error(e);
++            }            
+         }
+     }
+ 
+-    receive() {
+-        // TODO: Ensure that this can only be run once.
+-        // Assume every 1/2 second is fast enough to catch every new message in poll.
+-        setInterval(this.#poll.bind(this), 500);
+-    }
+-
+     async send({ from, content }) {
+         try {
+             await fetch(`${this.#rootUrl}send`, {
