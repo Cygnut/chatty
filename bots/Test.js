@@ -32,23 +32,9 @@ export default class Test extends Bot {
     }
 
     async onDirectMessage() {
-        const tests = this.generateTests();
-        logger.info(tests);
-
-        // Copy the array into a reversed queue.
-        const queue = tests.slice().reverse();
-
-        let timerId = null;
-        timerId = setInterval(() => {
-            const message = queue.pop();
-
-            if (message === undefined) {
-                logger.info('No messages left to send - finished sending.');
-                clearInterval(timerId);
-                return;
-            }
-
-            this.host.reply(this.#from, message);
-        }, 1000);
+        for (const test of this.generateTests()) {
+            logger.info(test);
+            this.host.reply(this.#from, test);
+        }
     }
 }
