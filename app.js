@@ -3,6 +3,7 @@ import path from 'path';
 import logger from './Logger.js';
 import Remote from './channels/Remote.js';
 import Console from './channels/Console.js';
+import Channels from './Channels.js';
 import Host from './bot/Host.js';
 import Loader from './bot/Loader.js';
 
@@ -15,15 +16,15 @@ import Loader from './bot/Loader.js';
 
     const host = new Host();
 
-    const channels = [
+    const channels = new Channels(
         new Remote(url, msg => host.onMessage(msg)),
         new Console(msg => host.onMessage(msg))
-    ];
+    );
 
     host.addChannels(channels);
     host.addBots(bots);
 
-    channels.forEach(channel => channel.receive());
+    channels.receive();
 })();
 
 

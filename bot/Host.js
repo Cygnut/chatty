@@ -3,7 +3,7 @@ import Bot from './Bot.js';
 
 export default class Host {
     #bots = [];
-    #channels = [];
+    #channels;
 
     onMessage({ from, content }) {
         try {
@@ -49,18 +49,12 @@ export default class Host {
     }
 
     reply(bot, content, to) {
-        if (content === null)
-            return;
-
         // Also check here for asynchronously generated messages from disabled bots, just in case.
         if (!bot.enabled)
             return;
 
         const mappedContent = to ? `@${to}: ${content}` : content;
-
-        logger.info(`${bot.name} replying to message across all channels with content: ${mappedContent}`);
-
-        this.#channels.forEach(channel => channel.send({ from: bot.name, content: mappedContent }));
+        this.#channels.send({ from: bot.name, content: mappedContent });
     }
 
     addBot(bot) {
