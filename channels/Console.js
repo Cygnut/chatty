@@ -13,8 +13,12 @@ export default class Console extends Channel {
         this.#callback = callback;
     }
 
+    #send(content) {
+        console.log(content);
+    }
+
     receive() {
-        console.log(`Type "${this.#exit}" to exit > `)
+        this.#send(`Hi @${this.#from}, type "${this.#exit}" to exit > `)
 
         const io = readline.createInterface({
             input: process.stdin,
@@ -26,19 +30,19 @@ export default class Console extends Channel {
 
         io.on('line', line => {
             if (line.toLowerCase() === this.#exit) {
-                logger.info('Bye!');
+                this.#send('Bye!');
                 process.exit(0);
             } else {
                 this.#callback({ from: this.#from, content: line.trim() })
             }
             io.prompt();
         }).on('close', () => {
-            logger.info('Exiting!');
+            this.#send('Exiting!');
             process.exit(0);
         });
     }
 
     send({ content }) {
-        console.log(content);
+        this.#send(content);
     }
 }
