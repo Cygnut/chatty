@@ -142,7 +142,7 @@ export default class TicTacToe extends Bot {
 
   async onDirectMessage({ content, from }) {
     try {
-      if (content === '') {
+      if (!content) {
         this.reply('\n' + this.#game.stringizeGrid());    // Don't include @ info as it's to everyone.
       } else if (content.startsWith('configure')) {
         // Create a new game with
