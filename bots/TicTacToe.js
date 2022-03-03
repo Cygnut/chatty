@@ -145,7 +145,7 @@ export default class TicTacToe extends Bot {
       if (!content) {
         this.reply('\n' + this.#game.stringizeGrid());    // Don't include @ info as it's to everyone.
       } else if (content.startsWith('configure')) {
-        // Create a new game with
+        // Create a new game with the passed size
         const size = parseInt(content.substring('configure'.length + 1));
         if (isNaN(size))
           throw new InputError('Size must be a valid integer.');
