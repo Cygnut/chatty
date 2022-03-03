@@ -110,6 +110,7 @@ class TicTacToeGame {
 export default class TicTacToe extends Bot {
   #game;
   #inputRegex = /[\s,]+/;    // Cache this for performance.
+  #gameSize = 3;
 
   constructor() {
     super({
@@ -117,7 +118,7 @@ export default class TicTacToe extends Bot {
       description: "Play tic-tac-toe. Inputs must be of format e.g. 0,2 x, or blank, or start x to configure a new game of size x."
     });
 
-    this.#game = new TicTacToeGame(3);
+    this.#game = new TicTacToeGame(this.#gameSize);
   }
 
   getTests() {
@@ -125,10 +126,7 @@ export default class TicTacToe extends Bot {
   }
 
   parseInput(content) {
-    // Message syntax: x,y [x or o]
-    // x,y are 0 based {0,1,2}
-    // Split by , and whitespace
-
+    // Message syntax: x y [x or o], x y are 0 based {0,1,2}
     const tokens = content.split(this.#inputRegex);
     if (tokens.length !== 3)
       throw new InputError(`${content} is badly formed input.`);
