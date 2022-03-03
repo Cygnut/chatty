@@ -51,29 +51,30 @@ class TicTacToeGame {
     // Generates an array {0, 1, ..., length - 1}
     const range = length => Array.from(Array(length).keys());
     const gridRange = range(this.gridLength);
+    const every = predicate => gridRange.every(predicate);
 
     // Check for each player.
     for (const validPlayer of this.validPlayers) {
       // Check rows:
       for (const r of gridRange) {
-        if (gridRange.every(c => this.#grid[r][c] === validPlayer)) {
+        if (every(c => this.#grid[r][c] === validPlayer)) {
           return { winner: validPlayer, reason: `Won on row ${r}.` };
         }
       }
 
       // Check columns:
       for (const c of gridRange) {
-        if (gridRange.every(r => this.#grid[r][c] === validPlayer))
+        if (every(r => this.#grid[r][c] === validPlayer))
           return { winner: validPlayer, reason: `Won on column ${c}.` };
       }
 
       // Check diagonal going this way \
-      if (gridRange.every(d => this.#grid[d][d] === validPlayer)) {
+      if (every(d => this.#grid[d][d] === validPlayer)) {
         return { winner: validPlayer, reason: 'Won on top-left diagonal.' };
       }
 
       // Check diagonal going this way /
-      if (gridRange.every(d => this.#grid[this.gridLength - 1 - d][d] === validPlayer)) {
+      if (every(d => this.#grid[this.gridLength - 1 - d][d] === validPlayer)) {
         return { winner: validPlayer, reason: 'Won on top-right diagonal.' };
       }
     }
