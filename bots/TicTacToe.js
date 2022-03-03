@@ -40,13 +40,10 @@ class TicTacToeGame {
     this.#grid[move.y][move.x] = move.player;
   }
 
-  printGrid() {
-    // Get the current state of the grid.
-    let results = '';
-    this.#grid.forEach(row => {
-      results += row.join(' ') + '\n';
-    });
-    return results;
+  stringizeGrid() {
+    return this.#grid
+      .map(row => row.join(' '))
+      .join('\n');
   }
 
   getWinner() {
@@ -87,21 +84,14 @@ class TicTacToeGame {
     // Play the move to update the grid.
     this.doMove(move);
 
-    // Stringize the current state of the grid.
-    this.printGrid();
-
     // Check for a winner to see if we need to reset the game.
     const winner = this.getWinner();
-
-    // Save the game state before possibly resetting.
-    const grid = this.printGrid();
 
     // If there is one, report this and reset the game.
     if (winner.winner)
       this.resetGrid();
 
     return {
-      grid,
       winner: winner ? winner.winner : null,
       winningReason: winner ? winner.reason : null,
     };
@@ -159,7 +149,7 @@ export default class TicTacToe extends Bot {
   async onDirectMessage({ content, from }) {
     try {
       if (content === '') {
-        this.reply('\n' + this.#game.printGrid());    // Don't include @ info as it's to everyone.
+        this.reply('\n' + this.#game.stringizeGrid());    // Don't include @ info as it's to everyone.
       } else if (content.startsWith('configure')) {
         // Create a new game with
         const size = parseInt(content.substring('configure'.length + 1));
@@ -176,7 +166,7 @@ export default class TicTacToe extends Bot {
         // Play the move to update the grid.
         const info = this.#game.play(move);
 
-        let response = info.grid;
+        let response = this.#game.stringizeGrid();
         if (info.winner)
           response += `${info.winner} won the game! ${info.winningReason}`;
 
