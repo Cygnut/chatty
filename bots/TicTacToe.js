@@ -11,7 +11,7 @@ const range = length => Array.from(Array(length).keys());
 
 class TicTacToeGame {
   gridLength;
-  validPlayers = [ 'o', 'x' ];
+  #validPlayers = [ 'o', 'x' ];
   #grid;
   #unsetChar = '_';
 
@@ -46,7 +46,7 @@ class TicTacToeGame {
     const every = predicate => gridRange.every(predicate);
 
     // Check for each player.
-    for (const player of this.validPlayers) {
+    for (const player of this.#validPlayers) {
       // Check rows:
       for (const r of gridRange) {
         if (every(c => this.#grid[r][c] === player)) {
@@ -81,6 +81,9 @@ class TicTacToeGame {
   }
 
   play(move) {
+    if (!this.#validPlayers.some(p => p === move.player))
+      throw new InputError(`${move.player} should be one of ${this.#validPlayers.join(', ')}`);
+
     // Play the move to update the grid.
     this.#doMove(move);
 
@@ -131,16 +134,11 @@ export default class TicTacToe extends Bot {
       return i;
     }
 
-    const move = {
+    return {
       x: getCoordinate(tokens[0]),
       y: getCoordinate(tokens[1]),
       player: tokens[2],
     };
-
-    if (!this.#game.validPlayers.some(p => p === move.player))
-      throw new InputError(`${move.player} should be one of ${this.#game.validPlayers.join()}`);
-
-    return move;
   }
 
   async onDirectMessage({ content, from }) {
