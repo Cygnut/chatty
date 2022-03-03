@@ -11,23 +11,23 @@ class InputError extends Error {
 const range = length => Array.from(Array(length).keys());
 
 class TicTacToeGame {
-  gridLength;
+  #gridLength;
   #validPlayers = [ 'o', 'x' ];
   #grid;
   #unsetChar = '_';
 
   constructor(gridLength) {
-    this.gridLength = gridLength;
+    this.#gridLength = gridLength;
     this.#resetGrid();
   }
 
   #resetGrid() {
     this.#grid = [];
 
-    for (const r of range(this.gridLength)) {
+    for (const r of range(this.#gridLength)) {
       this.#grid[r] = [];
 
-      for (const c of range(this.gridLength)) {
+      for (const c of range(this.#gridLength)) {
         this.#grid[r][c] = this.#unsetChar;
       }
     }
@@ -44,7 +44,7 @@ class TicTacToeGame {
       if (isNaN(value))
         throw new InputError(`${c} must be a valid integer.`);
 
-      if (value < 0 ||value >= this.gridLength)
+      if (value < 0 ||value >= this.#gridLength)
         throw new InputError(`${c} must be in {0,1,2}.`);
     });
 
@@ -56,7 +56,7 @@ class TicTacToeGame {
   }
 
   #getWinner() {
-    const gridRange = range(this.gridLength);
+    const gridRange = range(this.#gridLength);
     const every = predicate => gridRange.every(predicate);
 
     // Check for each player.
@@ -80,7 +80,7 @@ class TicTacToeGame {
       }
 
       // Check diagonal going this way /
-      if (every(d => this.#grid[this.gridLength - 1 - d][d] === player)) {
+      if (every(d => this.#grid[this.#gridLength - 1 - d][d] === player)) {
         return { player, reason: 'Won on top-right diagonal.' };
       }
     }
