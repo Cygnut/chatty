@@ -11,7 +11,7 @@ import config from './Config.js';
 (async () => {
   const host = new Host();
   const channels = new Channels();
-    
+
   channels.set(
     new Remote(config.channels.remote.url, msg => host.onMessage(msg)),
     new Console(msg => host.onMessage(msg))
@@ -25,6 +25,9 @@ import config from './Config.js';
 
 
 /*
+  don't use process.cwd(), use where the code is located - e.g. node chatty/app.js dies.
+  handle all todos
+
   separate stream for errors and content?
 
   change tab size
@@ -43,8 +46,6 @@ import config from './Config.js';
   better folder structure
 
   better access to host from bots that need it (enable, help, self test), rather than hackily setting bot.host, provide limited interface
-
-  all todos
 
   get self-test working (albeit hackily)
   rebuild on a separate branch

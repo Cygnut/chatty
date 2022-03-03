@@ -4,9 +4,6 @@ import { readdir } from 'fs/promises';
 import logger from '../Logger.js';
 import config from '../Config.js';
 
-// TODO: Pass url in here.
-// TODO: describe bots.config syntax here.
-
 // Only pick up files which have at least one character before Bot.js.
 const botRegex = /.+.js/
 
@@ -73,7 +70,7 @@ const tryCreateBot = async filepath => {
 };
 
 const loader = async () => {
-  const dir = `${process.cwd()}${path.sep}bots`
+  const dir = path.join(process.cwd(), 'bots');
 
   let filenames = (await readdir(dir))
     .filter(filename => filename.match(botRegex));
