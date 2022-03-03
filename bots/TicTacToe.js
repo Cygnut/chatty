@@ -49,10 +49,7 @@ class TicTacToeGame {
 
   getWinner() {
     // Generates an array {0, 1, ..., length - 1}
-    const range = (length) => {
-      // Note: Array.from(Array(this.gridLength).keys()) = [0, 1, .. this.gridLength - 1]
-      return Array.from(Array(length).keys());
-    }
+    const range = length => Array.from(Array(length).keys());
 
     // Check if there's been a winner.
     // Check for each player.
@@ -72,15 +69,17 @@ class TicTacToeGame {
       }
 
       // Check diagonal starting at 0,0
-      if (range(this.gridLength).every(i => this.#grid[i][i] === validPlayer))
+      if (range(this.gridLength).every(i => this.#grid[i][i] === validPlayer)) {
         return { winner: validPlayer, reason: 'Won on top-left diagonal.' };
-
-      if (range(this.gridLength).every(i => this.#grid[this.gridLength - 1 - i][i] === validPlayer));
-        return { winner: validPlayer, reason: 'Won on top-right diagonal.' };
       }
 
-      return { winner: null };
+      if (range(this.gridLength).every(i => this.#grid[this.gridLength - 1 - i][i] === validPlayer)) {
+        return { winner: validPlayer, reason: 'Won on top-right diagonal.' };
+      }
     }
+    
+    return { winner: null };
+  }
 
   play(move) {
     // Play the move to update the grid.
