@@ -17,10 +17,10 @@ class TicTacToeGame {
 
   constructor(gridLength) {
     this.gridLength = gridLength;
-    this.resetGrid();
+    this.#resetGrid();
   }
 
-  resetGrid() {
+  #resetGrid() {
     this.#grid = [];
 
     for (const r of range(this.gridLength)) {
@@ -32,7 +32,7 @@ class TicTacToeGame {
     }
   }
 
-  doMove(move) {
+  #doMove(move) {
     // Update the grid:
     if (this.#grid[move.y][move.x] !== this.#unsetChar)
       throw new InputError("Hey! That spot's taken!");
@@ -40,13 +40,7 @@ class TicTacToeGame {
     this.#grid[move.y][move.x] = move.player;
   }
 
-  stringizeGrid() {
-    return this.#grid
-      .map(row => row.join(' '))
-      .join('\n');
-  }
-
-  getWinner() {
+  #getWinner() {
     // Generates an array {0, 1, ..., length - 1}
     const gridRange = range(this.gridLength);
     const every = predicate => gridRange.every(predicate);
@@ -80,16 +74,22 @@ class TicTacToeGame {
     return null;
   }
 
+  stringizeGrid() {
+    return this.#grid
+      .map(row => row.join(' '))
+      .join('\n');
+  }
+
   play(move) {
     // Play the move to update the grid.
-    this.doMove(move);
+    this.#doMove(move);
 
     // Check for a winner to see if we need to reset the game.
-    const winner = this.getWinner();
+    const winner = this.#getWinner();
 
     // If there is one, report this and reset the game.
     if (winner)
-      this.resetGrid();
+      this.#resetGrid();
 
     return {
       winner: winner ? winner.player : null,
