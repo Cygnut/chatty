@@ -7,6 +7,8 @@ class InputError extends Error {
   }
 }
 
+const range = length => Array.from(Array(length).keys());
+
 class TicTacToeGame {
   gridLength;
   validPlayers = [ 'o', 'x' ];
@@ -21,11 +23,11 @@ class TicTacToeGame {
   resetGrid() {
     this.#grid = [];
 
-    for (let i = 0; i < this.gridLength; ++i) {
-      this.#grid[i] = [];
+    for (const r of range(this.gridLength)) {
+      this.#grid[r] = [];
 
-      for (let j = 0; j < this.gridLength; ++j) {
-        this.#grid[i][j] = this.#unsetChar;
+      for (const c of range(this.gridLength)) {
+        this.#grid[r][c] = this.#unsetChar;
       }
     }
   }
@@ -49,7 +51,6 @@ class TicTacToeGame {
 
   getWinner() {
     // Generates an array {0, 1, ..., length - 1}
-    const range = length => Array.from(Array(length).keys());
     const gridRange = range(this.gridLength);
     const every = predicate => gridRange.every(predicate);
 
