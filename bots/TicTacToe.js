@@ -91,10 +91,7 @@ class TicTacToeGame {
     if (winner)
       this.#resetGrid();
 
-    return {
-      winner: winner ? winner.player : null,
-      winningReason: winner ? winner.reason : null,
-    };
+    return winner;
   }
 }
 
@@ -164,11 +161,11 @@ export default class TicTacToe extends Bot {
         const move = this.parseInput(content);
 
         // Play the move to update the grid.
-        const info = this.#game.play(move);
+        const winner = this.#game.play(move);
 
         let response = this.#game.stringizeGrid();
-        if (info.winner)
-          response += `${info.winner} won the game! ${info.winningReason}`;
+        if (winner)
+          response += `${winner.player} won the game! ${winner.reason}`;
 
         this.reply(response);    // Don't include @ info as it's to everyone.
       }
