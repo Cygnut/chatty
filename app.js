@@ -9,81 +9,75 @@ import loader from './bot/Loader.js';
 import config from './Config.js';
 
 (async () => {
-    const host = new Host();
-    const channels = new Channels();
+  const host = new Host();
+  const channels = new Channels();
     
-    channels.set(
-        new Remote(config.channels.remote.url, msg => host.onMessage(msg)),
-        new Console(msg => host.onMessage(msg))
-    );
+  channels.set(
+    new Remote(config.channels.remote.url, msg => host.onMessage(msg)),
+    new Console(msg => host.onMessage(msg))
+  );
 
-    host.addChannels(channels);
-    host.addBots(await loader());
+  host.addChannels(channels);
+  host.addBots(await loader());
 
-    channels.receive();
+  channels.receive();
 })();
 
 
 /*
-    don't like that Host has a hard reference to channels, use a callback, then wrap this top level up
+  better error handling in config.json, and enforce structure.
 
-    still need a limited interface passed to bots instead of this.host, especially for ~test
+  don't like that Host has a hard reference to channels, use a callback, then wrap this top level up
 
-    no prompt after '~urban poop'
+  still need a limited interface passed to bots instead of this.host, especially for ~test
 
-    fix weird load order (of where channels depend on host being defined)
-    clean up app.js
+  no prompt after '~urban poop'
 
-    better folder structure
+  fix weird load order (of where channels depend on host being defined)
+  clean up app.js
 
-    better access to host from bots that need it (enable, help, self test), rather than hackily setting bot.host, provide limited interface
+  better folder structure
 
-    all todos
-    change tab size
+  better access to host from bots that need it (enable, help, self test), rather than hackily setting bot.host, provide limited interface
 
-    get self-test working (albeit hackily)
-    rebuild on a separate branch
+  all todos
+  change tab size
 
-    Roadmap:
-        Combine.
+  get self-test working (albeit hackily)
+  rebuild on a separate branch
 
-    ChatBot:
+  Roadmap:
+    Combine.
 
-        Store enabled state of each bot persistently.
+  ChatBot:
+  Store enabled state of each bot persistently.
 
-        Fix/finish TicTacToeBot & test it!
-        Finish UdpBot, and test it. It currently is not sending to the Chat.
+  Fix/finish TicTacToeBot & test it!
+  Finish UdpBot, and test it. It currently is not sending to the Chat.
 
-        WIP: Support for bots which can send not only on received data, but also on a timer?
-        http://pokeapi.co/api/v2/pokemon-species/pikachu/
+  WIP: Support for bots which can send not only on received data, but also on a timer?
+  http://pokeapi.co/api/v2/pokemon-species/pikachu/
 
-        Combine Chat & ChatBot?
+  Combine Chat & ChatBot?
 
-        Bots:
-            tic-tac-toe
-            client stats - requires code merge of ChatBot & Chat
-            chat stats
-            dump src code (i.e. file browser)
-            todos bot
+  Bots:
+    tic-tac-toe
+    client stats - requires code merge of ChatBot & Chat
+    chat stats
+    dump src code (i.e. file browser)
+    todos bot
 
-    Chat:
-        Backup & Restore maybe the last 100 messages.
-            WIP - need to test read & write to file first! Currently disabled.
+  Chat:
+    Backup & Restore maybe the last 100 messages.
+    WIP - need to test read & write to file first! Currently disabled.
 
-        Integrate self testing into app. I.e. have a bot that sends all test messages into the chat.
+    Integrate self testing into app. I.e. have a bot that sends all test messages into the chat.
 
-        Better msg ids
+    Better msg ids
 
-    Chat & ChatBot:
-        Allow them to be hosted forever silently.
+  Chat & ChatBot:
+    Allow them to be hosted forever silently.
 
-
-    Client:
-        Make more efficient
-
-    General:
-        Create package.json:
-            https://docs.npmjs.com/getting-started/using-a-package.json
-
-
+  Client:
+    Make more efficient
 */
