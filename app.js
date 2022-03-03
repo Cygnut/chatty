@@ -25,12 +25,12 @@ import config from './Config.js';
 
 
 /*
+  change tab size in bots only
+
   don't use process.cwd(), use where the code is located - e.g. node chatty/app.js dies.
   handle all todos
 
   separate stream for errors and content?
-
-  change tab size
 
   better error handling in config.json, and enforce structure.
 
