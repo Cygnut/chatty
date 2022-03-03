@@ -7,6 +7,7 @@ class InputError extends Error {
   }
 }
 
+// Generates an array {0, 1, ..., length - 1}
 const range = length => Array.from(Array(length).keys());
 
 class TicTacToeGame {
@@ -33,7 +34,21 @@ class TicTacToeGame {
   }
 
   #doMove(move) {
-    // Update the grid:
+    // Validate the move
+    if (!this.#validPlayers.some(p => p === move.player))
+      throw new InputError(`${move.player} should be one of ${this.#validPlayers.join(', ')}`);
+
+    [ 'x', 'y' ].forEach(c => {
+      const value = move[c];
+
+      if (isNaN(value))
+        throw new InputError(`${c} must be a valid integer.`);
+
+      if (value < 0 ||value >= this.gridLength)
+        throw new InputError(`${c} must be in {0,1,2}.`);
+    });
+
+    // Update the grid
     if (this.#grid[move.y][move.x] !== this.#unsetChar)
       throw new InputError("Hey! That spot's taken!");
 
@@ -41,7 +56,6 @@ class TicTacToeGame {
   }
 
   #getWinner() {
-    // Generates an array {0, 1, ..., length - 1}
     const gridRange = range(this.gridLength);
     const every = predicate => gridRange.every(predicate);
 
@@ -81,9 +95,6 @@ class TicTacToeGame {
   }
 
   play(move) {
-    if (!this.#validPlayers.some(p => p === move.player))
-      throw new InputError(`${move.player} should be one of ${this.#validPlayers.join(', ')}`);
-
     // Play the move to update the grid.
     this.#doMove(move);
 
@@ -122,21 +133,9 @@ export default class TicTacToe extends Bot {
     if (tokens.length !== 3)
       throw new InputError(`${content} is badly formed input.`);
 
-    const getCoordinate = c => {
-      const i = parseInt(c);
-
-      if (isNaN(i))
-        throw new InputError(`${c} must be a valid integer.`);
-
-      if (i < 0 || i >= this.#game.gridLength)
-        throw new InputError(`${c} must be in {0,1,2}.`);
-
-      return i;
-    }
-
     return {
-      x: getCoordinate(tokens[0]),
-      y: getCoordinate(tokens[1]),
+      x: parseInt(tokens[0]),
+      y: parseInt(tokens[1]),
       player: tokens[2],
     };
   }
