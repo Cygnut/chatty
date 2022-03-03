@@ -127,7 +127,7 @@ export default class TicTacToe extends Bot {
     return [];
   }
 
-  parseInput(content) {
+  parseMove(content) {
     // Message syntax: x y [x or o], x y are 0 based {0,1,2}
     const tokens = content.split(this.#inputRegex);
     if (tokens.length !== 3)
@@ -155,7 +155,7 @@ export default class TicTacToe extends Bot {
         this.reply(`Starting new game of size ${size}`);    // Don't include @ info as it's to everyone.
       } else {
         // Parse the input to a move object
-        const move = this.parseInput(content);
+        const move = this.parseMove(content);
 
         // Play the move to update the grid.
         const winner = this.#game.play(move);
