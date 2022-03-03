@@ -1,0 +1,16 @@
+{
+  "channels": {
+    "remote": {
+      "url": "http://localhost:81/"
+    }
+  },
+  "bots": [
+    {
+      "name": "Goodreads",
+      "settings":
+      {
+        "apiKey": "AXx7sJh2RnOBoKxg7gdSHw"
+      }
+    }
+  ]
+}

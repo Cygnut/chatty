@@ -5,31 +5,28 @@ import Remote from './channels/Remote.js';
 import Console from './channels/Console.js';
 import Channels from './Channels.js';
 import Host from './bot/Host.js';
-import Loader from './bot/Loader.js';
+import loader from './bot/Loader.js';
+import config from './Config.js';
 
 (async () => {
-    const url = 'http://localhost:81/';
-
-    const cwd = `${process.cwd()}${path.sep}`;
-    const loader = new Loader(`${cwd}bots.config`, `${cwd}bots`);
-    const bots = await loader.fromConfigFile();
-
     const host = new Host();
     const channels = new Channels();
     
     channels.set(
-        new Remote(url, msg => host.onMessage(msg)),
+        new Remote(config.channels.remote.url, msg => host.onMessage(msg)),
         new Console(msg => host.onMessage(msg))
     );
 
     host.addChannels(channels);
-    host.addBots(bots);
+    host.addBots(await loader());
 
     channels.receive();
 })();
 
 
 /*
+    don't like that Host has a hard reference to channels, use a callback, then wrap this top level up
+
     still need a limited interface passed to bots instead of this.host, especially for ~test
 
     no prompt after '~urban poop'
