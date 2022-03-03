@@ -25,6 +25,8 @@ import config from './Config.js';
 
 
 /*
+  change tab size
+
   better error handling in config.json, and enforce structure.
 
   don't like that Host has a hard reference to channels, use a callback, then wrap this top level up
@@ -41,7 +43,6 @@ import config from './Config.js';
   better access to host from bots that need it (enable, help, self test), rather than hackily setting bot.host, provide limited interface
 
   all todos
-  change tab size
 
   get self-test working (albeit hackily)
   rebuild on a separate branch
