@@ -1,6 +1,6 @@
 class Channel {
-    receive() {}
-    send({ from, content }) {}
+  receive() {}
+  send({ from, content }) {}
 }
 
 export default Channel;
