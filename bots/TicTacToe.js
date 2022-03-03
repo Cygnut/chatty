@@ -52,32 +52,32 @@ class TicTacToeGame {
     const every = predicate => gridRange.every(predicate);
 
     // Check for each player.
-    for (const validPlayer of this.validPlayers) {
+    for (const player of this.validPlayers) {
       // Check rows:
       for (const r of gridRange) {
-        if (every(c => this.#grid[r][c] === validPlayer)) {
-          return { winner: validPlayer, reason: `Won on row ${r}.` };
+        if (every(c => this.#grid[r][c] === player)) {
+          return { player, reason: `Won on row ${r}.` };
         }
       }
 
       // Check columns:
       for (const c of gridRange) {
-        if (every(r => this.#grid[r][c] === validPlayer))
-          return { winner: validPlayer, reason: `Won on column ${c}.` };
+        if (every(r => this.#grid[r][c] === player))
+          return { player, reason: `Won on column ${c}.` };
       }
 
       // Check diagonal going this way \
-      if (every(d => this.#grid[d][d] === validPlayer)) {
-        return { winner: validPlayer, reason: 'Won on top-left diagonal.' };
+      if (every(d => this.#grid[d][d] === player)) {
+        return { player, reason: 'Won on top-left diagonal.' };
       }
 
       // Check diagonal going this way /
-      if (every(d => this.#grid[this.gridLength - 1 - d][d] === validPlayer)) {
-        return { winner: validPlayer, reason: 'Won on top-right diagonal.' };
+      if (every(d => this.#grid[this.gridLength - 1 - d][d] === player)) {
+        return { player, reason: 'Won on top-right diagonal.' };
       }
     }
     
-    return { winner: null };
+    return null;
   }
 
   play(move) {
@@ -88,11 +88,11 @@ class TicTacToeGame {
     const winner = this.getWinner();
 
     // If there is one, report this and reset the game.
-    if (winner.winner)
+    if (winner)
       this.resetGrid();
 
     return {
-      winner: winner ? winner.winner : null,
+      winner: winner ? winner.player : null,
       winningReason: winner ? winner.reason : null,
     };
   }
