@@ -25,6 +25,8 @@ import config from './Config.js';
 
 
 /*
+  separate stream for errors and content?
+
   change tab size
 
   better error handling in config.json, and enforce structure.
