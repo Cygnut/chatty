@@ -50,30 +50,30 @@ class TicTacToeGame {
   getWinner() {
     // Generates an array {0, 1, ..., length - 1}
     const range = length => Array.from(Array(length).keys());
+    const gridRange = range(this.gridLength);
 
-    // Check if there's been a winner.
     // Check for each player.
-    for (let p = 0; p < this.validPlayers.length; ++p) {
-      const validPlayer = this.validPlayers[p];
-
-      // Check horizontals:
-      for (let r = 0; r < this.gridLength; ++r) {
-        if (this.#grid[r].every(cell => cell === validPlayer))
+    for (const validPlayer of this.validPlayers) {
+      // Check rows:
+      for (const r of gridRange) {
+        if (gridRange.every(c => this.#grid[r][c] === validPlayer)) {
           return { winner: validPlayer, reason: `Won on row ${r}.` };
         }
+      }
 
-      // Check verticals:
-      for (let c = 0; c < this.gridLength; ++c) {
-        if (range(this.gridLength).every(r => this.#grid[r][c] === validPlayer))
+      // Check columns:
+      for (const c of gridRange) {
+        if (gridRange.every(r => this.#grid[r][c] === validPlayer))
           return { winner: validPlayer, reason: `Won on column ${c}.` };
       }
 
-      // Check diagonal starting at 0,0
-      if (range(this.gridLength).every(i => this.#grid[i][i] === validPlayer)) {
+      // Check diagonal going this way \
+      if (gridRange.every(d => this.#grid[d][d] === validPlayer)) {
         return { winner: validPlayer, reason: 'Won on top-left diagonal.' };
       }
 
-      if (range(this.gridLength).every(i => this.#grid[this.gridLength - 1 - i][i] === validPlayer)) {
+      // Check diagonal going this way /
+      if (gridRange.every(d => this.#grid[this.gridLength - 1 - d][d] === validPlayer)) {
         return { winner: validPlayer, reason: 'Won on top-right diagonal.' };
       }
     }
