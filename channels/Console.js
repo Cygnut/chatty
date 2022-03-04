@@ -37,7 +37,7 @@ export default class Console extends Channel {
       }
       io.prompt();
     }).on('close', () => {
-      this.#send('Exiting!');
+      this.#send('Exiting..');
       process.exit(0);
     });
   }
