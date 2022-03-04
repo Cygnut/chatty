@@ -94,6 +94,7 @@ class Game {
 export default class TicTacToe extends Bot {
   #game;
   #inputRegex = /[\s,]+/;    // Cache this for performance.
+  #configureText = 'configure';
   #gameSize = 3;
 
   constructor() {
@@ -122,36 +123,44 @@ export default class TicTacToe extends Bot {
     };
   }
 
+  onConfigure({ content }) {
+    // Create a new game with the passed size
+    const size = parseInt(content.substring(this.#configureText.length + 1));
+    if (isNaN(size))
+      throw new InputError('Size must be a valid integer.');
+
+    this.#game = new Game(size);
+
+    this.reply(`Starting new game of size ${size}`);
+  }
+
+  onMove({ content }) {
+    // Parse the input to a move object
+    const move = this.parseMove(content);
+
+    // Play the move to update the grid.
+    const winner = this.#game.play(move);
+
+    const response = [ 
+      this.#game.stringizeGrid(), 
+      winner ? `${winner} wins!` : null
+    ].filter(v => v).join('\n');
+
+    // If there's a winner, reset the game.
+    if (winner)
+      this.#game.reset();
+
+    this.reply(response);
+  }
+
   async onDirectMessage({ content, from }) {
     try {
       if (!content) {
-        this.reply('\n' + this.#game.stringizeGrid());    // Don't include @ info as it's to everyone.
-      } else if (content.startsWith('configure')) {
-        // Create a new game with the passed size
-        const size = parseInt(content.substring('configure'.length + 1));
-        if (isNaN(size))
-          throw new InputError('Size must be a valid integer.');
-
-        this.#game = new Game(size);
-
-        this.reply(`Starting new game of size ${size}`);    // Don't include @ info as it's to everyone.
+        this.reply('\n' + this.#game.stringizeGrid());
+      } else if (content.startsWith(this.#configureText)) {
+        this.onConfigure({ content })
       } else {
-        // Parse the input to a move object
-        const move = this.parseMove(content);
-
-        // Play the move to update the grid.
-        const winner = this.#game.play(move);
-
-        const response = [ 
-          this.#game.stringizeGrid(), 
-          winner ? `${winner} wins!` : null
-        ].filter(v => v).join('\n');
-
-        // If there's a winner, reset the game.
-        if (winner)
-          this.#game.reset();
-
-        this.reply(response);    // Don't include @ info as it's to everyone.
+        this.onMove({ content });
       }
     } catch (e) {
       logger.error(e);
