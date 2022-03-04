@@ -10,7 +10,7 @@ class InputError extends Error {
 // Generates an array {0, 1, ..., length - 1}
 const range = length => Array.from(Array(length).keys());
 
-class TicTacToeGame {
+class Game {
   #gridLength;
   #validPlayers = [ 'o', 'x' ];
   #grid;
@@ -21,13 +21,17 @@ class TicTacToeGame {
     this.#resetGrid();
   }
 
+  #gridRange() {
+    return range(this.#gridLength);
+  }
+
   #resetGrid() {
     this.#grid = [];
 
-    for (const r of range(this.#gridLength)) {
+    for (const r of this.#gridRange()) {
       this.#grid[r] = [];
 
-      for (const c of range(this.#gridLength)) {
+      for (const c of this.#gridRange()) {
         this.#grid[r][c] = this.#unsetChar;
       }
     }
@@ -56,7 +60,7 @@ class TicTacToeGame {
   }
 
   #getWinner() {
-    const gridRange = range(this.#gridLength);
+    const gridRange = this.#gridRange();
     const every = predicate => gridRange.every(predicate);
 
     // Check for each player.
@@ -120,7 +124,7 @@ export default class TicTacToe extends Bot {
       description: "Play tic-tac-toe. Inputs must be of format e.g. 0,2 x, or blank, or start x to configure a new game of size x."
     });
 
-    this.#game = new TicTacToeGame(this.#gameSize);
+    this.#game = new Game(this.#gameSize);
   }
 
   getTests() {
@@ -150,7 +154,7 @@ export default class TicTacToe extends Bot {
         if (isNaN(size))
           throw new InputError('Size must be a valid integer.');
 
-        this.#game = new TicTacToeGame(size);
+        this.#game = new Game(size);
 
         this.reply(`Starting new game of size ${size}`);    // Don't include @ info as it's to everyone.
       } else {
