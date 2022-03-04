@@ -61,32 +61,28 @@ class Game {
 
   #getWinner() {
     const gridRange = this.#gridRange();
-    const all = (player, cell) => gridRange.every(i => {
+    const isWinningLine = (player, cell) => gridRange.every(i => {
       const [ r, c ] = cell(i);
       return this.#grid[r][c] === player;
     });
 
-    // Check for each player.
     for (const player of this.#validPlayers) {
-      // Check rows:
-      if (gridRange.some(r => all(player, i => [r, i]))) {
-        return player;
-      }
+      const someWinningLine = [
+        // Rows:
+        gridRange.some(r => isWinningLine(player, i => [r, i])),
 
-      // Check columns:
-      if (gridRange.some(c => all(player, i => [i, c]))) {
-        return player;
-      }
+        // Columns:
+        gridRange.some(c => isWinningLine(player, i => [i, c])),
 
-      // Check diagonal going this way \
-      if (all(player, i => [i, i])) {
-        return player;
-      }
+        // Diagonal going this way: \
+        isWinningLine(player, i => [i, i]),
 
-      // Check diagonal going this way /
-      if (all(player, i => [this.#gridLength - 1 - i, i])) {
+        // Diagonal going this way: /
+        isWinningLine(player, i => [this.#gridLength - 1 - i, i])
+      ].some(v => v);
+
+      if (someWinningLine)
         return player;
-      }
     }
     
     return null;
