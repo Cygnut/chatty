@@ -66,8 +66,8 @@ class Game {
       return this.#grid[r][c] === player;
     });
 
-    for (const player of this.#validPlayers) {
-      const someWinningLine = [
+    return this.#validPlayers.find(player => {
+      return [
         // Rows:
         gridRange.some(r => isWinningLine(player, i => [r, i])),
 
@@ -80,12 +80,7 @@ class Game {
         // Diagonal going this way: /
         isWinningLine(player, i => [this.#gridLength - 1 - i, i])
       ].some(v => v);
-
-      if (someWinningLine)
-        return player;
-    }
-    
-    return null;
+    });
   }
 
   stringizeGrid() {
