@@ -68,24 +68,24 @@ class Game {
       // Check rows:
       for (const r of gridRange) {
         if (every(c => this.#grid[r][c] === player)) {
-          return { player, reason: `Won on row ${r}.` };
+          return player;
         }
       }
 
       // Check columns:
       for (const c of gridRange) {
         if (every(r => this.#grid[r][c] === player))
-          return { player, reason: `Won on column ${c}.` };
+          return player;
       }
 
       // Check diagonal going this way \
       if (every(d => this.#grid[d][d] === player)) {
-        return { player, reason: 'Won on top-left diagonal.' };
+        return player;
       }
 
       // Check diagonal going this way /
       if (every(d => this.#grid[this.#gridLength - 1 - d][d] === player)) {
-        return { player, reason: 'Won on top-right diagonal.' };
+        return player;
       }
     }
     
@@ -164,9 +164,10 @@ export default class TicTacToe extends Bot {
         // Play the move to update the grid.
         const winner = this.#game.play(move);
 
-        let response = this.#game.stringizeGrid();
-        if (winner)
-          response += `${winner.player} won the game! ${winner.reason}`;
+        const response = [ 
+          this.#game.stringizeGrid(), 
+          winner ? `${winner} wins!` : null
+        ].filter(v => v).join('\n');
 
         this.reply(response);    // Don't include @ info as it's to everyone.
       }
