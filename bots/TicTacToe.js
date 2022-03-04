@@ -26,15 +26,8 @@ class Game {
   }
 
   reset() {
-    this.#grid = [];
-
-    for (const r of this.#gridRange()) {
-      this.#grid[r] = [];
-
-      for (const c of this.#gridRange()) {
-        this.#grid[r][c] = this.#unsetChar;
-      }
-    }
+    const gridRange = this.#gridRange();
+    this.#grid = gridRange.map(() => gridRange.fill(this.#unsetChar));
   }
 
   #doMove(move) {
