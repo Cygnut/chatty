@@ -18,14 +18,14 @@ class Game {
 
   constructor(gridLength) {
     this.#gridLength = gridLength;
-    this.#resetGrid();
+    this.reset();
   }
 
   #gridRange() {
     return range(this.#gridLength);
   }
 
-  #resetGrid() {
+  reset() {
     this.#grid = [];
 
     for (const r of this.#gridRange()) {
@@ -94,13 +94,7 @@ class Game {
     this.#doMove(move);
 
     // Check for a winner to see if we need to reset the game.
-    const winner = this.#getWinner();
-
-    // If there is one, report this and reset the game.
-    if (winner)
-      this.#resetGrid();
-
-    return winner;
+    return this.#getWinner();
   }
 }
 
@@ -159,6 +153,10 @@ export default class TicTacToe extends Bot {
           this.#game.stringizeGrid(), 
           winner ? `${winner} wins!` : null
         ].filter(v => v).join('\n');
+
+        // If there's a winner, reset the game.
+        if (winner)
+          this.#game.reset();
 
         this.reply(response);    // Don't include @ info as it's to everyone.
       }
