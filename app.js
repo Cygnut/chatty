@@ -25,8 +25,6 @@ import config from './Config.js';
 
 
 /*
-  fix ~ttt 1 1 x from recognising o as winning (and clean up ~ttt)
-
   don't use process.cwd(), use where the code is located - e.g. node chatty/app.js dies.
   handle all todos
 
