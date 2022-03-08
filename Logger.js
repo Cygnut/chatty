@@ -41,6 +41,9 @@ const logger = createLogger({
     }),
     new transports.File({
       filename: 'combined.log',
+      maxsize: 10_000_000,
+      maxFiles: 7,
+      tailable: true
     }),
   ]
 });
