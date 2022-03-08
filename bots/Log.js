@@ -27,20 +27,19 @@ export default class Log extends Bot {
     this.context.reply(`Logging is ${this.getConsoleTransport().silent ? 'disbled' : 'enabled'}`, from);
   }
 
-  enable(on, from) {
+  enableConsoleTransport(on) {
     this.getConsoleTransport().silent = !on;
-    this.replyWithConsoleTransportStatus(from);
   }
 
   async onDirectMessage({ content, from }) {
     content = content.toLowerCase();
 
     if (content === 'off') {
-      this.enable(false, from);
+      this.enableConsoleTransport(false);
     } else if (content === 'on') {
-      this.enable(true, from);
-    } else if (!content) {
-      this.replyWithConsoleTransportStatus(from);
+      this.enableConsoleTransport(true);
     }
+
+    this.replyWithConsoleTransportStatus(from);
   }
 }
