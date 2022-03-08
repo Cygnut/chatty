@@ -1,5 +1,3 @@
-import path from 'path';
-
 import logger from './Logger.js';
 import Remote from './channels/Remote.js';
 import Console from './channels/Console.js';
@@ -25,7 +23,6 @@ import config from './Config.js';
 
 
 /*
-  don't use process.cwd(), use where the code is located - e.g. node chatty/app.js dies.
   use file logger
   handle all todos
 

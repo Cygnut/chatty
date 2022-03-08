@@ -2,7 +2,9 @@
 import path from 'path';
 import { readFileSync } from 'fs';
 
-const filepath = path.join(process.cwd(), 'config.json');
+import appPath from './AppPath.js';
+
+const filepath = path.join(appPath, 'config.json');
 const content = readFileSync(filepath);
 const config = JSON.parse(content);
 
