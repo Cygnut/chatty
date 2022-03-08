@@ -9,7 +9,12 @@ export default class Host {
     this.#channels = channels;
     this.#channels.setOnNewMessage(msg => this.onMessage(msg));
 
-    bots.forEach(bot => this.addBot(bot));
+    this.#bots = bots.map(bot => {
+      bot.host = this;
+      bot.reply = () => {};
+      bot.enable(true);
+      return bot;
+    });
   }
 
   onMessage({ from, content }) {
@@ -60,16 +65,6 @@ export default class Host {
 
     const mappedContent = to ? `@${to}: ${content}` : content;
     this.#channels.send({ from: bot.name, content: mappedContent });
-  }
-
-  addBot(bot) {
-    // Initialise
-    bot.host = this;
-    bot.reply = () => {};
-
-    // Start
-    bot.enable(true);
-    this.#bots.push(bot);
   }
 
   listen() {
