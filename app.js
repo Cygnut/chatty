@@ -24,6 +24,7 @@ import config from './Config.js';
 
 /*
   separate stream for errors and content?
+    maybe just default to console logger ~log off in production.
 
   handle all todos present in code
 

@@ -19,11 +19,17 @@ export default class Log extends Bot {
     ];
   }
 
-  enable(on, from) {
-    const consoleLogger = logger.transports.find(transport => transport.name === 'console');
-    consoleLogger.silent = !on;
+  getConsoleTransport() {
+    return logger.transports.find(transport => transport.name === 'console');
+  }
 
-    this.context.reply(`Logging ${on ? 'enabled' : 'disabled'}`, from);
+  replyWithConsoleTransportStatus(from) {
+    this.context.reply(`Logging is ${this.getConsoleTransport().silent ? 'disbled' : 'enabled'}`, from);
+  }
+
+  enable(on, from) {
+    this.getConsoleTransport().silent = !on;
+    this.replyWithConsoleTransportStatus(from);
   }
 
   async onDirectMessage({ content, from }) {
@@ -33,6 +39,8 @@ export default class Log extends Bot {
       this.enable(false, from);
     } else if (content === 'on') {
       this.enable(true, from);
+    } else if (!content) {
+      this.replyWithConsoleTransportStatus(from);
     }
   }
 }
