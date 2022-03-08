@@ -73,6 +73,7 @@ export default class Host {
 
   addChannels(channels) {
     this.#channels = channels;
+    this.#channels.setOnNewMessage(msg => this.onMessage(msg));
   }
 
   enableBot(botName, on) {

@@ -7,6 +7,10 @@ class Channels {
     this.#channels = channels;
   }
 
+  setOnNewMessage(onNewMessage) {
+    this.#channels.forEach(channel => channel.setOnNewMessage(onNewMessage));
+  }
+
   receive() {
     this.#channels.forEach(channel => channel.receive());
   }

@@ -11,11 +11,9 @@ export default class Remote extends Channel {
   #pollingInterval = 500;
   #rootUrl;
   #lastIdSeen = -1;
-  #onNewMessage;
 
-  constructor(onNewMessage, rootUrl) {
+  constructor(rootUrl) {
     super();
-    this.#onNewMessage = onNewMessage;
     this.#rootUrl = rootUrl;
   }
 
@@ -29,7 +27,7 @@ export default class Remote extends Channel {
       if (this.#lastIdSeen < msg.id) {
         // Then we're looking at a new message.
         try {
-          this.#onNewMessage(msg);
+          this.onNewMessage(msg);
         } catch (e) {}
         this.#lastIdSeen = msg.id;
       }
