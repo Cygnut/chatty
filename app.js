@@ -31,14 +31,9 @@ import config from './Config.js';
 
   separate stream for errors and content?
 
-  better error handling in config.json, and enforce structure.
+  better error handling for config.json, and enforce structure.
 
   better folder structure
-
-  better access to hub from bots that need it (enable, help, self test), rather than hackily setting bot.hub, provide limited interface
-
-  Roadmap:
-    Combine.
 
   ChatBot:
     Store enabled state of each bot persistently.
