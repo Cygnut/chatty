@@ -5,11 +5,8 @@ import logger from '../Logger.js';
 import config from '../Config.js';
 import appPath from '../AppPath.js';
 
-
 // Only pick up files which have at least one character before Bot.js.
 const botRegex = /.+.js/
-
-// TODO: Error handling
 
 const combineSettings = (common, specific) => {
   const combined = {};
@@ -48,7 +45,7 @@ const tryCreateBot = async filepath => {
   try {
     importee = await import(`file:///${filepath}`);
   } catch (e) {
-    throw new Error(`Failed to load bot source at ${filepath}. ${e} ${e.stack}`);
+    throw new Error(`Failed to load bot source at ${filepath}. ${e.stack}`);
   }
 
   if (!('default' in importee)) {
