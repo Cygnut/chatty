@@ -20,15 +20,22 @@ export default class Console extends Bot {
   }
 
   getConsoleLogTransport() {
+    // Note that this may not be available - e.g. in production!
     return logger.transports.find(transport => transport.name === 'console');
   }
 
   replyWithConsoleLogTransportStatus(from) {
-    this.context.reply(`Console logging is ${this.getConsoleLogTransport().silent ? 'disbled' : 'enabled'}`, from);
+    const consoleLogTransport = this.getConsoleLogTransport();
+    if (consoleLogTransport) {
+      this.context.reply(`Console logging is ${this.getConsoleLogTransport().silent ? 'disabled' : 'enabled'}`, from);
+    }
   }
 
   enableConsoleLogTransport(on) {
-    this.getConsoleLogTransport().silent = !on;
+    const consoleLogTransport = this.getConsoleLogTransport();
+    if (consoleLogTransport) {
+      consoleLogTransport.silent = !on;
+    }
   }
 
   async onDirectMessage({ content, from }) {

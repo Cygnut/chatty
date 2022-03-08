@@ -48,4 +48,11 @@ const logger = createLogger({
   ]
 });
 
+if (process.env.NODE_ENV === 'production') {
+  const consoleIndex = logger.transports.findIndex(transport => transport.name === 'console');
+  logger.transports.splice(consoleIndex, 1);
+}
+
+console.log(logger.transports);
+
 export default logger;
