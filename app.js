@@ -7,11 +7,12 @@ import loader from './bot/Loader.js';
 import config from './Config.js';
 
 (async () => {
-  const channels = new Channels();
-  channels.set(
-    new Remote(config.channels.remote.url),
-    new Console()
-  );
+  const channels = new Channels({
+    channels: [
+      new Remote(config.channels.remote.url),
+      new Console()
+    ]
+  });
 
   const host = new Host();
   host.addChannels(channels);

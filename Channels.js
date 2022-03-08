@@ -3,8 +3,12 @@ import logger from "./Logger.js";
 class Channels {
   #channels = [];
 
-  set(...channels) {
-    this.#channels = channels;
+  constructor({ channels }) {
+    this.set(channels);
+  }
+
+  set(channels) {
+    this.#channels = channels
   }
 
   setOnNewMessage(onNewMessage) {
