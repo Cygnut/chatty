@@ -26,7 +26,7 @@ import config from './Config.js';
 
 /*
   don't use process.cwd(), use where the code is located - e.g. node chatty/app.js dies.
-  sw==use file logger
+  use file logger
   handle all todos
 
   separate stream for errors and content?
