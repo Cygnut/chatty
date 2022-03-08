@@ -49,10 +49,7 @@ const logger = createLogger({
 });
 
 if (process.env.NODE_ENV === 'production') {
-  const consoleIndex = logger.transports.findIndex(transport => transport.name === 'console');
-  logger.transports.splice(consoleIndex, 1);
+  logger.remove(logger.transports.find(transport => transport.name === 'console'));
 }
-
-console.log(logger.transports);
 
 export default logger;

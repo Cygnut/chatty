@@ -23,9 +23,6 @@ import config from './Config.js';
 
 
 /*
-  separate stream for errors and content?
-    maybe just default to console logger ~log off in production.
-
   handle all todos present in code
 
   Set appPath globally in app.js (but Config.js depends on it being set before then?)
