@@ -7,18 +7,13 @@ import loader from './bot/Loader.js';
 import config from './Config.js';
 
 (async () => {
-  const channels = new Channels({
-    channels: [
+  new Host({
+    channels: new Channels([
       new Remote(config.channels.remote.url),
       new Console()
-    ]
-  });
-
-  const host = new Host();
-  host.addChannels(channels);
-  host.addBots(await loader());
-
-  channels.receive();
+    ]),
+    bots: await loader()
+  }).listen();
 })();
 
 

@@ -11,7 +11,7 @@ export default class Console extends Channel {
     console.log(content);
   }
 
-  receive() {
+  listen() {
     this.#send(`Hi @${this.#from}, type "${this.#exit}" to exit > `)
 
     const io = readline.createInterface({

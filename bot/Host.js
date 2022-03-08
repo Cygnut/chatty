@@ -5,6 +5,13 @@ export default class Host {
   #bots = [];
   #channels;
 
+  constructor({ channels, bots }) {
+    this.#channels = channels;
+    this.#channels.setOnNewMessage(msg => this.onMessage(msg));
+
+    bots.forEach(bot => this.addBot(bot));
+  }
+
   onMessage({ from, content }) {
     try {
       this.#bots.forEach(bot => {
@@ -67,13 +74,8 @@ export default class Host {
     this.#bots.push(bot);
   }
 
-  addBots(bots) {
-    bots.forEach(bot => this.addBot(bot));
-  }
-
-  addChannels(channels) {
-    this.#channels = channels;
-    this.#channels.setOnNewMessage(msg => this.onMessage(msg));
+  listen() {
+    this.#channels.listen();
   }
 
   enableBot(botName, on) {

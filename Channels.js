@@ -3,7 +3,7 @@ import logger from "./Logger.js";
 class Channels {
   #channels = [];
 
-  constructor({ channels }) {
+  constructor(channels) {
     this.set(channels);
   }
 
@@ -15,8 +15,8 @@ class Channels {
     this.#channels.forEach(channel => channel.setOnNewMessage(onNewMessage));
   }
 
-  receive() {
-    this.#channels.forEach(channel => channel.receive());
+  listen() {
+    this.#channels.forEach(channel => channel.listen());
   }
 
   send(message) {

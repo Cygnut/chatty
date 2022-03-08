@@ -36,7 +36,7 @@ export default class Remote extends Channel {
     }
   }
 
-  receive() {
+  listen() {
     // Assume every 1/2 second is fast enough to catch every new message in poll.
     setInterval(() => this.#poll(), this.#pollingInterval);
   }

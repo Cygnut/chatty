@@ -5,7 +5,7 @@ class Channel {
     this.onNewMessage = onNewMessage
   }
 
-  receive() {
+  listen() {
   }
 
   send({ from, content }) {
