@@ -9,7 +9,9 @@ Bots are either:
 * Directly invoked by starting a line in chat with ~{bot name} (e.g. ~help), followed by arguments for the bot.
 * Indirectly invoked by using specific trigger words in chat.
 
+
 #### Examples
+Some example bots are provided:
 
     Print help for all bots:
     ~help
