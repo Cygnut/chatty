@@ -22,7 +22,7 @@ import config from './Config.js';
   startup commands
 
   ~ttt 1 1 x just instantly wins (puts an x 3 times in the whole column)
-  goodreads not receiving config?
+  goodreads not working
 
   use file logger
 
