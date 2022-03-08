@@ -8,7 +8,7 @@ class Channels {
   }
 
   setReply(reply) {
-    this.#bots.forEach(bot => bot.reply = reply.bind(bot));
+    this.#bots.forEach(bot => bot.reply = (content, to) => reply(bot, content, to));
   }
 
   getEnabledBots() {
