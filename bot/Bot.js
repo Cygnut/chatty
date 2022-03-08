@@ -7,12 +7,14 @@ class Bot {
   description;
   disableable;    // Indicates ability to be disabled. True by default
   enabled;
+  reply;
 
   constructor({ name, description, disableable }) {
     this.name = `${Bot.PREFIX}${name}`;
     this.description = description;
     this.disableable = disableable === undefined ? true : disableable;
     this.enabled = false;
+    this.reply = () => {};
   }
 
   enable(on) {
