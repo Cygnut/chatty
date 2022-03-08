@@ -18,6 +18,9 @@ import config from './Config.js';
 
 
 /*
+  rename host to hub
+  better construction of Bots
+
   use file logger
   handle all todos
 

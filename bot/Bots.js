@@ -32,16 +32,13 @@ class Channels {
   enableBot(botName, on) {
     const bot = this.#bots.find(bot => bot.name === botName);
 
-    if (!bot)
+    if (!bot) {
+      logger.info(`Failed to find bot of name ${botName} to enable/disable`)
       return null;
-
-    // If on is not passed, then flip the state - else, set to the defined state in on.
-    if (on === undefined) {
-      bot.enable(!bot.enabled);
-    } else {
-      bot.enable(on);
     }
 
+    // If on is not passed, then flip the state - else, set to the defined state in on.
+    bot.enable(on === undefined ? !bot.enabled : on);
     return bot.enabled;
   }
 }
