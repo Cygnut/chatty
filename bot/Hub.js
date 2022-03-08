@@ -59,5 +59,6 @@ export default class Hub {
 
   listen() {
     this.#channels.listen();
+    return this;
   }
 }

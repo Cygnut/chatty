@@ -1,4 +1,10 @@
 {
+  "startup": {
+    "messages": [
+      "~test",
+      "~ttt 1 1 x"
+    ]
+  },
   "channels": {
     "remote": {
       "url": "http://localhost:81/"

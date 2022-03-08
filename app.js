@@ -8,18 +8,24 @@ import loader from './bot/Loader.js';
 import config from './Config.js';
 
 (async () => {
-  new Hub({
+  const hub = new Hub({
     channels: new Channels([
       new Remote(config.channels.remote.url),
       new Console()
     ]),
     bots: new Bots(await loader())
   }).listen();
+
+  (config.startup?.messages || []).forEach(message => {
+    hub.onMessage({ from: '@startup', content: message })
+  });
 })();
 
 
 /*
-  startup commands
+  use index.js for channels
+
+  use ?. etc
 
   use file logger
 
