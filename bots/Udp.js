@@ -4,6 +4,8 @@ import logger from '../Logger.js';
 import Bot from '../bot/Bot.js';
 
 export default class Udp extends Bot {
+  #defaultPort = 8888;
+  #listenText = 'listen';
   #listener;
 
   constructor() {
@@ -55,8 +57,8 @@ export default class Udp extends Bot {
   }
 
   async onDirectMessage({ content, from }) {
-    if (content.startsWith('listen')) {
-      const portStr = content.substring(7);
+    if (content.startsWith(this.#listenText)) {
+      const portStr = content.substring(this.#listenText.length + 1) || this.#defaultPort;
       const port = parseInt(portStr);
       if (isNaN(port)) {
         this.context.reply(`${portStr} is not a valid port number.`, from);
@@ -66,7 +68,7 @@ export default class Udp extends Bot {
       try {
         this.stop();
         this.#listener = this.createListener(port);
-        this.context.reply(`Now listening on ${port}`, from);
+        this.context.reply(`Now listening on port ${port}. Use something like 'echo "yoooooo" | nc -4u -w1 localhost ${this.#defaultPort}' to test it.`, from);
       } catch (e) {
         logger.error(`Udp: Error while starting to listen on ${port} ${e.stack}`);
       }

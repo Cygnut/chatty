@@ -33,8 +33,7 @@ import config from './Config.js';
 
   better folder structure
 
-  ChatBot:
-    Store enabled state of each bot persistently.
+  Store enabled state of each bot persistently.
 
   Finish UdpBot, and test it. It currently is not sending to the Chat.
 
