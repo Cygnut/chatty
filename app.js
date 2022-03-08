@@ -27,6 +27,8 @@ import config from './Config.js';
   move reply into context
 
 
+  trusted access to e.g. context.onNewMessage
+
   use file logger
   handle all todos
 

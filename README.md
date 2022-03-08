@@ -2,10 +2,10 @@
 Plugin-based system of bots used with the chat web site. Plugins interface with multiple web APIs in response to commands from chat users.
 
 # Bots
-chatty monitors the current messages in the connected chatroom and passes each message to bot plugins. 
+chatty monitors the current messages in the connected chatroom and passes each message to bot plugins.
 
 ### Invokation
-Bots are either: 
+Bots are either:
 * Directly invoked by starting a line in chat with ~{bot name} (e.g. ~help), followed by arguments for the bot.
 * Indirectly invoked by using specific trigger words in chat.
 
@@ -13,41 +13,16 @@ Bots are either:
 
     Print help for all bots:
     ~help
-  
+
     Instruct the ~bully bot to target the user with name 'user1':
     ~bully user1
-  
-    Indirectly invoke ~swear. The following (unspeakable) word will lead to an admonishment by ~swear:  
+
+    Indirectly invoke ~swear. The following (unspeakable) word will lead to an admonishment by ~swear:
     Poop
     'Oy, you used a bad word! Get out.'
-  
-### Interface
-All bots should extend the bot class (in Bot.js), and should implement the following interface:
 
-```js
-import Bot from '../bot/Bot.js';
-
-class Somebot extends Bot {
-    constructor() {
-        super({
-            name: 'myBot', 
-            description: "my bot description"
-        });
-    }
-
-    // Optionally implement this event handler to handle the bot enabled/disabled event. Returns nothing.
-    onEnabled(on) {}
-
-    // Optionally implement this method to provide tests for this bot which can be run. Returns an array of test strings.
-    getTests() {}
-
-    // Optional - called on a new public message. Responses should be sent using this.reply.
-    onPublicMessage({ content, from }) {}
-
-    // Optional - handles a new direct message. Responses should be sent using this.reply.
-    onDirectMessage({ content, from }) {}    
-}
-```
+### Implementation
+All bots should extend the Bot class (in Bot.js), following the examples provided by this codebase.
 
 ### Configuration
 All bots plugins in the /bots folder are loaded. Any bot specific configuration should be placed in the top level bots.config file, which takes the following form:
