@@ -23,11 +23,8 @@ import config from './Config.js';
 
 
 /*
-  use index.js for channels
-
-  use ?. etc
-
   use file logger
+  have a bot to turn on/off console logging
 
   handle all todos present in code
 
