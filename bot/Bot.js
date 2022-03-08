@@ -13,7 +13,7 @@ class Bot {
     this.name = `${Bot.PREFIX}${name}`;
     this.description = description;
     this.disableable = disableable === undefined ? true : disableable;
-    this.enabled = false;
+    this.enabled = true;
     this.reply = () => {};
   }
 

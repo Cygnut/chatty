@@ -12,7 +12,6 @@ export default class Hub {
 
     this.#bots = new Bots(bots.map(bot => {
       bot.hub = this;
-      bot.enable(true);
       return bot;
     }));
   }
