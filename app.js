@@ -19,9 +19,10 @@ import config from './Config.js';
 
 
 /*
-  ~ttt 1 1 x just instantly wins (puts an x 3 times in the whole column)
+  startup commands
 
-  trusted access to e.g. context.onNewMessage
+
+  ~ttt 1 1 x just instantly wins (puts an x 3 times in the whole column)
 
   use file logger
   handle all todos
@@ -57,8 +58,8 @@ import config from './Config.js';
 
     Integrate self testing into app. I.e. have a bot that sends all test messages into the chat.
 
-    Better msg ids
+  would be nice, but doesn't need doing:
+    trusted access to e.g. context.onNewMessage
 
-  Client:
-    Make more efficient
+
 */
