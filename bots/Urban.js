@@ -23,7 +23,7 @@ export default class Urban extends Bot {
       const url = `http://api.urbandictionary.com/v0/define?term=${content}`;
       const response = await fetch(url);
       const body = await response.json();
-      this.context.reply(body.list[0].definition, from);
+      this.context.reply(body?.list?.[0]?.definition || '', from);
     } catch (e) {
       logger.error(e);
       this.context.reply("Couldn't ask UrbanDictionary about it..", from);

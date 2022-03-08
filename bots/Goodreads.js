@@ -41,7 +41,7 @@ export default class Goodreads extends Bot {
       const body = await response.text();
       const parser = new xml2js.Parser();
       const result = await parser.parseStringPromise(body);
-      const title = result.GoodreadsResponse.search[0].results[0].work[0].best_book[0].title[0];
+      const title = result?.GoodreadsResponse?.search?.[0]?.results?.[0]?.work?.[0]?.best_book?.[0]?.title?.[0];
       this.context.reply(`So.. were you looking for ${title}?`, from);
     } catch (e) {
       logger.error(e);

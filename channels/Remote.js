@@ -22,7 +22,11 @@ export default class Remote extends Channel {
       // Just get the last message
       const response = await fetch(`${this.#rootUrl}messages?begin=-1`);
       const body = await response.json();
-      const msg = body[0];
+      const msg = body?.[0];
+
+      if (!msg) {
+        return;
+      }
 
       if (this.#lastIdSeen < msg.id) {
         // Then we're looking at a new message.
