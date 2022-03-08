@@ -32,7 +32,6 @@ export default class Hub {
       const mentionedBot = this.#bots.findMentionedBot(content);
 
       if (mentionedBot) {
-        // Then it's directed at this specific bot and this one alone.
         content = content.substring(mentionedBot.name.length + Bot.PREFIX.length);
         logger.info(`Calling bot ${mentionedBot.name} with directed message ${content}`);
 
