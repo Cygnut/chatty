@@ -1,7 +1,7 @@
 import Bot from '../bot/Bot.js';
 
 export default class Enable extends Bot {
-  host;
+  hub;
 
   constructor() {
     super({
@@ -16,7 +16,7 @@ export default class Enable extends Bot {
   }
 
   async onDirectMessage({ content }) {
-    const result = this.host.enableBot(content);
+    const result = this.hub.enableBot(content);
 
     if (result === null) {
       this.reply('Did not enable/disable a bot.');

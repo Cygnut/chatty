@@ -2,7 +2,7 @@ import logger from '../Logger.js';
 import Bots from './Bots.js'
 import Bot from './Bot.js';
 
-export default class Host {
+export default class Hub {
   #bots;
   #channels;
 
@@ -11,7 +11,7 @@ export default class Host {
     this.#channels.setOnNewMessage(msg => this.onMessage(msg));
 
     this.#bots = new Bots(bots.map(bot => {
-      bot.host = this;
+      bot.hub = this;
       bot.reply = () => {};
       bot.enable(true);
       return bot;

@@ -1,7 +1,7 @@
 import Bot from '../bot/Bot.js';
 
 export default class Help extends Bot {
-  host;
+  hub;
 
   constructor() {
     super({
@@ -18,7 +18,7 @@ export default class Help extends Bot {
   }
 
   async onDirectMessage() {
-    this.reply(this.host.getBotMetadata().map(i => {
+    this.reply(this.hub.getBotMetadata().map(i => {
       return `${i.name} - ${i.description} ${i.enabled ? '(on)' : '(off)'}`;
     }).join('\n'));
   }

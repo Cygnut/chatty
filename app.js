@@ -2,12 +2,12 @@ import logger from './Logger.js';
 import Remote from './channels/Remote.js';
 import Console from './channels/Console.js';
 import Channels from './Channels.js';
-import Host from './bot/Host.js';
+import Hub from './bot/Hub.js';
 import loader from './bot/Loader.js';
 import config from './Config.js';
 
 (async () => {
-  new Host({
+  new Hub({
     channels: new Channels([
       new Remote(config.channels.remote.url),
       new Console()
@@ -18,9 +18,8 @@ import config from './Config.js';
 
 
 /*
-  rename host to hub
   better construction of Bots
-  still need a limited interface passed to bots instead of this.host, especially for ~test
+  still need a limited interface passed to bots instead of this.hub, especially for ~test
   pass Bots instance to Hub, not raw objects.
 
   use file logger
@@ -34,7 +33,7 @@ import config from './Config.js';
 
   better folder structure
 
-  better access to host from bots that need it (enable, help, self test), rather than hackily setting bot.host, provide limited interface
+  better access to hub from bots that need it (enable, help, self test), rather than hackily setting bot.hub, provide limited interface
 
   Roadmap:
     Combine.
@@ -58,9 +57,6 @@ import config from './Config.js';
     Integrate self testing into app. I.e. have a bot that sends all test messages into the chat.
 
     Better msg ids
-
-  Chat & ChatBot:
-    Allow them to be hosted forever silently.
 
   Client:
     Make more efficient

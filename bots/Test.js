@@ -2,7 +2,7 @@ import logger from '../Logger.js';
 import Bot from '../bot/Bot.js';
 
 export default class Test extends Bot {
-  host;
+  hub;
   #from = 'Test-a-bot';
 
   constructor() {
@@ -14,7 +14,7 @@ export default class Test extends Bot {
 
   generateTests() {
     // Get an array of tests for each bot.
-    const botTests = this.host.getBotMetadata()
+    const botTests = this.hub.getBotMetadata()
       .map(bot => { return bot.tests; })
 
     // Merge them all into one array.
@@ -34,7 +34,7 @@ export default class Test extends Bot {
   async onDirectMessage() {
     for (const test of this.generateTests()) {
       logger.info(test);
-      this.host.onMessage({ from: this.#from, content: test });
+      this.hub.onMessage({ from: this.#from, content: test });
     }
   }
 }
