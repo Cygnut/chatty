@@ -31,6 +31,9 @@ export default class Goodreads extends Bot {
   }
 
   async onDirectMessage({ content, from }) {
+    this.context.reply('The Goodreads public API has been formally deprecated.', from);
+    return;
+
     try {
       // Get the search result for this search term, specifically, the top related book.
       const url = `${this.#rootUrl}search/index.xml?key=${this.#apiKey}&q=${content}`;
