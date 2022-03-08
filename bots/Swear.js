@@ -7,7 +7,7 @@ export default class Swear extends Bot {
     const badWords = [ 'fuck', 'shit', 'crap', 'poop', 'bum' ];
     super({
       name: 'swear',
-      description: `Tells you off if you're a little bitch. Don't say any of these: ${badWords.join()}.`
+      description: `Tells you off if you're a little bitch. Don't say any of these: ${badWords.join(', ')}.`
     });
     this.#badWords = badWords;
   }
