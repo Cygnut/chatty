@@ -20,6 +20,7 @@ import config from './Config.js';
 /*
   rename host to hub
   better construction of Bots
+  still need a limited interface passed to bots instead of this.host, especially for ~test
 
   use file logger
   handle all todos
@@ -29,8 +30,6 @@ import config from './Config.js';
   separate stream for errors and content?
 
   better error handling in config.json, and enforce structure.
-
-  still need a limited interface passed to bots instead of this.host, especially for ~test
 
   better folder structure
 
