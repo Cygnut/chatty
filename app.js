@@ -21,11 +21,11 @@ import config from './Config.js';
 /*
   startup commands
 
-
   ~ttt 1 1 x just instantly wins (puts an x 3 times in the whole column)
 
   use file logger
-  handle all todos
+
+  handle all todos present in code
 
   Set appPath globally in app.js (but Config.js depends on it being set before then?)
 
@@ -40,21 +40,6 @@ import config from './Config.js';
 
   Finish UdpBot, and test it. It currently is not sending to the Chat.
 
-  Bots:
-    tic-tac-toe
-    client stats - requires code merge of ChatBot & Chat
-    chat stats
-    dump src code (i.e. file browser)
-    todos bot
-
-  Chat:
-    Backup & Restore maybe the last 100 messages.
-    WIP - need to test read & write to file first! Currently disabled.
-
-    Integrate self testing into app. I.e. have a bot that sends all test messages into the chat.
-
   would be nice, but doesn't need doing:
     trusted access to e.g. context.onNewMessage
-
-
 */
