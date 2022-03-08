@@ -32,12 +32,10 @@ export default class Console extends Bot {
   }
 
   async onDirectMessage({ content, from }) {
-    content = content.toLowerCase();
+    content = content.toLowerCase().trim();
 
-    if (content === 'off') {
-      this.enableConsoleLogTransport(false);
-    } else if (content === 'on') {
-      this.enableConsoleLogTransport(true);
+    if ([ 'off', 'on' ].includes(content)) {
+      this.enableConsoleLogTransport(content === 'on');
     }
 
     this.replyWithConsoleLogTransportStatus(from);
