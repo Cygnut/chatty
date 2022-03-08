@@ -7,6 +7,10 @@ class Channels {
     this.#bots = bots;
   }
 
+  setContext(context) {
+    this.#bots.forEach(bot => bot.context = context(bot));
+  }
+
   setReply(reply) {
     this.#bots.forEach(bot => bot.reply = (content, to) => reply(bot, content, to));
   }

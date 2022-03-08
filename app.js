@@ -2,6 +2,7 @@ import logger from './Logger.js';
 import Remote from './channels/Remote.js';
 import Console from './channels/Console.js';
 import Channels from './Channels.js';
+import Bots from './bot/Bots.js'
 import Hub from './bot/Hub.js';
 import loader from './bot/Loader.js';
 import config from './Config.js';
@@ -12,7 +13,7 @@ import config from './Config.js';
       new Remote(config.channels.remote.url),
       new Console()
     ]),
-    bots: await loader()
+    bots: new Bots(await loader())
   }).listen();
 })();
 

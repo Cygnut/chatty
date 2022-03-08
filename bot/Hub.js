@@ -1,5 +1,4 @@
 import logger from '../Logger.js';
-import Bots from './Bots.js'
 import Bot from './Bot.js';
 
 export default class Hub {
@@ -10,9 +9,8 @@ export default class Hub {
     this.#channels = channels;
     this.#channels.setOnNewMessage(msg => this.onMessage(msg));
 
-    this.#bots = new Bots(bots);
-
-    bots.forEach(bot => bot.setContext(this.#buildBotContext()));
+    this.#bots = bots;
+    this.#bots.setContext(bot => this.#buildBotContext(bot))
   }
 
   #buildBotContext() {
