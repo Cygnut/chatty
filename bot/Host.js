@@ -14,9 +14,7 @@ export default class Host {
 
   onMessage({ from, content }) {
     try {
-      this.#bots.forEach(bot => {
-        bot.reply = this.reply.bind(this, bot);
-      });
+      this.#bots.forEach(bot => bot.reply = this.reply.bind(this, bot));
 
       // If it's a message from a bot, then ignore it.
       if (from.startsWith(Bot.PREFIX))
