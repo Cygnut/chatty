@@ -23,19 +23,17 @@ import config from './Config.js';
 
 
 /*
+  separate stream for errors and content?
+
   handle all todos present in code
 
   Set appPath globally in app.js (but Config.js depends on it being set before then?)
-
-  separate stream for errors and content?
 
   better error handling for config.json, and enforce structure.
 
   better folder structure
 
   Store enabled state of each bot persistently.
-
-  Finish UdpBot, and test it. It currently is not sending to the Chat.
 
   would be nice, but doesn't need doing:
     trusted access to e.g. context.onNewMessage
