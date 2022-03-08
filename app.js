@@ -23,16 +23,19 @@ import config from './Config.js';
 
 
 /*
-  handle all todos present in code
-
   Set appPath globally in app.js (but Config.js depends on it being set before then?)
 
   better error handling for config.json, and enforce structure.
 
   better folder structure
 
+  typescript & eslinting & formatting
+
   Store enabled state of each bot persistently.
 
-  would be nice, but doesn't need doing:
+  ongoing:
+    handle all todos present in code
+
+    would be nice, but doesn't need doing:
     trusted access to e.g. context.onNewMessage
 */
