@@ -23,9 +23,6 @@ import config from './Config.js';
 
 
 /*
-  use file logger
-  have a bot to turn on/off console logging
-
   handle all todos present in code
 
   Set appPath globally in app.js (but Config.js depends on it being set before then?)

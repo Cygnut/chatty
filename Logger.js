@@ -32,11 +32,16 @@ const logger = createLogger({
   format: format.combine(
     errorFormat(),
     prefixFormat(),
-    format.colorize({ all: true }),
     finalizeFormat()    // This one *has* to come last!
   ),
   transports: [
-    new transports.Console()
+    new transports.Console({
+      // We only want to apply colorize to the console, not to the file transport
+      format: format.colorize({ all: true })
+    }),
+    new transports.File({
+      filename: 'combined.log',
+    }),
   ]
 });
 
