@@ -10,10 +10,17 @@ export default class Hub {
     this.#channels = channels;
     this.#channels.setOnNewMessage(msg => this.onMessage(msg));
 
-    this.#bots = new Bots(bots.map(bot => {
-      bot.hub = this;
-      return bot;
-    }));
+    this.#bots = new Bots(bots);
+
+    bots.forEach(bot => bot.setContext(this.#buildBotContext()));
+  }
+
+  #buildBotContext() {
+    return {
+      enableBot: this.#bots.enableBot.bind(this.#bots),
+      describeBots: this.#bots.describeBots.bind(this.#bots),
+      onMessage: this.onMessage.bind(this)
+    }
   }
 
   onMessage({ from, content }) {
@@ -56,13 +63,5 @@ export default class Hub {
 
   listen() {
     this.#channels.listen();
-  }
-
-  getBotMetadata() {
-    return this.#bots.describeBots();
-  }
-
-  enableBot(botName, on) {
-    return this.#bots.enableBot(botName, on);
   }
 }

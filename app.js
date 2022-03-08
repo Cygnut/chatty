@@ -22,6 +22,11 @@ import config from './Config.js';
   still need a limited interface passed to bots instead of this.hub, especially for ~test
   pass Bots instance to Hub, not raw objects.
 
+  move     bots.forEach(bot => bot.setContext(this.#buildBotContext())); into Bots
+  Remove unnecessary setters if not needed (e.g. setContext)
+  move reply into context
+
+
   use file logger
   handle all todos
 
