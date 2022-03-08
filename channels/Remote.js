@@ -13,10 +13,10 @@ export default class Remote extends Channel {
   #lastIdSeen = -1;
   #onNewMessage;
 
-  constructor(rootUrl, onNewMessage) {
+  constructor(onNewMessage, rootUrl) {
     super();
-    this.#rootUrl = rootUrl;
     this.#onNewMessage = onNewMessage;
+    this.#rootUrl = rootUrl;
   }
 
   async #poll() {

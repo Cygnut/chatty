@@ -8,11 +8,13 @@ import config from './Config.js';
 
 (async () => {
   const host = new Host();
+  const onMessage = msg => host.onMessage(msg)
+
   const channels = new Channels();
 
   channels.set(
-    new Remote(config.channels.remote.url, msg => host.onMessage(msg)),
-    new Console(msg => host.onMessage(msg))
+    new Remote(onMessage, config.channels.remote.url),
+    new Console(onMessage)
   );
 
   host.addChannels(channels);
