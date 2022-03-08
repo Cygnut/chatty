@@ -27,35 +27,19 @@ import config from './Config.js';
 
   better error handling in config.json, and enforce structure.
 
-  don't like that Host has a hard reference to channels, use a callback, then wrap this top level up
-
   still need a limited interface passed to bots instead of this.host, especially for ~test
-
-  no prompt after '~urban poop'
-
-  fix weird load order (of where channels depend on host being defined)
-  clean up app.js
 
   better folder structure
 
   better access to host from bots that need it (enable, help, self test), rather than hackily setting bot.host, provide limited interface
 
-  get self-test working (albeit hackily)
-  rebuild on a separate branch
-
   Roadmap:
     Combine.
 
   ChatBot:
-  Store enabled state of each bot persistently.
+    Store enabled state of each bot persistently.
 
-  Fix/finish TicTacToeBot & test it!
   Finish UdpBot, and test it. It currently is not sending to the Chat.
-
-  WIP: Support for bots which can send not only on received data, but also on a timer?
-  http://pokeapi.co/api/v2/pokemon-species/pikachu/
-
-  Combine Chat & ChatBot?
 
   Bots:
     tic-tac-toe
