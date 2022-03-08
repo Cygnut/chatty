@@ -26,6 +26,8 @@ import config from './Config.js';
   use file logger
   handle all todos
 
+  Set appPath globally in app.js (but Config.js depends on it being set before then?)
+
   separate stream for errors and content?
 
   better error handling in config.json, and enforce structure.
