@@ -28,13 +28,13 @@ export default class Oak extends Bot {
       const url = `http://pokeapi.co/api/v2/pokemon-species/${content}`;
       const response = await fetch(url);
       const body = await response.json();
-      this.reply(
+      this.context.reply(
         `${body.name} is a ${body.color.name} ${body.shape.name} ${body.generation.name} pokemon. ${this.getEnFlavourText(body)}`,
         from
       );
     } catch (e) {
       logger.error(e);
-      this.reply("Couldn't ask Professor Oak about it..", from);
+      this.context.reply("Couldn't ask Professor Oak about it..", from);
     }
   }
 }

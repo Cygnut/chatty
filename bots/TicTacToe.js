@@ -131,7 +131,7 @@ export default class TicTacToe extends Bot {
 
     this.#game = new Game(size);
 
-    this.reply(`Starting new game of size ${size}`);
+    this.context.reply(`Starting new game of size ${size}`);
   }
 
   onMove({ content }) {
@@ -141,8 +141,8 @@ export default class TicTacToe extends Bot {
     // Play the move to update the grid.
     const winner = this.#game.play(move);
 
-    const response = [ 
-      this.#game.stringizeGrid(), 
+    const response = [
+      this.#game.stringizeGrid(),
       winner ? `${winner} wins!` : null
     ].filter(v => v).join('\n');
 
@@ -150,13 +150,13 @@ export default class TicTacToe extends Bot {
     if (winner)
       this.#game.reset();
 
-    this.reply(response);
+    this.context.reply(response);
   }
 
   async onDirectMessage({ content, from }) {
     try {
       if (!content) {
-        this.reply('\n' + this.#game.stringizeGrid());
+        this.context.reply('\n' + this.#game.stringizeGrid());
       } else if (content.startsWith(this.#configureText)) {
         this.onConfigure({ content })
       } else {
@@ -164,7 +164,7 @@ export default class TicTacToe extends Bot {
       }
     } catch (e) {
       logger.error(e);
-      this.reply(e.message, from);
+      this.context.reply(e.message, from);
     }
   }
 }

@@ -24,6 +24,6 @@ export default class Eval extends Bot {
       logger.error(result);
     }
 
-    this.reply(result, from);
+    this.context.reply(result, from);
   }
 }

@@ -11,10 +11,6 @@ class Channels {
     this.#bots.forEach(bot => bot.context = context(bot));
   }
 
-  setReply(reply) {
-    this.#bots.forEach(bot => bot.reply = (content, to) => reply(bot, content, to));
-  }
-
   getEnabledBots() {
     return this.#bots.filter(bot => bot.enabled);
   }

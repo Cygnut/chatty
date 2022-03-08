@@ -19,9 +19,15 @@ import config from './Config.js';
 
 
 /*
-  Remove unnecessary setters if not needed (e.g. setContext)
+  Remove unnecessary setters if not needed (e.g. setContext), and then remove       this.#bots.setReply(this.reply.bind(this));
+  remove definition of setReply
+
   move reply into context
 
+
+
+
+  ~ttt 1 1 x just instantly wins (puts an x 3 times in the whole column)
 
   trusted access to e.g. context.onNewMessage
 

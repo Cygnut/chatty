@@ -13,18 +13,17 @@ export default class Hub {
     this.#bots.setContext(bot => this.#buildBotContext(bot))
   }
 
-  #buildBotContext() {
+  #buildBotContext(bot) {
     return {
       enableBot: this.#bots.enableBot.bind(this.#bots),
       describeBots: this.#bots.describeBots.bind(this.#bots),
-      onMessage: this.onMessage.bind(this)
+      onMessage: this.onMessage.bind(this),
+      reply: (content, to) => this.reply(bot, content, to)
     }
   }
 
   onMessage({ from, content }) {
     try {
-      this.#bots.setReply(this.reply.bind(this));
-
       // If it's a message from a bot, then ignore it.
       if (from.startsWith(Bot.PREFIX))
         return;
