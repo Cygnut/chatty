@@ -1,5 +1,5 @@
 import Bot from '../bot/Bot';
-import { DirectMessage } from '../bot/Bot';
+import { DirectMessage } from '../bot/Bot.d';
 
 export default class Enable extends Bot {
   constructor() {
