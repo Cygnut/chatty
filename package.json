@@ -6,7 +6,7 @@
     "type": "git",
     "url": "https://github.com/Cygnut/chatty"
   },
-  "main": "app.js",
+  "main": "index.js",
   "type": "module",
   "dependencies": {
     "node-fetch": "^2.6.7",
