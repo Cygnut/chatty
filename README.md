@@ -24,7 +24,7 @@ Some example bots are provided:
     'Oy, you used a bad word! Get out.'
 
 ### Implementation
-All bots should extend the Bot class (in Bot.js), following the examples provided by this codebase.
+All bots should extend the Bot class (in Bot.ts), following the examples provided by this codebase.
 
 ### Configuration
 All bots plugins in the /bots folder are loaded. Any bot specific configuration should be placed in the top level bots.config file, which takes the following form:
@@ -68,3 +68,22 @@ The following bots are for administration of other bots and can not be uninstall
 | ~ttt | Play tic-tac-toe. |
 | ~udp | Dumps udp on receipt at a specified port. |
 | ~urban | Tries hard to define words pleasantly.. using the UrbanDictionary Web API. |
+
+### Installing TypeScript on your NodeJS project
+
+Install the dev dependencies required for TypeScript. 'ts-node' is a utility provided to directly run .ts files rather than the 'node' command running .js files.
+```sh
+npm install typescript ts-node @types/node -D
+```
+
+Create a tsconfig.json file to configure TypeScript. See this project's tsconfig.json for an example.
+```sh
+npx tsc --init
+```
+
+To make use of 'ts-node', add the following command to package.json:
+```json
+"scripts": {
+   "start": "ts-node ./src/index.ts"
+}
+```

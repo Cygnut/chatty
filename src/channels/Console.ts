@@ -1,7 +1,7 @@
 import readline from 'readline';
 
-import logger from '../Logger.js';
-import Channel from '../Channel.js';
+import logger from '../Logger';
+import Channel from '../Channel';
 
 export default class Console extends Channel {
   #from = 'console';

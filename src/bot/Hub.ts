@@ -1,5 +1,5 @@
-import logger from '../Logger.js';
-import Bot from './Bot.js';
+import logger from '../Logger';
+import Bot from './Bot';
 
 export default class Hub {
   #bots;

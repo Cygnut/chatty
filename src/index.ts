@@ -1,11 +1,11 @@
-import logger from './Logger.js';
-import Remote from './channels/Remote.js';
-import Console from './channels/Console.js';
-import Channels from './Channels.js';
-import Bots from './bot/Bots.js'
-import Hub from './bot/Hub.js';
-import loader from './bot/Loader.js';
-import config from './Config.js';
+import logger from './Logger';
+import Remote from './channels/Remote';
+import Console from './channels/Console';
+import Channels from './Channels';
+import Bots from './bot/Bots'
+import Hub from './bot/Hub';
+import loader from './bot/Loader';
+import config from './Config';
 
 (async () => {
   const hub = new Hub({

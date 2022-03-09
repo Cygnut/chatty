@@ -1,12 +1,12 @@
 import path from 'path';
 import { readdir } from 'fs/promises';
 
-import logger from '../Logger.js';
-import config from '../Config.js';
-import appPath from '../AppPath.js';
+import logger from '../Logger';
+import config from '../Config';
+import appPath from '../AppPath';
 
-// Only pick up files which have at least one character before Bot.js.
-const botRegex = /.+.js/
+// Only pick up files which have at least one character before Bot.ts.
+const botRegex = /.+.ts/
 
 const combineSettings = (common, specific) => {
   const combined = {};

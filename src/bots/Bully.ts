@@ -1,4 +1,4 @@
-import Bot from '../bot/Bot.js';
+import Bot from '../bot/Bot';
 
 export default class Bully extends Bot {
   #targets = [];

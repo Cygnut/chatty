@@ -1,5 +1,5 @@
-import logger from '../Logger.js';
-import Bot from '../bot/Bot.js';
+import logger from '../Logger';
+import Bot from '../bot/Bot';
 
 export default class Eval extends Bot {
   constructor() {

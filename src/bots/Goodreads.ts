@@ -3,8 +3,8 @@ import fs from 'fs';
 import fetch from 'node-fetch';
 import xml2js from 'xml2js';
 
-import logger from '../Logger.js';
-import Bot from '../bot/Bot.js';
+import logger from '../Logger';
+import Bot from '../bot/Bot';
 
 export default class Goodreads extends Bot {
   #rootUrl = 'https://www.goodreads.com/';

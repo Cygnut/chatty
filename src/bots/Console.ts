@@ -1,7 +1,7 @@
 import { transports } from 'winston';
 
-import Bot from '../bot/Bot.js';
-import logger from '../Logger.js';
+import Bot from '../bot/Bot';
+import logger from '../Logger';
 
 export default class Console extends Bot {
   constructor() {

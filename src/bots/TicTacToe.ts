@@ -1,5 +1,5 @@
-import logger from '../Logger.js';
-import Bot from '../bot/Bot.js';
+import logger from '../Logger';
+import Bot from '../bot/Bot';
 
 class InputError extends Error {
   constructor(message) {

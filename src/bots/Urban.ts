@@ -1,7 +1,7 @@
 import fetch from 'node-fetch';
 
-import logger from '../Logger.js';
-import Bot from '../bot/Bot.js';
+import logger from '../Logger';
+import Bot from '../bot/Bot';
 
 export default class Urban extends Bot {
   constructor() {
