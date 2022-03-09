@@ -2,6 +2,14 @@ import logger from '../Logger';
 import Bot from '../bot/Bot';
 import { DirectMessage } from '../bot/Bot.d';
 
+type Player = string;
+
+type Move = {
+  x: number,
+  y: number,
+  player: Player
+}
+
 class InputError extends Error {
   constructor(message: string) {
     super(message || '');
@@ -33,7 +41,7 @@ class Game {
     this.#grid = gridRange.map(() => gridRange.map(() => this.#unsetChar).slice());
   }
 
-  #doMove(move) {
+  #doMove(move: Move) {
     // Validate the move
     if (!this.#validPlayers.some(p => p === move.player))
       throw new InputError(`${move.player} should be one of ${this.#validPlayers.join(', ')}`);
@@ -57,7 +65,7 @@ class Game {
 
   #getWinner() {
     const gridRange = this.#gridRange();
-    const isWinningLine = (player, cell) => gridRange.every(i => {
+    const isWinningLine = (player: Player, cell: (i: number) => number[]) => gridRange.every(i => {
       const [ r, c ] = cell(i);
       return this.#grid[r][c] === player;
     });
@@ -85,7 +93,7 @@ class Game {
       .join('\n');
   }
 
-  play(move) {
+  play(move: Move) {
     // Play the move to update the grid.
     this.#doMove(move);
 
@@ -113,7 +121,7 @@ export default class TicTacToe extends Bot {
     return [];
   }
 
-  parseMove(content) {
+  parseMove(content: string): Move {
     // Message syntax: x y [x or o], x y are 0 based {0,1,2}
     const tokens = content.split(this.#inputRegex);
     if (tokens.length !== 3)
