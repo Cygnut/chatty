@@ -23,13 +23,10 @@ import config from './Config.js';
 
 
 /*
-  Set appPath globally in app.js (but Config.js depends on it being set before then?)
-
-  better error handling for config.json, and enforce structure.
-
   better folder structure
 
   typescript & eslinting & formatting
+    type for config structure
 
   Store enabled state of each bot persistently.
 
