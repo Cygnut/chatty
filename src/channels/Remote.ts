@@ -1,6 +1,7 @@
 import fetch from "node-fetch";
 
 import Channel from '../Channel';
+import logger from "../Logger";
 
 /*
   This is a simple channel that scrapes the Chat app for the latest message and responds to it if it meets certain criteria.
@@ -11,7 +12,7 @@ export default class Remote extends Channel {
   #rootUrl;
   #lastIdSeen = -1;
 
-  constructor(rootUrl: string) {
+  constructor(rootUrl: string|undefined) {
     super();
     this.#rootUrl = rootUrl;
   }
@@ -46,6 +47,11 @@ export default class Remote extends Channel {
 
   async send({ from, content }) {
     try {
+      if (!this.#rootUrl) {
+        logger.info('Not sending message to remote as no root url has been set');
+        return;
+      }
+
       await fetch(`${this.#rootUrl}send`, {
         method: 'POST',
         body: JSON.stringify({ from, content })

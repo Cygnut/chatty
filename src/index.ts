@@ -10,7 +10,7 @@ import config from './Config';
 (async () => {
   const hub = new Hub({
     channels: new Channels([
-      new Remote(config.channels.remote.url),
+      new Remote(config.channels?.remote?.url),
       new Console()
     ]),
     bots: new Bots(await loader())
