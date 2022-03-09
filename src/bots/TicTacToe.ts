@@ -30,7 +30,7 @@ class Game {
     const gridRange = this.#gridRange();
     // Ensure each row is initialised with a distinct *copy* to avoid changing one row affecting
     // other rows.
-    this.#grid = gridRange.map(() => gridRange.fill(this.#unsetChar).slice());
+    this.#grid = gridRange.map(() => gridRange.map(() => this.#unsetChar).slice());
   }
 
   #doMove(move) {
