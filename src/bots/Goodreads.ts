@@ -7,11 +7,15 @@ import logger from '../Logger';
 import Bot from '../bot/Bot';
 import { DirectMessage } from '../bot/Bot.d';
 
+interface Options {
+  apiKey: string
+}
+
 export default class Goodreads extends Bot {
   #rootUrl = 'https://www.goodreads.com/';
   #apiKey;
 
-  constructor({ apiKey }) {
+  constructor({ apiKey }: Options) {
     super({
       name: 'goodreads',
       description: "Finds the top related book for a given search term."
