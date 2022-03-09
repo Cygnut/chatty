@@ -1,6 +1,7 @@
 import { transports } from 'winston';
 
 import Bot from '../bot/Bot';
+import { DirectMessage } from '../bot/Bot.d';
 import logger from '../Logger';
 
 export default class Console extends Bot {
@@ -24,7 +25,7 @@ export default class Console extends Bot {
     return logger.transports.find(transport => transport.name === 'console');
   }
 
-  replyWithConsoleLogTransportStatus(from) {
+  replyWithConsoleLogTransportStatus(from: string) {
     const consoleLogTransport = this.getConsoleLogTransport();
     if (consoleLogTransport) {
       this.context.reply(`Console logging is ${this.getConsoleLogTransport().silent ? 'disabled' : 'enabled'}`, from);
@@ -33,14 +34,14 @@ export default class Console extends Bot {
     }
   }
 
-  enableConsoleLogTransport(on) {
+  enableConsoleLogTransport(on: boolean) {
     const consoleLogTransport = this.getConsoleLogTransport();
     if (consoleLogTransport) {
       consoleLogTransport.silent = !on;
     }
   }
 
-  async onDirectMessage({ content, from }) {
+  async onDirectMessage({ content, from }: DirectMessage) {
     content = content.toLowerCase().trim();
 
     if ([ 'off', 'on' ].includes(content)) {

@@ -1,4 +1,5 @@
 import Bot from '../bot/Bot';
+import { DirectMessage } from '../bot/Bot';
 
 export default class Enable extends Bot {
   constructor() {
@@ -13,7 +14,7 @@ export default class Enable extends Bot {
     return [];
   }
 
-  async onDirectMessage({ content }) {
+  async onDirectMessage({ content }: DirectMessage) {
     const result = this.context.enableBot(content);
 
     if (result === null) {

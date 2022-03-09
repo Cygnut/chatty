@@ -2,11 +2,12 @@ import dgram from 'dgram';
 
 import logger from '../Logger';
 import Bot from '../bot/Bot';
+import { DirectMessage } from '../bot/Bot.d';
 
 export default class Udp extends Bot {
   #defaultPort = 8888;
   #listenText = 'listen';
-  #listener;
+  #listener: dgram.Socket|null = null;
 
   constructor() {
     super({
@@ -19,7 +20,7 @@ export default class Udp extends Bot {
     return [];
   }
 
-  createListener(port) {
+  createListener(port: number) {
     const listener = dgram.createSocket('udp4');
 
     listener.on('error', e => {
@@ -56,7 +57,7 @@ export default class Udp extends Bot {
     }
   }
 
-  async onDirectMessage({ content, from }) {
+  async onDirectMessage({ content, from }: DirectMessage) {
     if (content.startsWith(this.#listenText)) {
       const portStr = content.substring(this.#listenText.length + 1) || this.#defaultPort;
       const port = parseInt(portStr);

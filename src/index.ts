@@ -16,13 +16,15 @@ import config from './Config';
     bots: new Bots(await loader())
   }).listen();
 
-  (config.startup?.messages || []).forEach(message => {
-    hub.onMessage({ from: '@startup', content: message })
+  (config.startup?.messages || []).forEach((content: string) => {
+    hub.onMessage({ from: '@startup', content })
   });
 })();
 
 
 /*
+  put interface definitions in the correct place
+
   better folder structure
 
   typescript & eslinting & formatting

@@ -1,5 +1,6 @@
 import logger from '../Logger';
 import Bot from '../bot/Bot';
+import { DirectMessage } from '../bot/Bot.d';
 
 export default class Eval extends Bot {
   constructor() {
@@ -15,7 +16,7 @@ export default class Eval extends Bot {
     ];
   }
 
-  async onDirectMessage({ content, from }) {
+  async onDirectMessage({ content, from }: DirectMessage) {
     let result = '';
     try {
       result = eval(content);

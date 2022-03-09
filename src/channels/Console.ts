@@ -7,7 +7,7 @@ export default class Console extends Channel {
   #from = 'console';
   #exit = 'exit';
 
-  #send(content) {
+  #send(content: string) {
     console.log(content);
   }
 

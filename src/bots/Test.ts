@@ -12,15 +12,12 @@ export default class Test extends Bot {
   }
 
   generateTests() {
-    // Get an array of tests for each bot.
+    // Get an array of tests for each bot as one flat array.
     const botTests = this.context.describeBots()
-      .map(bot => { return bot.tests; })
-
-    // Merge them all into one array.
-    const allTests = [].concat.apply([], botTests);
+      .flatMap(bot => { return bot.tests; })
 
     // Generate the full test suite:
-    const tests = allTests;
+    const tests = botTests;
     tests.unshift('STARTING TESTS NOW');
     tests.push('ENDING TESTS NOW');
     return tests;

@@ -1,28 +1,36 @@
 import logger from '../Logger';
 import Bot from './Bot';
+import { Message, Context } from './Bot.d';
+import Bots from './Bots';
+import Channels from '../Channels';
+
+interface Options {
+  channels: Channels,
+  bots: Bots
+}
 
 export default class Hub {
-  #bots;
-  #channels;
+  #bots: Bots;
+  #channels: Channels;
 
-  constructor({ channels, bots }) {
+  constructor({ channels, bots }: Options) {
     this.#channels = channels;
-    this.#channels.setOnNewMessage(msg => this.onMessage(msg));
+    this.#channels.setOnNewMessage((msg: Message) => this.onMessage(msg));
 
     this.#bots = bots;
     this.#bots.setContext(bot => this.#buildBotContext(bot))
   }
 
-  #buildBotContext(bot) {
+  #buildBotContext(bot: Bot): Context {
     return {
       enableBot: this.#bots.enableBot.bind(this.#bots),
       describeBots: this.#bots.describeBots.bind(this.#bots),
       onMessage: this.onMessage.bind(this),
-      reply: (content, to) => this.reply(bot, content, to)
+      reply: (content: string, to: string) => this.reply(bot, content, to)
     }
   }
 
-  onMessage({ from, content }) {
+  onMessage({ from, content }: Message) {
     try {
       // If it's a message from a bot, then ignore it.
       if (from.startsWith(Bot.PREFIX))
@@ -48,7 +56,7 @@ export default class Hub {
     }
   }
 
-  reply(bot, content, to) {
+  reply(bot: Bot, content: string, to: string) {
     // Also check here for asynchronously generated messages from disabled bots, just in case.
     if (!bot.enabled)
       return;

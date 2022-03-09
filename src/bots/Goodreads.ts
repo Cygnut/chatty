@@ -5,6 +5,7 @@ import xml2js from 'xml2js';
 
 import logger from '../Logger';
 import Bot from '../bot/Bot';
+import { DirectMessage } from '../bot/Bot.d';
 
 export default class Goodreads extends Bot {
   #rootUrl = 'https://www.goodreads.com/';
@@ -26,11 +27,11 @@ export default class Goodreads extends Bot {
   }
 
   // For debugging purposes only
-  writeJsonObject(o, path) {
+  writeJsonObject(o: {}, path: string) {
     fs.writeFile(path, JSON.stringify(o, null, 2), logger.error);
   }
 
-  async onDirectMessage({ content, from }) {
+  async onDirectMessage({ content, from }: DirectMessage) {
     this.context.reply('The Goodreads public API has been formally deprecated.', from);
     return;
 

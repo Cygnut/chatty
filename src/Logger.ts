@@ -2,7 +2,7 @@ import { createLogger, format, transports } from 'winston';
 
 const errorFormat = format(info => {
   if (info && info instanceof Error) {
-      info.message = info.stack;  // This includes the message.
+      info.message = info.stack || '';  // This includes the message.
   }
   return info;
 });

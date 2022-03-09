@@ -1,22 +1,23 @@
 import logger from '../Logger';
 import Bot from '../bot/Bot';
+import { DirectMessage } from '../bot/Bot.d';
 
 class InputError extends Error {
-  constructor(message) {
-    super(message || '')
+  constructor(message: string) {
+    super(message || '');
   }
 }
 
 // Generates an array {0, 1, ..., length - 1}
-const range = length => Array.from(Array(length).keys());
+const range = (length: number) => Array.from(Array(length).keys());
 
 class Game {
   #gridLength;
   #validPlayers = [ 'o', 'x' ];
-  #grid;
+  #grid: string[][] = [];
   #unsetChar = '_';
 
-  constructor(gridLength) {
+  constructor(gridLength: number) {
     this.#gridLength = gridLength;
     this.reset();
   }
@@ -155,7 +156,7 @@ export default class TicTacToe extends Bot {
     this.context.reply(response);
   }
 
-  async onDirectMessage({ content, from }) {
+  async onDirectMessage({ content, from }: DirectMessage) {
     try {
       if (!content) {
         this.context.reply('\n' + this.#game.stringizeGrid());

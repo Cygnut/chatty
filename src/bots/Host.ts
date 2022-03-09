@@ -16,19 +16,18 @@ export default class Host extends Bot {
     ];
   }
 
-  #formatBytes(bytes, decimals) {
+  #formatBytes(bytes: number) {
     if (bytes == 0)
       return '0 Bytes';
 
     const scale = 1000; // or 1024 for binary
-    const fractionDigits = decimals + 1 || 3;
+    const fractionDigits = 3;
     const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
     const exponent = Math.floor(Math.log(bytes) / Math.log(scale));
     return parseFloat((bytes / Math.pow(scale, exponent)).toFixed(fractionDigits)) + ' ' + sizes[exponent];
   }
 
-  #formatTime(totalSecondsStr) {
-    const totalSeconds = parseInt(totalSecondsStr, 10);
+  #formatTime(totalSeconds: number) {
     const hours = Math.floor(totalSeconds / 3600);
     const minutes = Math.floor((totalSeconds - (hours * 3600)) / 60);
     const seconds = totalSeconds - (hours * 3600) - (minutes * 60);

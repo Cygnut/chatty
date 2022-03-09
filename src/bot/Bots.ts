@@ -1,13 +1,15 @@
 import logger from "../Logger";
+import { Context, Description } from './Bot.d';
+import Bot from './Bot'
 
 class Channels {
-  #bots = [];
+  #bots: Bot[] = [];
 
-  constructor(bots) {
+  constructor(bots: Bot[]) {
     this.#bots = bots;
   }
 
-  setContext(context) {
+  setContext(context: (bot: Bot) => Context) {
     this.#bots.forEach(bot => bot.context = context(bot));
   }
 
@@ -15,21 +17,21 @@ class Channels {
     return this.#bots.filter(bot => bot.enabled);
   }
 
-  findMentionedBot(content) {
+  findMentionedBot(content: string) {
       return this.getEnabledBots().find(bot => content.startsWith(bot.name));
   }
 
-  describeBots() {
+  describeBots(): Description[] {
     return this.#bots.map(bot => ({
       name: bot.name,
       description: bot.description,
       enabled: bot.enabled,
-      enableable: bot.enableable,
+      disableable: bot.disableable,
       tests: bot.getTests(),
     }));
   }
 
-  enableBot(botName, on) {
+  enableBot(botName: string, on: boolean) {
     const bot = this.#bots.find(bot => bot.name === botName);
 
     if (!bot) {

@@ -1,15 +1,15 @@
 import Bot from '../bot/Bot';
+import { PublicMessage } from '../bot/Bot.d';
 
 export default class Swear extends Bot {
-  #badWords = [];
+  #badWords: string[] = [];
 
   constructor() {
-    const badWords = [ 'fuck', 'shit', 'crap', 'poop', 'bum' ];
     super({
       name: 'swear',
-      description: `Tells you off if you're a little bitch. Don't say any of these: ${badWords.join(', ')}.`
+      description: `Tells you off if you're a little bitch.`
     });
-    this.#badWords = badWords;
+    this.#badWords = [ 'fuck', 'shit', 'crap', 'poop', 'bum' ];
   }
 
   getTests() {
@@ -18,7 +18,7 @@ export default class Swear extends Bot {
     ];
   }
 
-  async onPublicMessage({ content, from }) {
+  async onPublicMessage({ content, from }: PublicMessage) {
     if (this.#badWords.some(v => content.toLowerCase().indexOf(v) > -1)) {
       this.context.reply('Oy, you used a bad word! Get out.', from);
     }

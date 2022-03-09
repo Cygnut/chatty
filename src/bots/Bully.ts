@@ -1,7 +1,8 @@
 import Bot from '../bot/Bot';
+import { DirectMessage, PublicMessage } from '../bot/Bot.d';
 
 export default class Bully extends Bot {
-  #targets = [];
+  #targets: string[] = [];
 
   constructor() {
     super({
@@ -16,7 +17,7 @@ export default class Bully extends Bot {
     ];
   }
 
-  async onDirectMessage({ content, from })
+  async onDirectMessage({ content, from }: DirectMessage)
   {
     const index = this.#targets.indexOf(content);
 
@@ -34,7 +35,7 @@ export default class Bully extends Bot {
     this.context.reply(message, from);
   }
 
-  async onPublicMessage({ from })
+  async onPublicMessage({ from }: PublicMessage)
   {
     if (this.#targets.some(target => target === from)) {
       this.context.reply(`I hate you, ${from}`, from);

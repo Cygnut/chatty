@@ -1,6 +1,5 @@
 import fetch from "node-fetch";
 
-import logger from '../Logger';
 import Channel from '../Channel';
 
 /*
@@ -12,7 +11,7 @@ export default class Remote extends Channel {
   #rootUrl;
   #lastIdSeen = -1;
 
-  constructor(rootUrl) {
+  constructor(rootUrl: string) {
     super();
     this.#rootUrl = rootUrl;
   }

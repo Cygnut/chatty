@@ -1,13 +1,14 @@
 import logger from './Logger';
+import Channel from './Channel';
 
 class Channels {
-  #channels = [];
+  #channels: Channel[] = [];
 
-  constructor(channels) {
+  constructor(channels: Channel[]) {
     this.set(channels);
   }
 
-  set(channels) {
+  set(channels: Channel[]) {
     this.#channels = channels
   }
 
@@ -19,14 +20,14 @@ class Channels {
     this.#channels.forEach(channel => channel.listen());
   }
 
-  send(message) {
+  send({ content, from }) {
     // Don't bother forwarding an empty message.
-    if (message.content === null)
+    if (content === null)
       return;
 
-    logger.info(`${message.from} replying to message across all channels with content: ${message.content}`);
+    logger.info(`${from} replying to message across all channels with content: ${content}`);
 
-    this.#channels.forEach(channel => channel.send(message));
+    this.#channels.forEach(channel => channel.send({ content, from }));
   }
 }
 

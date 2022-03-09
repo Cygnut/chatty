@@ -2,6 +2,7 @@ import fetch from 'node-fetch';
 
 import logger from '../Logger';
 import Bot from '../bot/Bot';
+import { DirectMessage } from '../bot/Bot.d';
 
 export default class Oak extends Bot {
   constructor() {
@@ -23,7 +24,7 @@ export default class Oak extends Bot {
     return entry ? `${entry.flavor_text} (${entry.version.name})` : '';
   }
 
-  async onDirectMessage({ content, from }) {
+  async onDirectMessage({ content, from }: DirectMessage) {
     try {
       const url = `http://pokeapi.co/api/v2/pokemon-species/${content}`;
       const response = await fetch(url);
