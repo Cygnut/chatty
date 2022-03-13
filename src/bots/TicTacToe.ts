@@ -4,9 +4,13 @@ import { DirectMessage } from '../bot/Bot.d';
 
 type Player = string;
 
-type Move = {
+type Position = {
   x: number,
-  y: number,
+  y: number
+}
+
+type Move = {
+  position: Position,
   player: Player
 }
 
@@ -46,21 +50,21 @@ class Game {
     if (!this.#validPlayers.some(p => p === move.player))
       throw new InputError(`${move.player} should be one of ${this.#validPlayers.join(', ')}`);
 
-    [ 'x', 'y' ].forEach(c => {
-      const value = move[c];
+    Object.entries(move.position).forEach(([k, v]) => {
+      if (v < 0) {
+        throw new InputError(`${k} must be greater than 0.`);
+      }
 
-      if (isNaN(value))
-        throw new InputError(`${c} must be a valid integer.`);
-
-      if (value < 0 ||value >= this.#gridLength)
-        throw new InputError(`${c} must be in {0,1,2}.`);
+      if (v >= this.#gridLength) {
+        throw new InputError(`${k} must be less than or equal to ${this.#gridLength}.`);
+      }
     });
 
-    // Update the grid
-    if (this.#grid[move.y][move.x] !== this.#unsetChar)
+    if (this.#grid[move.position.y][move.position.x] !== this.#unsetChar)
       throw new InputError("Hey! That spot's taken!");
 
-    this.#grid[move.y][move.x] = move.player;
+    // Update the grid
+    this.#grid[move.position.y][move.position.x] = move.player;
   }
 
   #getWinner() {
@@ -121,6 +125,15 @@ export default class TicTacToe extends Bot {
     return [];
   }
 
+  #parseCoordinate(value: string) {
+    const number = parseInt(value);
+
+    if (isNaN(number))
+      throw new InputError(`${value} must be a valid integer.`);
+
+    return number;
+  }
+
   parseMove(content: string): Move {
     // Message syntax: x y [x or o], x y are 0 based {0,1,2}
     const tokens = content.split(this.#inputRegex);
@@ -128,8 +141,10 @@ export default class TicTacToe extends Bot {
       throw new InputError(`${content} is badly formed input.`);
 
     return {
-      x: parseInt(tokens[0]),
-      y: parseInt(tokens[1]),
+      position: {
+        x: this.#parseCoordinate(tokens[0]),
+        y: this.#parseCoordinate(tokens[1])
+      },
       player: tokens[2],
     };
   }
