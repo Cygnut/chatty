@@ -2,7 +2,7 @@ import logger from '../Logger';
 import Bot from '../bot/Bot';
 import { DirectMessage } from '../bot/Bot.d';
 
-type Player = string;
+type Player = 'o' | 'x';
 
 type Position = {
   x: number,
@@ -25,7 +25,7 @@ const range = (length: number) => Array.from(Array(length).keys());
 
 class Game {
   #gridLength;
-  #validPlayers = [ 'o', 'x' ];
+  #validPlayers: Player[] = [ 'o', 'x' ];
   #grid: string[][] = [];
   #unsetChar = '_';
 
