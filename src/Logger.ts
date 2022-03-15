@@ -1,4 +1,4 @@
-import { createLogger, format, transports } from 'winston';
+import { createLogger, format, transport, transports } from 'winston';
 
 const errorFormat = format(info => {
   if (info && info instanceof Error) {
@@ -49,7 +49,10 @@ const logger = createLogger({
 });
 
 if (process.env.NODE_ENV === 'production') {
-  logger.remove(logger.transports.find(transport => transport.name === 'console'));
+  const consoleTransport = logger.transports.find(transport => transport.name === 'console');
+  if (consoleTransport) {
+    logger.remove(consoleTransport);
+  }
 }
 
 export default logger;
