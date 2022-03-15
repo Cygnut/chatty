@@ -1,15 +1,20 @@
-class Channel {
-  onNewMessage;
+export type Message = {
+  from: string,
+  content: string
+}
 
-  setOnNewMessage(onNewMessage) {
+export type OnNewMessage = (message: Message) => void;
+
+export class Channel {
+  onNewMessage: OnNewMessage|undefined;
+
+  setOnNewMessage(onNewMessage: OnNewMessage) {
     this.onNewMessage = onNewMessage
   }
 
   listen() {
   }
 
-  send({ from, content }) {
+  send(message: Message) {
   }
 }
-
-export default Channel;

@@ -1,5 +1,5 @@
 import logger from './Logger';
-import Channel from './Channel';
+import { Channel, Message, OnNewMessage } from './Channel';
 
 class Channels {
   #channels: Channel[] = [];
@@ -12,7 +12,7 @@ class Channels {
     this.#channels = channels
   }
 
-  setOnNewMessage(onNewMessage) {
+  setOnNewMessage(onNewMessage: OnNewMessage) {
     this.#channels.forEach(channel => channel.setOnNewMessage(onNewMessage));
   }
 
@@ -20,7 +20,7 @@ class Channels {
     this.#channels.forEach(channel => channel.listen());
   }
 
-  send({ content, from }) {
+  send({ content, from }: Message) {
     // Don't bother forwarding an empty message.
     if (content === null)
       return;

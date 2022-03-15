@@ -1,7 +1,7 @@
 import readline from 'readline';
 
 import logger from '../Logger';
-import Channel from '../Channel';
+import { Channel, Message } from '../Channel';
 
 export default class Console extends Channel {
   #from = 'console';
@@ -27,7 +27,7 @@ export default class Console extends Channel {
         this.#send('Bye!');
         process.exit(0);
       } else {
-        this.onNewMessage({ from: this.#from, content: line.trim() })
+        this.onNewMessage?.({ from: this.#from, content: line.trim() })
       }
       io.prompt();
     }).on('close', () => {
@@ -36,7 +36,7 @@ export default class Console extends Channel {
     });
   }
 
-  send({ content }) {
+  send({ content }: Message) {
     this.#send(content);
   }
 }

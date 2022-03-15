@@ -1,6 +1,6 @@
 import fetch from "node-fetch";
 
-import Channel from '../Channel';
+import { Channel, Message } from '../Channel';
 import logger from "../Logger";
 
 /*
@@ -31,7 +31,7 @@ export default class Remote extends Channel {
       if (this.#lastIdSeen < msg.id) {
         // Then we're looking at a new message.
         try {
-          this.onNewMessage(msg);
+          this.onNewMessage?.(msg);
         } catch (e) {}
         this.#lastIdSeen = msg.id;
       }
@@ -45,7 +45,7 @@ export default class Remote extends Channel {
     setInterval(() => this.#poll(), this.#pollingInterval);
   }
 
-  async send({ from, content }) {
+  async send({ from, content }: Message) {
     try {
       if (!this.#rootUrl) {
         logger.info('Not sending message to remote as no root url has been set');
