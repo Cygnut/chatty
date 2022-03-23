@@ -13,7 +13,7 @@ export interface Description {
 }
 
 export interface Context {
-  enableBot(botName: string, on: boolean): boolean?,
+  enableBot(botName: string, on: boolean|null = null): boolean?,
   describeBots(): Description[],
   onMessage(message: Message): void,
   reply(content: string, to?: string): void

@@ -31,7 +31,7 @@ class Channels {
     }));
   }
 
-  enableBot(botName: string, on: boolean) {
+  enableBot(botName: string, on: boolean|null = null) {
     const bot = this.#bots.find(bot => bot.name === botName);
 
     if (!bot) {
@@ -40,7 +40,7 @@ class Channels {
     }
 
     // If on is not passed, then flip the state - else, set to the defined state in on.
-    bot.enable(on === undefined ? !bot.enabled : on);
+    bot.enable(on === null ? !bot.enabled : on);
     return bot.enabled;
   }
 }
