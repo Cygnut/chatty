@@ -8,7 +8,9 @@ import appPath from '../AppPath';
 // Only pick up files which have at least one character before Bot.ts.
 const botRegex = /.+.ts/
 
-const combineSettings = (common, specific) => {
+type Settings = Record<string, string>;
+
+const combineSettings = (common: Settings, specific: Settings) => {
   const combined = {};
 
   // Copy common into combined to start with.
