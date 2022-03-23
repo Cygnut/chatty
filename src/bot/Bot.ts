@@ -8,7 +8,7 @@ class Bot {
   description: string;
   disableable: boolean;    // Indicates ability to be disabled. True by default
   enabled: boolean;
-  context: Context|null = null;
+  #context: Context|null = null;
 
   constructor({ name, description, disableable }: Options) {
     this.name = `${Bot.PREFIX}${name}`;
@@ -18,7 +18,14 @@ class Bot {
   }
 
   setContext(context: Context) {
-    this.context = context;
+    this.#context = context;
+  }
+
+  get context(): Context {
+    // We expose context to client code through a getter so that we can indicate that
+    // this.#context is not null with the ! operator, as we know better than TypeScript
+    // here.
+    return this.#context!;
   }
 
   enable(on: boolean) {
