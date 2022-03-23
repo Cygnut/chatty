@@ -17,7 +17,7 @@ class Bot {
     this.enabled = true;
   }
 
-  setContext(context: Context) {
+  set context(context: Context) {
     this.#context = context;
   }
 
