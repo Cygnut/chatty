@@ -149,7 +149,7 @@ export default class TicTacToe extends Bot {
     };
   }
 
-  onConfigure({ content }) {
+  onConfigure(content: string) {
     // Create a new game with the passed size
     const size = parseInt(content.substring(this.#configureText.length + 1));
     if (isNaN(size))
@@ -160,7 +160,7 @@ export default class TicTacToe extends Bot {
     this.context.reply(`Starting new game of size ${size}`);
   }
 
-  onMove({ content }) {
+  onMove(content: string) {
     // Parse the input to a move object
     const move = this.parseMove(content);
 
@@ -184,9 +184,9 @@ export default class TicTacToe extends Bot {
       if (!content) {
         this.context.reply('\n' + this.#game.stringizeGrid());
       } else if (content.startsWith(this.#configureText)) {
-        this.onConfigure({ content })
+        this.onConfigure(content)
       } else {
-        this.onMove({ content });
+        this.onMove(content);
       }
     } catch (e) {
       logger.error(e);
