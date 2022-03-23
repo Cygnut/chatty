@@ -39,7 +39,7 @@ const combineSettings = (common, specific) => {
   return combined;
 };
 
-const tryCreateBot = async filepath => {
+const tryCreateBot = async (filepath: string) => {
   // Load the config file
   let importee = null;
   try {

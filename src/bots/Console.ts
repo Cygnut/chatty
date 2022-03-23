@@ -28,7 +28,7 @@ export default class Console extends Bot {
   replyWithConsoleLogTransportStatus(from: string) {
     const consoleLogTransport = this.getConsoleLogTransport();
     if (consoleLogTransport) {
-      this.context.reply(`Console logging is ${this.getConsoleLogTransport().silent ? 'disabled' : 'enabled'}`, from);
+      this.context.reply(`Console logging is ${this.getConsoleLogTransport()?.silent ? 'disabled' : 'enabled'}`, from);
     } else {
       this.context.reply('Console logging is unavailable', from);
     }
