@@ -23,9 +23,9 @@ class Bot {
 
   get context(): Context {
     // We expose context to client code through a getter so that we can indicate that
-    // this.#context is not null with the ! operator, as we know better than TypeScript
+    // this.#context is not null with the as operator, as we know better than TypeScript
     // here.
-    return this.#context!;
+    return this.#context as Context;
   }
 
   enable(on: boolean) {
