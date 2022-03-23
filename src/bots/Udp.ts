@@ -59,7 +59,7 @@ export default class Udp extends Bot {
 
   async onDirectMessage({ content, from }: DirectMessage) {
     if (content.startsWith(this.#listenText)) {
-      const portStr = content.substring(this.#listenText.length + 1) || this.#defaultPort;
+      const portStr = content.substring(this.#listenText.length + 1) || this.#defaultPort.toString();
       const port = parseInt(portStr);
       if (isNaN(port)) {
         this.context.reply(`${portStr} is not a valid port number.`, from);
