@@ -24,6 +24,10 @@ const finalizeFormat = format(info => {
   // info[Symbol.for('message')] = info.message as info[Symbol.for('message')] is what's actually
   // printed, info.message is what's passed by the log call. If it isn't set, you'll just print
   // 'undefined'.
+
+  // The type declaration for info isn't correct, as we have to use a Symbol here, so
+  // we'll silence the TypeScript error here.
+  // @ts-ignore
   info[Symbol.for('message')] = `${info.message}`;
   return info;
 });
