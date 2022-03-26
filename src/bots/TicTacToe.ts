@@ -22,7 +22,7 @@ const range = (length: number) => Array.from(Array(length).keys());
 
 class Game {
   #gridLength;
-  #validPlayers: Player[] = [ 'o', 'x' ];
+  static #validPlayers: Player[] = [ 'o', 'x' ];
   #grid: string[][] = [];
   #unsetChar = '_';
 
@@ -42,11 +42,35 @@ class Game {
     this.#grid = gridRange.map(() => gridRange.map(() => this.#unsetChar).slice());
   }
 
-  #doMove(move: Move) {
-    // Validate the move
-    if (!this.#validPlayers.some(p => p === move.player))
-      throw new InputError(`${move.player} should be one of ${this.#validPlayers.join(', ')}`);
+  static #parseCoordinate(value: string) {
+    const number = parseInt(value);
 
+    if (isNaN(number))
+      throw new InputError(`${value} must be a valid integer.`);
+
+    return number;
+  }
+
+  static parseMove(content: string): Move {
+    // Message syntax: x y [x or o], x y are 0 based {0,1,2}
+    const tokens = content.split(/[\s,]+/);
+    if (tokens.length !== 3)
+      throw new InputError(`${content} is badly formed input.`);
+
+    const player = tokens[2] as Player;
+    if (!Game.#validPlayers.includes(player))
+      throw new InputError(`${player} should be one of ${Game.#validPlayers.join(', ')}`);
+
+    return {
+      position: {
+        x: Game.#parseCoordinate(tokens[0]),
+        y: Game.#parseCoordinate(tokens[1])
+      },
+      player
+    };
+  }
+
+  #doMove(move: Move) {
     Object.entries(move.position).forEach(([k, v]) => {
       if (v < 0) {
         throw new InputError(`${k} must be greater than 0.`);
@@ -71,7 +95,7 @@ class Game {
       return this.#grid[r][c] === player;
     });
 
-    return this.#validPlayers.find(player => {
+    return Game.#validPlayers.find(player => {
       return [
         // Rows:
         gridRange.some(r => isWinningLine(player, i => [r, i])),
@@ -105,7 +129,6 @@ class Game {
 
 export default class TicTacToe extends Bot {
   #game;
-  #inputRegex = /[\s,]+/;    // Cache this for performance.
   #configureText = 'configure';
   #gameSize = 3;
 
@@ -122,30 +145,6 @@ export default class TicTacToe extends Bot {
     return [];
   }
 
-  #parseCoordinate(value: string) {
-    const number = parseInt(value);
-
-    if (isNaN(number))
-      throw new InputError(`${value} must be a valid integer.`);
-
-    return number;
-  }
-
-  parseMove(content: string): Move {
-    // Message syntax: x y [x or o], x y are 0 based {0,1,2}
-    const tokens = content.split(this.#inputRegex);
-    if (tokens.length !== 3)
-      throw new InputError(`${content} is badly formed input.`);
-
-    return {
-      position: {
-        x: this.#parseCoordinate(tokens[0]),
-        y: this.#parseCoordinate(tokens[1])
-      },
-      player: tokens[2],
-    };
-  }
-
   onConfigure(content: string) {
     // Create a new game with the passed size
     const size = parseInt(content.substring(this.#configureText.length + 1));
@@ -159,7 +158,7 @@ export default class TicTacToe extends Bot {
 
   onMove(content: string) {
     // Parse the input to a move object
-    const move = this.parseMove(content);
+    const move = Game.parseMove(content);
 
     // Play the move to update the grid.
     const winner = this.#game.play(move);
