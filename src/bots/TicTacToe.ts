@@ -15,9 +15,6 @@ type Move = {
 }
 
 class InputError extends Error {
-  constructor(message: string) {
-    super(message || '');
-  }
 }
 
 // Generates an array {0, 1, ..., length - 1}
