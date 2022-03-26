@@ -4,6 +4,28 @@ import logger from '../Logger';
 import Bot from '../bot/Bot';
 import { DirectMessage } from '../bot/Bot.d';
 
+type OakResponse = {
+  name: string,
+  color: {
+    name: string
+  },
+  shape: {
+    name: string
+  },
+  generation: {
+    name: string
+  },
+  flavor_text_entries: {
+    language: {
+      name: string
+    },
+    flavor_text: string,
+    version: {
+      name: string
+    }
+  }[]
+}
+
 export default class Oak extends Bot {
   constructor() {
     super({
@@ -18,19 +40,19 @@ export default class Oak extends Bot {
     ];
   }
 
-  getEnFlavourText(result) {
+  getEnFlavourText(response: OakResponse): string {
     // We could filter on entry.version.name - the game name - for now though, just use the first one.
-    const entry = result.flavor_text_entries.find((entry) => entry.language.name === "en");
+    const entry = response.flavor_text_entries.find((entry) => entry.language.name === "en");
     return entry ? `${entry.flavor_text} (${entry.version.name})` : '';
   }
 
   async onDirectMessage({ content, from }: DirectMessage) {
     try {
       const url = `http://pokeapi.co/api/v2/pokemon-species/${content}`;
-      const response = await fetch(url);
-      const body = await response.json();
+      const r = await fetch(url);
+      const response: OakResponse = await r.json();
       this.context.reply(
-        `${body.name} is a ${body.color.name} ${body.shape.name} ${body.generation.name} pokemon. ${this.getEnFlavourText(body)}`,
+        `${response.name} is a ${response.color.name} ${response.shape.name} ${response.generation.name} pokemon. ${this.getEnFlavourText(response)}`,
         from
       );
     } catch (e) {
