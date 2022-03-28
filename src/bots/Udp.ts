@@ -52,7 +52,7 @@ export default class Udp extends Bot {
         this.#listener = null;
       }
     } catch (e) {
-      logger.error(`Udp: Error while stopping ${e.stack}`);
+      logger.error(`Udp: Error while stopping the udp listener`, e);
       this.#listener = null;
     }
   }
