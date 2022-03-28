@@ -32,6 +32,11 @@ const finalizeFormat = format(info => {
   return info;
 });
 
+const consoleTransport = new transports.Console({
+  // We only want to apply colorize to the console, not to the file transport
+  format: format.colorize({ all: true })
+});
+
 const logger = createLogger({
   format: format.combine(
     errorFormat(),
@@ -39,10 +44,7 @@ const logger = createLogger({
     finalizeFormat()    // This one *has* to come last!
   ),
   transports: [
-    new transports.Console({
-      // We only want to apply colorize to the console, not to the file transport
-      format: format.colorize({ all: true })
-    }),
+    consoleTransport,
     new transports.File({
       filename: 'combined.log',
       maxsize: 10_000_000,
@@ -52,12 +54,7 @@ const logger = createLogger({
   ]
 });
 
-const silenceConsoleTransport = (silent: boolean) => {
-  const consoleTransport = logger.transports.find(transport => transport.name === 'console');
-  if (consoleTransport) {
-    consoleTransport.silent = silent;
-  }
-};
+const silenceConsoleTransport = (silent: boolean) => consoleTransport.silent = silent;
 
 if (process.env.NODE_ENV === 'production') {
   silenceConsoleTransport(true);
