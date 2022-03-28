@@ -8,13 +8,15 @@ import appPath from '../AppPath';
 // Only pick up files which have at least one character before Bot.ts.
 const botRegex = /.+.ts/
 
+const stringizeException = (e: unknown): string => e instanceof Error ? `${e} ${e.stack}` : '';
+
 const tryCreateBot = async (filepath: string) => {
   // Load the config file
   let importee = null;
   try {
     importee = await import(`file:///${filepath}`);
   } catch (e) {
-    throw new Error(`Failed to load bot source at ${filepath}. ${e.stack}`);
+    throw new Error(`Failed to load bot source at ${filepath}. ${stringizeException(e)}`);
   }
 
   if (!('default' in importee)) {
@@ -31,7 +33,7 @@ const tryCreateBot = async (filepath: string) => {
   try {
     return new importedClass(botSettings);
   } catch (e) {
-    throw new Error(`Failed to load bot ${importedClass.name}. ${e} ${e.stack}`);
+    throw new Error(`Failed to load bot ${importedClass.name}. ${stringizeException(e)}`);
   }
 };
 
