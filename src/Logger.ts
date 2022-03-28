@@ -52,11 +52,17 @@ const logger = createLogger({
   ]
 });
 
-if (process.env.NODE_ENV === 'production') {
+const silenceConsoleTransport = (silent: boolean) => {
   const consoleTransport = logger.transports.find(transport => transport.name === 'console');
   if (consoleTransport) {
-    logger.remove(consoleTransport);
+    consoleTransport.silent = silent;
   }
+};
+
+if (process.env.NODE_ENV === 'production') {
+  silenceConsoleTransport(true);
 }
+
+export { silenceConsoleTransport };
 
 export default logger;
