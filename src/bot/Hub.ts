@@ -52,7 +52,7 @@ export default class Hub {
         });
       }
     } catch (e) {
-      logger.error(`Error handling message ${e.stack}, continuing.`);
+      logger.error(`Error handling message, continuing.`, e);
     }
   }
 

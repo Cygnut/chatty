@@ -186,7 +186,8 @@ export default class TicTacToe extends Bot {
       }
     } catch (e) {
       logger.error(e);
-      this.context.reply(e.message, from);
+      const message = e instanceof Error ? e.message : '';
+      this.context.reply(message, from);
     }
   }
 }

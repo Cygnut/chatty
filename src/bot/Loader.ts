@@ -49,7 +49,7 @@ const loader = async () => {
       logger.info(`Loaded bot ${bot.name}`);
       bots.push(bot);
     } catch (e) {
-      logger.error(`Failed to load bot in ${filepath}: ${e.stack}`);
+      logger.error(`Failed to load bot in ${filepath}`, e);
     }
   };
 

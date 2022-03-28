@@ -71,7 +71,7 @@ export default class Udp extends Bot {
         this.#listener = this.createListener(port);
         this.context.reply(`Now listening on port ${port}. Use something like 'echo "yoooooo" | nc -4u -w1 localhost ${this.#defaultPort}' to test it.`, from);
       } catch (e) {
-        logger.error(`Udp: Error while starting to listen on ${port} ${e.stack}`);
+        logger.error(`Udp: Error while starting to listen on ${port}`, e);
       }
     }
     else if (content.startsWith('stop')) {

@@ -25,6 +25,8 @@ import config from './Config';
 /*
   put interface definitions in the correct place
 
+  check logging still works after being passed separately
+
   better folder structure
 
   typescript & eslinting & formatting
