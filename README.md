@@ -36,16 +36,16 @@ All bots plugins in the /bots folder are loaded. Any bot specific configuration 
 
 ```json
 {
-    "bots":
-    [
-        {
-            "name": "somebot",
-            "settings":
-            {
-                "fieldName": "fieldValue"
-            }
-        }
-    ]
+  "bots":
+  [
+    {
+      "name": "somebot",
+      "settings":
+      {
+        "fieldName": "fieldValue"
+      }
+    }
+  ]
 }
 ```
 
