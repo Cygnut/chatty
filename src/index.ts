@@ -25,11 +25,9 @@ import config from './Config.js';
 /*
   put interface definitions in the correct place
 
-  check logging still works after being passed separately
-
   better folder structure
 
-  typescript & eslinting & formatting
+  eslinting & formatting
     type for config structure
 
   Store enabled state of each bot persistently.
