@@ -1,6 +1,11 @@
 # chatty
 Plugin-based system of bots used with the chat web site. Plugins interface with multiple web APIs in response to commands from chat users.
 
+To run the app locally, run:
+```sh
+npm run start
+```
+
 # Bots
 chatty monitors the current messages in the connected chatroom and passes each message to bot plugins.
 
