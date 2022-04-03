@@ -2,7 +2,7 @@
 import path from 'path';
 import { readFileSync } from 'fs';
 
-import appPath from './AppPath';
+import appPath from './AppPath.js';
 
 interface Startup {
   messages: string[]
@@ -31,7 +31,7 @@ interface Config {
   bots: Bots
 }
 
-const filepath = path.join(appPath, 'config.json');
+const filepath = path.join(appPath, '..', 'config.json');
 const content = readFileSync(filepath);
 const config: Config = JSON.parse(content.toString());
 

@@ -1,6 +1,6 @@
 import os from 'os';
 
-import Bot from '../bot/Bot';
+import Bot from '../bot/Bot.js';
 
 export default class Host extends Bot {
   constructor() {

@@ -1,4 +1,4 @@
-import Bot from '../bot/Bot';
+import Bot from '../bot/Bot.js';
 
 export default class Help extends Bot {
   constructor() {

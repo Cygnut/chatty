@@ -1,7 +1,7 @@
 import fetch from "node-fetch";
 
-import { Channel, Message } from '../Channel';
-import logger from "../Logger";
+import { Channel, Message } from '../Channel.js';
+import logger from '../Logger.js';
 
 /*
   This is a simple channel that scrapes the Chat app for the latest message and responds to it if it meets certain criteria.

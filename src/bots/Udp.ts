@@ -1,8 +1,8 @@
 import dgram from 'dgram';
 
-import logger from '../Logger';
-import Bot from '../bot/Bot';
-import { DirectMessage } from '../bot/Bot.d';
+import logger from '../Logger.js';
+import Bot from '../bot/Bot.js';
+import { DirectMessage } from '../bot/Bot.d.js';
 
 export default class Udp extends Bot {
   #defaultPort = 8888;

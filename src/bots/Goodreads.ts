@@ -3,9 +3,9 @@ import fs from 'fs';
 import fetch from 'node-fetch';
 import xml2js from 'xml2js';
 
-import logger from '../Logger';
-import Bot from '../bot/Bot';
-import { DirectMessage } from '../bot/Bot.d';
+import logger from '../Logger.js';
+import Bot from '../bot/Bot.js';
+import { DirectMessage } from '../bot/Bot.d.js';
 
 interface Options {
   apiKey: string

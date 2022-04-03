@@ -1,8 +1,8 @@
 import { transports } from 'winston';
 
-import Bot from '../bot/Bot';
-import { DirectMessage } from '../bot/Bot.d';
-import logger, { silenceConsoleTransport } from '../Logger';
+import Bot from '../bot/Bot.js';
+import { DirectMessage } from '../bot/Bot.d.js';
+import logger, { silenceConsoleTransport } from '../Logger.js';
 
 export default class Console extends Bot {
   constructor() {

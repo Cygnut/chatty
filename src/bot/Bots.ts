@@ -1,6 +1,6 @@
-import logger from "../Logger";
-import { Context, Description } from './Bot.d';
-import Bot from './Bot'
+import logger from "../Logger.js";
+import { Context, Description } from './Bot.d.js';
+import Bot from './Bot.js'
 
 class Channels {
   #bots: Bot[] = [];

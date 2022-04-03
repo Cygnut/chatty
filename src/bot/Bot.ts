@@ -1,5 +1,5 @@
-import logger from '../Logger';
-import { Options, Context, PublicMessage, DirectMessage } from './Bot.d';
+import logger from '../Logger.js';
+import { Options, Context, PublicMessage, DirectMessage } from './Bot.d.js';
 
 class Bot {
   static PREFIX = '~';

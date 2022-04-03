@@ -1,12 +1,12 @@
 import path from 'path';
 import { readdir } from 'fs/promises';
 
-import logger from '../Logger';
-import config from '../Config';
-import appPath from '../AppPath';
+import logger from '../Logger.js';
+import config from '../Config.js';
+import appPath from '../AppPath.js';
 
 // Only pick up files which have at least one character before Bot.ts.
-const botRegex = /.+.ts/
+const botRegex = /.+.(js|ts)/
 
 const stringizeException = (e: unknown): string => e instanceof Error ? `${e} ${e.stack}` : '';
 

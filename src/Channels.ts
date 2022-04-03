@@ -1,5 +1,5 @@
-import logger from './Logger';
-import { Channel, Message, OnNewMessage } from './Channel';
+import logger from './Logger.js';
+import { Channel, Message, OnNewMessage } from './Channel.js';
 
 class Channels {
   #channels: Channel[] = [];

@@ -1,8 +1,8 @@
 import fetch from 'node-fetch';
 
-import logger from '../Logger';
-import Bot from '../bot/Bot';
-import { DirectMessage } from '../bot/Bot.d';
+import logger from '../Logger.js';
+import Bot from '../bot/Bot.js';
+import { DirectMessage } from '../bot/Bot.d.js';
 
 type OakResponse = {
   name: string,

@@ -1,5 +1,5 @@
-import Bot from '../bot/Bot';
-import { PublicMessage } from '../bot/Bot.d';
+import Bot from '../bot/Bot.js';
+import { PublicMessage } from '../bot/Bot.d.js';
 
 export default class Swear extends Bot {
   #badWords: string[] = [];

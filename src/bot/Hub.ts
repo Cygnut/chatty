@@ -1,8 +1,8 @@
-import logger from '../Logger';
-import Bot from './Bot';
-import { Message, Context } from './Bot.d';
-import Bots from './Bots';
-import Channels from '../Channels';
+import logger from '../Logger.js';
+import Bot from './Bot.js';
+import { Message, Context } from './Bot.d.js';
+import Bots from './Bots.js';
+import Channels from '../Channels.js';
 
 interface Options {
   channels: Channels,
