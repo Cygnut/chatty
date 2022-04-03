@@ -8,7 +8,7 @@ class Bot {
   description: string;
   disableable: boolean;    // Indicates ability to be disabled. True by default
   enabled: boolean;
-  #context: Context|null = null;
+  #context: Context|undefined;
 
   constructor({ name, description, disableable }: Options) {
     this.name = `${Bot.PREFIX}${name}`;

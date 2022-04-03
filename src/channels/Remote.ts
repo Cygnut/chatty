@@ -31,7 +31,7 @@ export default class Remote extends Channel {
       if (this.#lastIdSeen < msg.id) {
         // Then we're looking at a new message.
         try {
-          this.onNewMessage?.(msg);
+          this.onNewMessage(msg);
         } catch (e) {}
         this.#lastIdSeen = msg.id;
       }

@@ -27,7 +27,7 @@ export default class Console extends Channel {
         this.#send('Bye!');
         process.exit(0);
       } else {
-        this.onNewMessage?.({ from: this.#from, content: line.trim() })
+        this.onNewMessage({ from: this.#from, content: line.trim() })
       }
       io.prompt();
     }).on('close', () => {
